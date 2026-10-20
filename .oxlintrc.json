@@ -1,0 +1,45 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["eslint", "typescript", "unicorn", "oxc", "react", "nextjs", "import", "jsx-a11y"],
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true
+  },
+  "ignorePatterns": [
+    ".next/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+    "scripts/**",
+    "src/components/ui/**"
+  ],
+  "settings": {
+    "jsx-a11y": {
+      "components": {
+        "Image": "img",
+        "Link": "a"
+      }
+    }
+  },
+  "categories": {
+    "correctness": "error"
+  },
+  "rules": {
+    "no-console": "error",
+    "no-debugger": "error",
+    "no-empty": "error",
+    "no-var": "error",
+    "eqeqeq": ["error", "smart"],
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/no-non-null-assertion": "warn",
+    "@typescript-eslint/ban-ts-comment": "error",
+    "no-unused-vars": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/no-unknown-property": "off",
+    "react/jsx-no-target-blank": "off",
+    "react/no-children-prop": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "off"
+  }
+}
