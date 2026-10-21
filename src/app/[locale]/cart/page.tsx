@@ -38,11 +38,11 @@ export default function CartPage() {
 
   if (!restaurant || items.length === 0) {
     return (
-      <main className='min-h-[70vh] bg-background py-8 sm:py-12'>
+      <div className='min-h-[70vh] bg-background py-8 sm:py-12'>
         <div className='mx-auto max-w-4xl px-4'>
           <CartEmptyState />
         </div>
-      </main>
+      </div>
     );
   }
 
@@ -61,7 +61,7 @@ export default function CartPage() {
   );
 
   return (
-    <main className='min-h-[80vh] bg-muted/20 py-6 sm:py-10'>
+    <div className='min-h-[80vh] bg-muted/20 py-6 sm:py-10'>
       <div className='mx-auto max-w-6xl px-4 sm:px-6'>
         {/* Page Title */}
         <div className='mb-6'>
@@ -108,6 +108,6 @@ export default function CartPage() {
           </div>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

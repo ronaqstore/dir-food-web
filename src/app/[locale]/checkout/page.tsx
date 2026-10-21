@@ -37,15 +37,24 @@ export default function CheckoutPage() {
   const { restaurant, items, subtotal, clearCart } = useCart();
   const { selectedArea } = useArea();
 
-  const [formData, setFormData] = React.useState<CheckoutFormData>(() => {
-    const saved = getStoredCustomerInfo();
-    return {
-      name: saved.name || '',
-      phone: saved.phone || '',
-      landmark: saved.landmark || '',
-      directions: saved.directions || ''
-    };
+  const [formData, setFormData] = React.useState<CheckoutFormData>({
+    name: '',
+    phone: '',
+    landmark: '',
+    directions: ''
   });
+
+  React.useEffect(() => {
+    const saved = getStoredCustomerInfo();
+    if (saved.name || saved.phone || saved.landmark || saved.directions) {
+      setFormData({
+        name: saved.name || '',
+        phone: saved.phone || '',
+        landmark: saved.landmark || '',
+        directions: saved.directions || ''
+      });
+    }
+  }, []);
 
   const [submitError, setSubmitError] = React.useState<string | null>(null);
 
@@ -75,7 +84,7 @@ export default function CheckoutPage() {
 
   if (!restaurant || items.length === 0) {
     return (
-      <main className='min-h-[70vh] bg-background py-12'>
+      <div className='min-h-[70vh] bg-background py-12'>
         <div className='mx-auto max-w-lg px-4 text-center'>
           <h2 className='text-xl font-bold text-foreground'>{t('noItemsTitle')}</h2>
           <p className='mt-2 text-sm text-muted-foreground'>{t('noItemsDesc')}</p>
@@ -88,7 +97,7 @@ export default function CheckoutPage() {
             </Link>
           </div>
         </div>
-      </main>
+      </div>
     );
   }
 
@@ -167,7 +176,7 @@ export default function CheckoutPage() {
   };
 
   return (
-    <main className='min-h-[85vh] bg-muted/20 py-6 sm:py-10'>
+    <div className='min-h-[85vh] bg-muted/20 py-6 sm:py-10'>
       <div className='mx-auto max-w-6xl px-4 sm:px-6'>
         {/* Navigation link back to cart */}
         <div className='mb-6'>
@@ -234,6 +243,6 @@ export default function CheckoutPage() {
           </div>
         </form>
       </div>
-    </main>
+    </div>
   );
 }

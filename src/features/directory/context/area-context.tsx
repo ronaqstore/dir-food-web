@@ -26,8 +26,15 @@ function getStoredArea(): PublicArea | null {
 }
 
 export function AreaProvider({ children }: { children: React.ReactNode }) {
-  const [selectedArea, setSelectedAreaState] = React.useState<PublicArea | null>(getStoredArea);
+  const [selectedArea, setSelectedAreaState] = React.useState<PublicArea | null>(null);
   const [isAreaModalOpen, setIsAreaModalOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    const stored = getStoredArea();
+    if (stored) {
+      setSelectedAreaState(stored);
+    }
+  }, []);
 
   const setSelectedArea = React.useCallback((area: PublicArea | null) => {
     setSelectedAreaState(area);

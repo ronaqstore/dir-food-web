@@ -55,8 +55,15 @@ function getStoredCart(): CartState {
 const CartContext = React.createContext<CartContextValue | null>(null);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [cartState, setCartState] = React.useState<CartState>(getStoredCart);
+  const [cartState, setCartState] = React.useState<CartState>({ restaurant: null, items: [] });
   const [pendingConflict, setPendingConflict] = React.useState<AddItemPayload | null>(null);
+
+  React.useEffect(() => {
+    const stored = getStoredCart();
+    if (stored.restaurant || (stored.items && stored.items.length > 0)) {
+      setCartState(stored);
+    }
+  }, []);
 
   const saveCart = React.useCallback((nextState: CartState) => {
     setCartState(nextState);

@@ -47,7 +47,7 @@ export default async function LocaleLayout({
         <Providers>
           <NextIntlClientProvider locale={locale} messages={messages}>
             <AppHeader />
-            <main className='flex-1 pb-20 sm:pb-8'>{children}</main>
+            <main className='flex-1 pb-36 sm:pb-24'>{children}</main>
             <MobileNav />
             <AreaModal />
             <RestaurantConflictModal />

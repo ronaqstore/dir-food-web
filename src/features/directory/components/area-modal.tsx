@@ -4,18 +4,27 @@ import * as React from 'react';
 import { useTranslations } from 'next-intl';
 import { useArea } from '../context/area-context';
 import { usePublicAreasQuery } from '../api/queries';
-import { IconCheck, IconLoader2, IconMapPin, IconX } from '@/components/icons';
+import { IconCheck, IconLoader2, IconMapPin, IconSearch, IconX } from '@/components/icons';
 import type { PublicArea } from '../api/types';
 
 export function AreaModal() {
   const t = useTranslations();
   const { selectedArea, setSelectedArea, isAreaModalOpen, closeAreaModal } = useArea();
   const { data: areas, isLoading } = usePublicAreasQuery();
+  const [searchQuery, setSearchQuery] = React.useState('');
+
+  const filteredAreas = React.useMemo(() => {
+    if (!areas) return [];
+    if (!searchQuery.trim()) return areas;
+    const q = searchQuery.trim().toLowerCase();
+    return areas.filter((a) => a.name.toLowerCase().includes(q));
+  }, [areas, searchQuery]);
 
   if (!isAreaModalOpen) return null;
 
   const handleSelect = (area: PublicArea | null) => {
     setSelectedArea(area);
+    setSearchQuery('');
     closeAreaModal();
   };
 
@@ -49,8 +58,31 @@ export function AreaModal() {
           </button>
         </div>
 
+        {/* Search input for large area lists */}
+        {areas && areas.length > 5 && (
+          <div className='mt-3 relative'>
+            <IconSearch className='absolute start-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground' />
+            <input
+              type='text'
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder={t('directory.selectAreaTitle')}
+              className='h-9 w-full rounded-xl border border-border bg-background ps-9 pe-8 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary'
+            />
+            {searchQuery && (
+              <button
+                type='button'
+                onClick={() => setSearchQuery('')}
+                className='absolute end-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground p-1 cursor-pointer'
+              >
+                <IconX className='h-3 w-3' />
+              </button>
+            )}
+          </div>
+        )}
+
         {/* Content */}
-        <div className='mt-4 max-h-[60vh] overflow-y-auto space-y-1.5 pe-1'>
+        <div className='mt-3 max-h-[60vh] overflow-y-auto space-y-1.5 pe-1'>
           {/* All Areas Option */}
           <button
             type='button'
@@ -76,7 +108,7 @@ export function AreaModal() {
           )}
 
           {/* List of active delivery areas */}
-          {areas?.map((area) => {
+          {filteredAreas.map((area) => {
             const isSelected = selectedArea?.id === area.id;
             return (
               <button

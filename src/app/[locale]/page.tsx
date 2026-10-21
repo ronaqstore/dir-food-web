@@ -21,7 +21,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         <div className='max-w-2xl'>
           <div className='inline-flex items-center gap-1.5 rounded-full bg-primary/10 text-primary px-3 py-1 text-xs font-semibold mb-3'>
             <IconMapPin className='h-3.5 w-3.5' />
-            <span>Timergara & Lower Dir</span>
+            <span>{t('brand.regionBadge')}</span>
           </div>
           <h1 className='text-3xl sm:text-4xl font-black tracking-tight text-foreground'>
             {t('brand.name')}
@@ -70,30 +70,24 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           <div className='flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary mb-3'>
             <IconBuildingStore className='h-5 w-5' />
           </div>
-          <h3 className='font-semibold text-sm'>Local Hotels & Restaurants</h3>
-          <p className='text-xs text-muted-foreground mt-1'>
-            Browse verified food spots in Timergara and surrounding areas.
-          </p>
+          <h3 className='font-semibold text-sm'>{t('home.featureSpotsTitle')}</h3>
+          <p className='text-xs text-muted-foreground mt-1'>{t('home.featureSpotsDesc')}</p>
         </div>
 
         <div className='rounded-2xl border border-border/80 bg-card p-5 text-card-foreground'>
           <div className='flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 mb-3'>
             <IconBrandWhatsapp className='h-5 w-5' />
           </div>
-          <h3 className='font-semibold text-sm'>Direct WhatsApp Ordering</h3>
-          <p className='text-xs text-muted-foreground mt-1'>
-            No login, no complex checkout. Build your cart and send it straight to the restaurant.
-          </p>
+          <h3 className='font-semibold text-sm'>{t('home.featureWhatsappTitle')}</h3>
+          <p className='text-xs text-muted-foreground mt-1'>{t('home.featureWhatsappDesc')}</p>
         </div>
 
         <div className='rounded-2xl border border-border/80 bg-card p-5 text-card-foreground'>
           <div className='flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 mb-3'>
             <IconMapPin className='h-5 w-5' />
           </div>
-          <h3 className='font-semibold text-sm'>Timergara Delivery Areas</h3>
-          <p className='text-xs text-muted-foreground mt-1'>
-            Coverage across Timergara Bazar, Balambat, Gorgorai, and nearby localities.
-          </p>
+          <h3 className='font-semibold text-sm'>{t('home.featureAreasTitle')}</h3>
+          <p className='text-xs text-muted-foreground mt-1'>{t('home.featureAreasDesc')}</p>
         </div>
       </section>
     </div>

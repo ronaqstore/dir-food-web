@@ -11,6 +11,8 @@ export {
   IconChevronDown,
   IconChevronRight,
   IconArrowLeft,
+  IconArrowRight,
+  IconShoppingBag,
   IconCheck,
   IconX,
   IconBrandWhatsapp,

@@ -10,12 +10,14 @@ import {
   IconShoppingCart
 } from '@/components/icons';
 import { useArea } from '@/features/directory/context/area-context';
+import { useCart } from '@/features/cart/context/cart-context';
 import { LocaleSwitcher } from './locale-switcher';
 import { ThemeToggle } from './theme-toggle';
 
 export function AppHeader() {
   const t = useTranslations();
   const { selectedArea, openAreaModal } = useArea();
+  const { itemCount } = useCart();
 
   const areaLabel = selectedArea?.name ?? t('header.defaultArea');
 
@@ -46,7 +48,9 @@ export function AppHeader() {
             aria-label={t('directory.selectAreaTitle')}
           >
             <IconMapPin className='h-3.5 w-3.5 text-primary' />
-            <span className='max-w-[110px] sm:max-w-none truncate'>{areaLabel}</span>
+            <span suppressHydrationWarning className='max-w-[110px] sm:max-w-none truncate'>
+              {areaLabel}
+            </span>
             <IconChevronDown className='h-3 w-3 text-muted-foreground' />
           </button>
         </div>
@@ -79,6 +83,11 @@ export function AppHeader() {
             className='relative flex h-9 w-9 items-center justify-center rounded-full text-foreground/80 hover:bg-muted transition-colors'
           >
             <IconShoppingCart className='h-5 w-5' />
+            {itemCount > 0 ? (
+              <span className='absolute -top-1 -end-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground shadow-xs animate-in zoom-in-50 duration-200'>
+                {itemCount > 99 ? '99+' : itemCount}
+              </span>
+            ) : null}
           </Link>
         </div>
       </div>

@@ -40,6 +40,7 @@
     "react/jsx-no-target-blank": "off",
     "react/no-children-prop": "off",
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "off"
+    "react-hooks/exhaustive-deps": "off",
+    "react/set-state-in-effect": "off"
   }
 }

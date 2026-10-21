@@ -65,18 +65,18 @@ export default function OrderPage() {
 
   if (isLoading) {
     return (
-      <main className='min-h-[75vh] flex items-center justify-center bg-background py-16'>
+      <div className='min-h-[75vh] flex items-center justify-center bg-background py-16'>
         <div className='flex flex-col items-center gap-3 text-muted-foreground'>
           <IconLoader2 className='size-8 animate-spin text-primary' />
           <p className='text-sm font-medium'>{t('loadingOrder')}</p>
         </div>
-      </main>
+      </div>
     );
   }
 
   if (error || !order) {
     return (
-      <main className='min-h-[75vh] flex items-center justify-center bg-background py-16 px-4'>
+      <div className='min-h-[75vh] flex items-center justify-center bg-background py-16 px-4'>
         <div className='max-w-md text-center space-y-4'>
           <div className='mx-auto flex size-14 items-center justify-center rounded-2xl bg-destructive/10 text-destructive'>
             <IconAlertTriangle className='size-7' />
@@ -93,14 +93,14 @@ export default function OrderPage() {
             </Link>
           </div>
         </div>
-      </main>
+      </div>
     );
   }
 
   const grandTotal = order.subtotal + (order.delivery.fee ?? 0);
 
   return (
-    <main className='min-h-[85vh] bg-muted/20 py-8 sm:py-12'>
+    <div className='min-h-[85vh] bg-muted/20 py-8 sm:py-12'>
       <div className='mx-auto max-w-2xl px-4 sm:px-6 space-y-6'>
         {/* Success Card Header */}
         <div className='rounded-3xl border border-emerald-500/20 bg-gradient-to-b from-emerald-500/10 via-card to-card p-6 sm:p-8 text-center shadow-xs space-y-4'>
@@ -262,6 +262,6 @@ export default function OrderPage() {
           </Link>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

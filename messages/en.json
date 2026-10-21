@@ -1,7 +1,16 @@
 {
   "brand": {
     "name": "Dir Food",
-    "tagline": "Discover local restaurants and order via WhatsApp in Lower Dir"
+    "tagline": "Discover local restaurants and order via WhatsApp in Lower Dir",
+    "regionBadge": "Timergara & Lower Dir"
+  },
+  "home": {
+    "featureSpotsTitle": "Local Hotels & Restaurants",
+    "featureSpotsDesc": "Browse verified food spots in Timergara and surrounding areas.",
+    "featureWhatsappTitle": "Direct WhatsApp Ordering",
+    "featureWhatsappDesc": "No login, no complex checkout. Build your cart and send it straight to the restaurant.",
+    "featureAreasTitle": "Timergara Delivery Areas",
+    "featureAreasDesc": "Coverage across Timergara Bazar, Balambat, Gorgorai, and nearby localities."
   },
   "nav": {
     "home": "Home",
@@ -43,7 +52,8 @@
     "changeArea": "Change Area",
     "resetFilters": "Reset Filters",
     "featuredTitle": "Popular in Lower Dir",
-    "viewAll": "View All Restaurants"
+    "viewAll": "View All Restaurants",
+    "loadMore": "Load More Restaurants"
   },
   "restaurant": {
     "openNow": "Open Now",
