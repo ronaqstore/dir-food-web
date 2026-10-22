@@ -42,6 +42,8 @@ export interface PublicMenuItem {
   imageUrl: string | null;
   price?: number | null; // in paisa (returned from backend API)
   basePrice?: number | null; // in paisa
+  originalPrice?: number | null; // in paisa (regular price before deal)
+  isDeal?: boolean;
   isAvailable: boolean;
   variants: PublicItemVariant[];
 }

@@ -75,7 +75,18 @@
     "selectOption": "اندازه یا بڼه وټاکئ",
     "addToCart": "ټوکرۍ ته اضافه کړئ",
     "unavailable": "شتون نلري",
-    "noMenuItems": "تر اوسه په مینو کې خواړه نشته."
+    "noMenuItems": "تر اوسه په مینو کې خواړه نشته.",
+    "dealsTitle": "د نن ورځې ځانګړي ډیلونه",
+    "dealsSubtitle": "غوره سپما او ځانګړي کومبو وړاندیزونه",
+    "hotDeal": "ځانګړی ډیل",
+    "saveAmount": "{amount} سپما",
+    "off": "{percent}% تخفیف",
+    "whatsIncluded": "په دې ډیل کې څه شامل دي؟",
+    "viewDetails": "تفصیلات وګورئ",
+    "viewDeal": "ډیل وګورئ",
+    "dealBreakdown": "د ډیل د توکو تفصیل",
+    "totalSavings": "ستاسو سپما: {amount}",
+    "addToCartWithPrice": "ټوکرۍ ته اضافه کړئ • {price}"
   },
   "cart": {
     "itemsCount": "{count, plural, =1 {1 توکی} other {# توکي}}",

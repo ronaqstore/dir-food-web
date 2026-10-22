@@ -5,7 +5,9 @@ import { useTranslations } from 'next-intl';
 import { StoreHeader } from './store-header';
 import { CategoryNav } from './category-nav';
 import { MenuItemCard } from './menu-item-card';
+import { FeaturedDealsCarousel } from './featured-deals-carousel';
 import { VariantModal } from './variant-modal';
+import { DealDetailModal } from './deal-detail-modal';
 import { useRestaurantMenuQuery, useRestaurantProfileQuery } from '../api/queries';
 import type { PublicMenuCategory, PublicMenuItem, PublicRestaurantProfile } from '../api/types';
 import type { CartRestaurant } from '@/features/cart/types';
@@ -37,6 +39,7 @@ export function StorefrontMenu({
     initialCategories[0]?.id
   );
   const [selectedVariantItem, setSelectedVariantItem] = React.useState<PublicMenuItem | null>(null);
+  const [selectedDealItem, setSelectedDealItem] = React.useState<PublicMenuItem | null>(null);
 
   const activeCategoryId =
     selectedCategoryId && categories.some((c) => c.id === selectedCategoryId)
@@ -53,10 +56,37 @@ export function StorefrontMenu({
     [restaurant.slug, restaurant.name, restaurant.logoUrl, restaurant.minOrderAmount]
   );
 
+  const dealItems = React.useMemo(() => {
+    const deals: PublicMenuItem[] = [];
+    const seen = new Set<string>();
+    for (const cat of categories) {
+      for (const item of cat.items) {
+        const effectivePrice = item.price ?? item.basePrice ?? 0;
+        const isEligibleDeal =
+          item.isDeal ||
+          (item.originalPrice != null && effectivePrice > 0 && item.originalPrice > effectivePrice);
+
+        if (isEligibleDeal && !seen.has(item.id)) {
+          seen.add(item.id);
+          deals.push(item);
+        }
+      }
+    }
+    return deals;
+  }, [categories]);
+
   return (
     <div className='space-y-6'>
       {/* Header */}
       <StoreHeader restaurant={restaurant} />
+
+      {/* Featured Deals Carousel (Zomato / Foodpanda Style) */}
+      <FeaturedDealsCarousel
+        restaurant={cartRestaurant}
+        deals={dealItems}
+        onSelectVariant={setSelectedVariantItem}
+        onOpenDeal={setSelectedDealItem}
+      />
 
       {/* Sticky Categories */}
       <CategoryNav
@@ -90,6 +120,7 @@ export function StorefrontMenu({
                     restaurant={cartRestaurant}
                     item={item}
                     onSelectVariant={setSelectedVariantItem}
+                    onOpenDeal={setSelectedDealItem}
                   />
                 ))}
               </div>
@@ -103,6 +134,13 @@ export function StorefrontMenu({
         restaurant={cartRestaurant}
         item={selectedVariantItem}
         onClose={() => setSelectedVariantItem(null)}
+      />
+
+      {/* KFC / Foodpanda Style Deal Breakdown Modal */}
+      <DealDetailModal
+        restaurant={cartRestaurant}
+        item={selectedDealItem}
+        onClose={() => setSelectedDealItem(null)}
       />
     </div>
   );

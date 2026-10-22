@@ -55,7 +55,7 @@ export function VariantModal({ restaurant, item, onClose }: VariantModalProps) {
   };
 
   return (
-    <div className='fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-150'>
+    <div className='fixed inset-0 z-[70] flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-150'>
       <dialog
         open
         aria-labelledby='variant-modal-title'

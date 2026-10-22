@@ -8,14 +8,21 @@ import { IconMinus, IconPlus, IconShoppingCart } from '@/components/icons';
 import type { PublicMenuItem } from '../api/types';
 import type { CartRestaurant } from '@/features/cart/types';
 import { useCart } from '@/features/cart/context/cart-context';
+import { parseDealDescription } from '../utils/deal-parser';
 
 interface MenuItemCardProps {
   restaurant: CartRestaurant;
   item: PublicMenuItem;
   onSelectVariant: (item: PublicMenuItem) => void;
+  onOpenDeal?: (item: PublicMenuItem) => void;
 }
 
-export function MenuItemCard({ restaurant, item, onSelectVariant }: MenuItemCardProps) {
+export function MenuItemCard({
+  restaurant,
+  item,
+  onSelectVariant,
+  onOpenDeal
+}: MenuItemCardProps) {
   const t = useTranslations('menu');
   const { addItem, updateQuantity, getItemQuantity, items } = useCart();
 
@@ -32,6 +39,18 @@ export function MenuItemCard({ restaurant, item, onSelectVariant }: MenuItemCard
   }, [hasVariants, item.variants]);
 
   const effectiveBasePrice = item.price ?? item.basePrice ?? 0;
+
+  const originalPrice = item.originalPrice ?? null;
+  const hasDiscount =
+    !hasVariants &&
+    originalPrice !== null &&
+    effectiveBasePrice > 0 &&
+    originalPrice > effectiveBasePrice;
+
+  const discountPercent =
+    hasDiscount && originalPrice !== null
+      ? Math.round(((originalPrice - effectiveBasePrice) / originalPrice) * 100)
+      : 0;
 
   const handleSimpleAdd = () => {
     if (!item.isAvailable) return;
@@ -53,6 +72,8 @@ export function MenuItemCard({ restaurant, item, onSelectVariant }: MenuItemCard
     updateQuantity(key, currentQty + delta);
   };
 
+  const parsedDetails = item.isDeal ? parseDealDescription(item.description) : null;
+
   return (
     <div
       className={`group flex items-start justify-between gap-3 rounded-2xl border p-3.5 sm:p-4 transition-all duration-150 ${
@@ -63,10 +84,30 @@ export function MenuItemCard({ restaurant, item, onSelectVariant }: MenuItemCard
     >
       {/* Left: Info & Pricing */}
       <div className='flex flex-1 flex-col pe-2'>
-        <div className='flex items-center gap-2'>
-          <h4 className='text-sm sm:text-base font-bold text-foreground line-clamp-1'>
-            {item.name}
-          </h4>
+        <div className='flex items-center gap-1.5 flex-wrap'>
+          {item.isDeal && onOpenDeal ? (
+            <button
+              type='button'
+              onClick={() => onOpenDeal(item)}
+              className='text-sm sm:text-base font-bold text-foreground hover:text-rose-600 transition-colors text-start cursor-pointer line-clamp-1'
+            >
+              {item.name}
+            </button>
+          ) : (
+            <h4 className='text-sm sm:text-base font-bold text-foreground line-clamp-1'>
+              {item.name}
+            </h4>
+          )}
+          {item.isDeal && (
+            <button
+              type='button'
+              onClick={onOpenDeal ? () => onOpenDeal(item) : undefined}
+              className='shrink-0 rounded-full bg-rose-500/10 border border-rose-500/20 px-2 py-0.5 text-[10px] font-extrabold text-rose-600 dark:text-rose-400 flex items-center gap-0.5 cursor-pointer hover:bg-rose-500/20 transition-colors'
+            >
+              <span>🔥</span>
+              <span>{t('hotDeal')}</span>
+            </button>
+          )}
           {!item.isAvailable && (
             <span className='shrink-0 rounded-md bg-muted px-2 py-0.5 text-[10px] font-semibold text-muted-foreground'>
               {t('soldOut')}
@@ -80,6 +121,30 @@ export function MenuItemCard({ restaurant, item, onSelectVariant }: MenuItemCard
           </p>
         )}
 
+        {/* Combo Checklist Pills (KFC / Foodpanda Style) */}
+        {parsedDetails && parsedDetails.items.length > 0 && (
+          <button
+            type='button'
+            onClick={onOpenDeal ? () => onOpenDeal(item) : undefined}
+            className='mt-2 flex flex-wrap gap-1 text-start cursor-pointer group/combo'
+          >
+            {parsedDetails.items.slice(0, 3).map((ci, idx) => (
+              <span
+                key={idx}
+                className='inline-flex items-center gap-1 rounded-md bg-muted/80 px-1.5 py-0.5 text-[10px] font-medium text-foreground'
+              >
+                <span>{ci.emoji}</span>
+                <span className='truncate max-w-[100px]'>{ci.name}</span>
+              </span>
+            ))}
+            {parsedDetails.items.length > 3 && (
+              <span className='inline-flex items-center rounded-md bg-rose-500/10 px-1.5 py-0.5 text-[10px] font-bold text-rose-600 dark:text-rose-400 group-hover/combo:underline'>
+                +{parsedDetails.items.length - 3} more
+              </span>
+            )}
+          </button>
+        )}
+
         {/* Price & Action row */}
         <div className='mt-3 flex items-center justify-between gap-2'>
           <div>
@@ -87,6 +152,18 @@ export function MenuItemCard({ restaurant, item, onSelectVariant }: MenuItemCard
               <span className='text-xs sm:text-sm font-bold text-foreground'>
                 {t('fromPrice', { price: formatPkr(lowestVariantPrice) })}
               </span>
+            ) : hasDiscount ? (
+              <div className='flex items-baseline gap-1.5 flex-wrap'>
+                <span className='text-xs sm:text-sm font-black text-rose-600 dark:text-rose-400'>
+                  {formatPkr(effectiveBasePrice)}
+                </span>
+                <span className='line-through text-[11px] text-muted-foreground/70'>
+                  {originalPrice !== null ? formatPkr(originalPrice) : null}
+                </span>
+                <span className='rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 px-1 py-0.2 text-[9px] font-bold'>
+                  {t('off', { percent: discountPercent })}
+                </span>
+              </div>
             ) : (
               <span className='text-xs sm:text-sm font-bold text-foreground'>
                 {formatPkr(effectiveBasePrice)}
@@ -151,13 +228,35 @@ export function MenuItemCard({ restaurant, item, onSelectVariant }: MenuItemCard
       {/* Right: Dish Photo */}
       {item.imageUrl && (
         <div className='relative h-20 w-20 sm:h-24 sm:w-24 shrink-0 overflow-hidden rounded-xl bg-muted'>
-          <Image
-            src={item.imageUrl}
-            alt={item.name}
-            fill
-            sizes='96px'
-            className='object-cover group-hover:scale-105 transition-transform duration-300'
-          />
+          {item.isDeal && onOpenDeal ? (
+            <button
+              type='button'
+              onClick={() => onOpenDeal(item)}
+              className='relative size-full cursor-pointer focus:outline-hidden'
+              aria-label={item.name}
+            >
+              <Image
+                src={item.imageUrl}
+                alt={item.name}
+                fill
+                sizes='96px'
+                className='object-cover group-hover:scale-105 transition-transform duration-300'
+              />
+            </button>
+          ) : (
+            <Image
+              src={item.imageUrl}
+              alt={item.name}
+              fill
+              sizes='96px'
+              className='object-cover group-hover:scale-105 transition-transform duration-300'
+            />
+          )}
+          {hasDiscount && (
+            <div className='absolute bottom-1 end-1 rounded-md bg-rose-600/95 text-white px-1.5 py-0.5 text-[9px] font-black shadow-xs backdrop-blur-xs pointer-events-none'>
+              {discountPercent}% OFF
+            </div>
+          )}
         </div>
       )}
     </div>

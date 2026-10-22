@@ -24,7 +24,7 @@ export function StickyCartBar() {
   }
 
   return (
-    <div className='fixed bottom-20 sm:bottom-8 start-3 end-3 sm:start-1/2 sm:-translate-x-1/2 sm:w-full sm:max-w-xl sm:px-0 z-50 pointer-events-none animate-in fade-in slide-in-from-bottom-5 duration-300 ease-out'>
+    <div className='fixed bottom-20 sm:bottom-8 start-3 end-3 sm:start-1/2 sm:-translate-x-1/2 sm:w-full sm:max-w-xl sm:px-0 z-40 pointer-events-none animate-in fade-in slide-in-from-bottom-5 duration-300 ease-out'>
       <Link
         href='/cart'
         aria-label={t('viewCart')}

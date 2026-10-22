@@ -75,7 +75,18 @@
     "selectOption": "Choose size or option",
     "addToCart": "Add to Cart",
     "unavailable": "Unavailable",
-    "noMenuItems": "No active dishes listed on the menu yet."
+    "noMenuItems": "No active dishes listed on the menu yet.",
+    "dealsTitle": "Today's Special Deals",
+    "dealsSubtitle": "Handpicked value bundles and discounted offers",
+    "hotDeal": "HOT DEAL",
+    "saveAmount": "Save {amount}",
+    "off": "{percent}% OFF",
+    "whatsIncluded": "What's Included in this Deal",
+    "viewDetails": "View details",
+    "viewDeal": "View Deal",
+    "dealBreakdown": "Combo Items Breakdown",
+    "totalSavings": "You save {amount}",
+    "addToCartWithPrice": "Add to Cart • {price}"
   },
   "cart": {
     "itemsCount": "{count, plural, =1 {1 item} other {# items}}",

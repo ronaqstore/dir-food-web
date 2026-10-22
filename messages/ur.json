@@ -75,7 +75,18 @@
     "selectOption": "سائز یا آپشن کا انتخاب کریں",
     "addToCart": "ٹوکری میں شامل کریں",
     "unavailable": "دستیاب نہیں",
-    "noMenuItems": "مینو میں ابھی تک کوئی کھانا شامل نہیں ہے۔"
+    "noMenuItems": "مینو میں ابھی تک کوئی کھانا شامل نہیں ہے۔",
+    "dealsTitle": "آج کی اسپیشل ڈیلز",
+    "dealsSubtitle": "بہترین بچت اور خصوصی کومبو آفرز",
+    "hotDeal": "اسپیشل ڈیل",
+    "saveAmount": "{amount} کی بچت",
+    "off": "{percent}% رعایت",
+    "whatsIncluded": "اس ڈیل میں کیا شامل ہے؟",
+    "viewDetails": "تفصیلات دیکھیں",
+    "viewDeal": "ڈیل دیکھیں",
+    "dealBreakdown": "ڈیل کے کھانے اور تفصیل",
+    "totalSavings": "آپ کی کل بچت: {amount}",
+    "addToCartWithPrice": "ٹوکری میں شامل کریں • {price}"
   },
   "cart": {
     "itemsCount": "{count, plural, =1 {1 کھانا} other {# کھانے}}",
