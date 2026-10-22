@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { useTranslations } from 'next-intl';
 import { RestaurantCard } from './restaurant-card';
+import { RestaurantGridSkeleton } from './restaurant-card-skeleton';
 import { useArea } from '../context/area-context';
 import { IconBuildingStore, IconMapPin } from '@/components/icons';
 import type { PublicRestaurantCard } from '../api/types';
@@ -18,29 +19,7 @@ export function RestaurantGrid({ restaurants, isLoading, onResetFilters }: Resta
   const { selectedArea, openAreaModal } = useArea();
 
   if (isLoading) {
-    return (
-      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6'>
-        {Array.from({ length: 6 }).map((_, i) => (
-          <div
-            key={i}
-            className='flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card p-0 animate-pulse'
-          >
-            <div className='h-36 w-full bg-muted' />
-            <div className='p-4 space-y-3'>
-              <div className='h-4 w-3/4 rounded bg-muted' />
-              <div className='flex gap-2'>
-                <div className='h-3 w-16 rounded bg-muted' />
-                <div className='h-3 w-12 rounded bg-muted' />
-              </div>
-              <div className='pt-3 border-t border-border/50 flex justify-between'>
-                <div className='h-3 w-24 rounded bg-muted' />
-                <div className='h-3 w-16 rounded bg-muted' />
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    );
+    return <RestaurantGridSkeleton count={6} />;
   }
 
   if (!restaurants || restaurants.length === 0) {

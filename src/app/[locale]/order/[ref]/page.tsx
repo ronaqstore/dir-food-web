@@ -8,6 +8,7 @@ import {
   useOrderIntent,
   useRecordWhatsAppOpened
 } from '@/features/checkout/api/order-intent-query';
+import { OrderDetailsSkeleton } from '@/features/checkout/components/order-details-skeleton';
 import { formatPkr } from '@/lib/money';
 import {
   IconBrandWhatsapp,
@@ -64,14 +65,7 @@ export default function OrderPage() {
   };
 
   if (isLoading) {
-    return (
-      <div className='min-h-[75vh] flex items-center justify-center bg-background py-16'>
-        <div className='flex flex-col items-center gap-3 text-muted-foreground'>
-          <IconLoader2 className='size-8 animate-spin text-primary' />
-          <p className='text-sm font-medium'>{t('loadingOrder')}</p>
-        </div>
-      </div>
-    );
+    return <OrderDetailsSkeleton />;
   }
 
   if (error || !order) {
