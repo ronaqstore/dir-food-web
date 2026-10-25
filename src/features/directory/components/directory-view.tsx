@@ -21,7 +21,7 @@ export function DirectoryView({
   showFilters = true
 }: DirectoryViewProps) {
   const t = useTranslations('directory');
-  const { selectedArea, openAreaModal } = useArea();
+  const { selectedCity, selectedArea, openAreaModal } = useArea();
 
   const [currentLimit, setCurrentLimit] = React.useState(initialLimit);
   const [searchQuery, setSearchQuery] = React.useState('');
@@ -37,13 +37,14 @@ export function DirectoryView({
 
   const queryParams = React.useMemo(
     () => ({
+      cityId: selectedCity?.id,
       areaId: selectedArea?.id,
       cuisine: selectedCuisine,
       q: debouncedSearch.trim().length >= 2 ? debouncedSearch.trim() : undefined,
       openNow: openNowOnly ? true : undefined,
       limit: currentLimit
     }),
-    [selectedArea?.id, selectedCuisine, debouncedSearch, openNowOnly, currentLimit]
+    [selectedCity?.id, selectedArea?.id, selectedCuisine, debouncedSearch, openNowOnly, currentLimit]
   );
 
   const { data, isLoading } = usePublicRestaurantsQuery(queryParams);
@@ -79,7 +80,15 @@ export function DirectoryView({
             className='inline-flex items-center gap-1.5 rounded-lg bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary hover:bg-primary/20 transition-colors cursor-pointer'
           >
             <IconMapPin className='h-3.5 w-3.5' />
-            <span suppressHydrationWarning>{selectedArea?.name ?? t('allAreas')}</span>
+            <span suppressHydrationWarning>
+              {selectedArea
+                ? selectedCity
+                  ? `${selectedArea.name}, ${selectedCity.name}`
+                  : selectedArea.name
+                : selectedCity
+                  ? `All ${selectedCity.name}`
+                  : t('allAreas')}
+            </span>
           </button>
         </div>
 

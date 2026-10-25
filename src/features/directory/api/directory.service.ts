@@ -1,9 +1,20 @@
 import { apiClient } from '@/lib/api/client';
-import type { PublicArea, PublicRestaurantsResponse, QueryPublicRestaurantsParams } from './types';
+import type {
+  PublicCity,
+  PublicArea,
+  PublicRestaurantsResponse,
+  QueryPublicRestaurantsParams
+} from './types';
 
 export const directoryService = {
-  async getAreas(): Promise<PublicArea[]> {
-    return apiClient<PublicArea[]>('/public/areas');
+  async getCities(): Promise<PublicCity[]> {
+    return apiClient<PublicCity[]>('/public/cities');
+  },
+
+  async getAreas(cityId?: string): Promise<PublicArea[]> {
+    return apiClient<PublicArea[]>(
+      `/public/areas${cityId ? `?cityId=${encodeURIComponent(cityId)}` : ''}`
+    );
   },
 
   async getRestaurants(
@@ -11,6 +22,7 @@ export const directoryService = {
   ): Promise<PublicRestaurantsResponse> {
     const searchParams = new URLSearchParams();
 
+    if (params.cityId) searchParams.set('cityId', params.cityId);
     if (params.areaId) searchParams.set('areaId', params.areaId);
     if (params.cuisine) searchParams.set('cuisine', params.cuisine);
     if (params.q && params.q.trim().length >= 2) searchParams.set('q', params.q.trim());

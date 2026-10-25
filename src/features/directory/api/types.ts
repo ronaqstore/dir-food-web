@@ -1,5 +1,13 @@
+export interface PublicCity {
+  id: string;
+  name: string;
+  slug: string;
+  sortOrder: number;
+}
+
 export interface PublicArea {
   id: string;
+  cityId?: string;
   name: string;
   slug: string;
 }
@@ -16,6 +24,7 @@ export interface PublicRestaurantCard {
 }
 
 export interface QueryPublicRestaurantsParams {
+  cityId?: string;
   areaId?: string;
   cuisine?: string;
   q?: string;

@@ -3,15 +3,31 @@
 import * as React from 'react';
 import { useTranslations } from 'next-intl';
 import { useArea } from '../context/area-context';
-import { usePublicAreasQuery } from '../api/queries';
+import { usePublicAreasQuery, usePublicCitiesQuery } from '../api/queries';
 import { IconCheck, IconLoader2, IconMapPin, IconSearch, IconX } from '@/components/icons';
 import type { PublicArea } from '../api/types';
 
 export function AreaModal() {
   const t = useTranslations();
-  const { selectedArea, setSelectedArea, isAreaModalOpen, closeAreaModal } = useArea();
-  const { data: areas, isLoading } = usePublicAreasQuery();
+  const {
+    selectedCity,
+    setSelectedCity,
+    selectedArea,
+    setSelectedArea,
+    isAreaModalOpen,
+    closeAreaModal
+  } = useArea();
+
+  const { data: cities = [] } = usePublicCitiesQuery();
+  const activeCity = selectedCity || cities[0] || null;
+  const { data: areas, isLoading } = usePublicAreasQuery(activeCity?.id);
   const [searchQuery, setSearchQuery] = React.useState('');
+
+  React.useEffect(() => {
+    if (!selectedCity && cities.length > 0) {
+      setSelectedCity(cities[0]);
+    }
+  }, [selectedCity, cities, setSelectedCity]);
 
   const filteredAreas = React.useMemo(() => {
     if (!areas) return [];
@@ -58,9 +74,54 @@ export function AreaModal() {
           </button>
         </div>
 
+        {/* District Switcher Section */}
+        {cities.length > 0 && (
+          <div className='py-3 border-b border-border space-y-1.5'>
+            <span className='text-[11px] font-semibold uppercase tracking-wider text-muted-foreground'>
+              1. Select District
+            </span>
+            <div className='flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none'>
+              {cities.map((city) => {
+                const isActive = activeCity?.id === city.id;
+                return (
+                  <button
+                    key={city.id}
+                    type='button'
+                    onClick={() => {
+                      setSelectedCity(city);
+                      setSelectedArea(null);
+                    }}
+                    className={`flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium rounded-xl transition-all whitespace-nowrap cursor-pointer ${
+                      isActive
+                        ? 'bg-primary text-primary-foreground font-bold shadow-xs'
+                        : 'bg-muted/70 text-muted-foreground hover:bg-muted hover:text-foreground border border-border/40'
+                    }`}
+                  >
+                    <IconMapPin className={`h-3 w-3 ${isActive ? 'text-primary-foreground' : 'text-muted-foreground'}`} />
+                    <span>{city.name}</span>
+                    {isActive && <IconCheck className='h-3 w-3 ms-0.5' />}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Section 2 Header */}
+        <div className='pt-3 pb-1 flex items-center justify-between'>
+          <span className='text-[11px] font-semibold uppercase tracking-wider text-muted-foreground'>
+            2. Choose Area in {activeCity?.name ?? 'District'}
+          </span>
+          {activeCity && (
+            <span className='text-[10px] text-primary font-medium'>
+              {filteredAreas.length} {filteredAreas.length === 1 ? 'area' : 'areas'}
+            </span>
+          )}
+        </div>
+
         {/* Search input for large area lists */}
         {areas && areas.length > 5 && (
-          <div className='mt-3 relative'>
+          <div className='mt-1 relative'>
             <IconSearch className='absolute start-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground' />
             <input
               type='text'
@@ -82,7 +143,7 @@ export function AreaModal() {
         )}
 
         {/* Content */}
-        <div className='mt-3 max-h-[60vh] overflow-y-auto space-y-1.5 pe-1'>
+        <div className='mt-2 max-h-[50vh] overflow-y-auto space-y-1.5 pe-1'>
           {/* All Areas Option */}
           <button
             type='button'
@@ -95,7 +156,7 @@ export function AreaModal() {
           >
             <div className='flex items-center gap-2.5'>
               <IconMapPin className='h-4 w-4 text-muted-foreground' />
-              <span>{t('directory.allAreas')}</span>
+              <span>{activeCity ? `All ${activeCity.name}` : t('directory.allAreas')}</span>
             </div>
             {selectedArea === null && <IconCheck className='h-4 w-4 text-primary' />}
           </button>
@@ -104,6 +165,13 @@ export function AreaModal() {
           {isLoading && (
             <div className='flex items-center justify-center py-8 text-muted-foreground'>
               <IconLoader2 className='h-5 w-5 animate-spin' />
+            </div>
+          )}
+
+          {/* Empty state */}
+          {!isLoading && filteredAreas.length === 0 && (
+            <div className='py-6 text-center text-xs text-muted-foreground'>
+              No delivery areas registered in {activeCity?.name || 'this district'} yet.
             </div>
           )}
 

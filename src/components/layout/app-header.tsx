@@ -16,10 +16,16 @@ import { ThemeToggle } from './theme-toggle';
 
 export function AppHeader() {
   const t = useTranslations();
-  const { selectedArea, openAreaModal } = useArea();
+  const { selectedCity, selectedArea, openAreaModal } = useArea();
   const { itemCount } = useCart();
 
-  const areaLabel = selectedArea?.name ?? t('header.defaultArea');
+  const areaLabel = selectedArea
+    ? selectedCity
+      ? `${selectedArea.name}, ${selectedCity.name}`
+      : selectedArea.name
+    : selectedCity
+      ? `All ${selectedCity.name}`
+      : t('header.defaultArea');
 
   return (
     <header className='sticky top-0 z-40 w-full border-b border-border/80 bg-background/95 backdrop-blur-md transition-colors'>
@@ -35,7 +41,7 @@ export function AppHeader() {
                 {t('brand.name')}
               </span>
               <span className='hidden text-[10px] text-muted-foreground sm:inline-block'>
-                Timergara & Lower Dir
+                Khyber Pakhtunkhwa
               </span>
             </div>
           </Link>
