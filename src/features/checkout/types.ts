@@ -3,14 +3,16 @@ export interface CreateOrderIntentCustomer {
   phone?: string;
 }
 
+export interface OrderIntentMapPin {
+  lat: number;
+  lng: number;
+}
+
 export interface CreateOrderIntentDelivery {
   areaId: string;
   landmark: string;
   directions?: string;
-  mapPin?: {
-    lat: number;
-    lng: number;
-  };
+  mapPin?: OrderIntentMapPin;
 }
 
 export interface CreateOrderIntentItem {
@@ -25,33 +27,64 @@ export interface CreateOrderIntentPayload {
   items: CreateOrderIntentItem[];
   customer?: CreateOrderIntentCustomer;
   delivery: CreateOrderIntentDelivery;
-  expectedSubtotal: number; // in paisa
+  expectedSubtotal: number;
 }
 
 export interface OrderIntentLine {
   name: string;
   variant: string | null;
-  unitPrice: number; // in paisa
+  unitPrice: number;
   quantity: number;
-  lineTotal: number; // in paisa
+  lineTotal: number;
+}
+
+export interface OrderIntentRestaurant {
+  name: string;
+}
+
+export interface OrderIntentDeliveryDetails {
+  status: string;
+  fee: number | null;
+  areaName: string;
+  landmark: string;
 }
 
 export interface OrderIntentResponse {
   reference: string;
   status: string;
-  restaurant: {
-    name: string;
-  };
+  restaurant: OrderIntentRestaurant;
   items: OrderIntentLine[];
-  subtotal: number; // in paisa
-  delivery: {
-    status: string;
-    fee: number | null; // in paisa
-    areaName: string;
-    landmark: string;
-  };
+  subtotal: number;
+  delivery: OrderIntentDeliveryDetails;
   message: string;
   whatsappUrl: string;
   expiresAt: string;
   notice: string;
+}
+
+export interface WhatsAppOpenedResponse {
+  status: string;
+}
+
+export interface CheckoutFormData {
+  name: string;
+  phone: string;
+  landmark: string;
+  directions: string;
+}
+
+export interface CheckoutContactFormProps {
+  formData: CheckoutFormData;
+  onChange: (field: keyof CheckoutFormData, value: string) => void;
+  isLoading: boolean;
+  minOrderAmount: number | null;
+  subtotal: number;
+  restaurantOpen: boolean;
+  areaSelected: boolean;
+  onSubmit: (e: React.FormEvent) => void;
+}
+
+export interface CheckoutOrderSummaryProps {
+  deliveryFee: number | null;
+  isFreeDelivery: boolean;
 }

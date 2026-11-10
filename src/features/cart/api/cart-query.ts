@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api/client';
+import { ValidationError } from '@/lib/errors';
 import type { ValidateCartRequest, ValidateCartResponse } from '../types';
 
 export function useValidateCart(request: ValidateCartRequest | null, enabled = true) {
@@ -7,7 +8,7 @@ export function useValidateCart(request: ValidateCartRequest | null, enabled = t
     queryKey: ['cart-validation', request?.restaurantSlug, request?.items, request?.deliveryAreaId],
     queryFn: async () => {
       if (!request || !request.restaurantSlug || request.items.length === 0) {
-        throw new Error('Invalid cart validation payload');
+        throw new ValidationError('Invalid cart validation payload');
       }
       return apiClient<ValidateCartResponse>('/public/cart/validate', {
         method: 'POST',

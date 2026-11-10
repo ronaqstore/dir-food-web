@@ -1,15 +1,7 @@
-export interface ApiSuccessResponse<T> {
-  data: T;
-  meta?: Record<string, unknown>;
-}
+import { API_BASE_URL } from '@/config/env';
+import type { ApiSuccessResponse, ApiErrorResponse } from '@/types/api';
 
-export interface ApiErrorResponse {
-  error: {
-    code: string;
-    message: string;
-    details?: unknown;
-  };
-}
+export type { ApiSuccessResponse, ApiErrorResponse };
 
 export class ApiError extends Error {
   constructor(
@@ -22,8 +14,6 @@ export class ApiError extends Error {
     this.name = 'ApiError';
   }
 }
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3011';
 
 export async function apiClient<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
   const url = `${API_BASE_URL}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
@@ -47,7 +37,6 @@ export async function apiClient<T>(endpoint: string, options: RequestInit = {}):
     throw new ApiError(code, message, response.status, errorData?.error?.details);
   }
 
-  // If response is paginated envelope with meta (e.g. { data: [...], meta: {...} }), return whole object
   if (json && typeof json === 'object' && 'data' in json && 'meta' in json) {
     return json as T;
   }

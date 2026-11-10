@@ -2,7 +2,6 @@ export {
   IconHome,
   IconBuildingStore,
   IconShoppingCart,
-  IconReceipt,
   IconSun,
   IconMoon,
   IconLanguage,
@@ -20,7 +19,6 @@ export {
   IconClock,
   IconPlus,
   IconMinus,
-  IconTrash,
   IconAlertCircle,
   IconLoader2,
   IconTag

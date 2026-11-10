@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api/client';
-import type { CreateOrderIntentPayload, OrderIntentResponse } from '../types';
+import { ValidationError } from '@/lib/errors';
+import type { CreateOrderIntentPayload, OrderIntentResponse, WhatsAppOpenedResponse } from '../types';
 
 export function useCreateOrderIntent() {
   return useMutation<OrderIntentResponse, Error, CreateOrderIntentPayload>({
@@ -17,7 +18,7 @@ export function useOrderIntent(reference: string | null) {
   return useQuery<OrderIntentResponse>({
     queryKey: ['order-intent', reference],
     queryFn: async () => {
-      if (!reference) throw new Error('Reference is required');
+      if (!reference) throw new ValidationError('Reference is required');
       return apiClient<OrderIntentResponse>(
         `/public/order-intents/${encodeURIComponent(reference)}`
       );
@@ -37,9 +38,9 @@ export function useOrderIntent(reference: string | null) {
 }
 
 export function useRecordWhatsAppOpened() {
-  return useMutation<{ status: string }, Error, string>({
+  return useMutation<WhatsAppOpenedResponse, Error, string>({
     mutationFn: async (reference: string) => {
-      return apiClient<{ status: string }>(
+      return apiClient<WhatsAppOpenedResponse>(
         `/public/order-intents/${encodeURIComponent(reference)}/whatsapp-opened`,
         {
           method: 'POST'
