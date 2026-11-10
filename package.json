@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev -p 3005",
+    "dev": "next dev -p 3013",
     "build": "next build",
-    "start": "next start -p 3005",
+    "start": "next start -p 3013",
     "typecheck": "tsc --noEmit",
     "test": "node --experimental-strip-types --test 'src/**/*.test.ts'",
     "lint": "oxlint",
