@@ -46,12 +46,16 @@ export function DirectoryFilters({
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder={t('searchPlaceholder')}
+            autoComplete='off'
+            data-lpignore='true'
+            suppressHydrationWarning
             className='h-11 w-full rounded-xl border border-border bg-card ps-9 pe-8 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all'
           />
           {searchQuery && (
             <button
               type='button'
               onClick={() => onSearchChange('')}
+              suppressHydrationWarning
               className='absolute end-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground p-1 cursor-pointer'
             >
               <IconX className='h-3.5 w-3.5' />
@@ -63,6 +67,7 @@ export function DirectoryFilters({
         <button
           type='button'
           onClick={() => onOpenNowToggle(!openNowOnly)}
+          suppressHydrationWarning
           className={`flex h-11 items-center justify-center gap-2 rounded-xl px-4 text-xs font-semibold border transition-all cursor-pointer ${
             openNowOnly
               ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
@@ -83,6 +88,7 @@ export function DirectoryFilters({
         <button
           type='button'
           onClick={() => onCuisineSelect(undefined)}
+          suppressHydrationWarning
           className={`shrink-0 rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors cursor-pointer ${
             selectedCuisine === undefined
               ? 'bg-primary text-primary-foreground font-semibold shadow-xs'
@@ -99,6 +105,7 @@ export function DirectoryFilters({
               key={cuisine}
               type='button'
               onClick={() => onCuisineSelect(isSelected ? undefined : cuisine)}
+              suppressHydrationWarning
               className={`shrink-0 rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors cursor-pointer ${
                 isSelected
                   ? 'bg-primary text-primary-foreground font-semibold shadow-xs'

@@ -77,6 +77,7 @@ export function DirectoryView({
           <button
             type='button'
             onClick={openAreaModal}
+            suppressHydrationWarning
             className='inline-flex items-center gap-1.5 rounded-lg bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary hover:bg-primary/20 transition-colors cursor-pointer'
           >
             <IconMapPin className='h-3.5 w-3.5' />
@@ -124,6 +125,7 @@ export function DirectoryView({
           <button
             type='button'
             onClick={() => setCurrentLimit((prev) => prev + 20)}
+            suppressHydrationWarning
             className='inline-flex h-11 items-center justify-center rounded-xl border border-border bg-card px-6 text-sm font-bold text-foreground shadow-xs hover:border-primary/40 hover:bg-muted transition-all cursor-pointer'
           >
             {t('loadMore')} ({restaurantList.length} / {totalCount})

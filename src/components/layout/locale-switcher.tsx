@@ -41,6 +41,7 @@ export function LocaleSwitcher() {
       <button
         type='button'
         onClick={() => setIsOpen(!isOpen)}
+        suppressHydrationWarning
         className='flex h-9 items-center gap-1.5 rounded-full px-2.5 text-xs font-medium text-foreground/80 hover:bg-muted transition-colors cursor-pointer'
         aria-label='Switch language'
         aria-expanded={isOpen}

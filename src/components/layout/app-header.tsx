@@ -50,6 +50,7 @@ export function AppHeader() {
           <button
             type='button'
             onClick={openAreaModal}
+            suppressHydrationWarning
             className='flex items-center gap-1.5 rounded-full border border-border bg-muted/60 px-3 py-1 text-xs font-medium text-foreground hover:bg-muted transition-colors cursor-pointer'
             aria-label={t('directory.selectAreaTitle')}
           >
