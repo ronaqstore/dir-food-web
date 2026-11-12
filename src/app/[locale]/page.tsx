@@ -15,7 +15,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const t = await getTranslations();
 
   return (
-    <div className='mx-auto max-w-5xl px-4 py-6 sm:px-6 sm:py-10 space-y-10'>
+    <div className='mx-auto max-w-7xl 2xl:max-w-[1440px] px-4 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-10'>
       {/* Hero Banner */}
       <section className='relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary/10 via-background to-accent/20 border border-primary/20 p-6 sm:p-10 text-center sm:text-start'>
         <div className='max-w-2xl'>

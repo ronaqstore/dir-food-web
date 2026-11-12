@@ -23,8 +23,8 @@ export function CategoryNav({ categories, activeCategoryId, onSelectCategory }: 
   if (categories.length <= 1) return null;
 
   return (
-    <div className='sticky top-16 z-30 -mx-4 sm:-mx-6 px-4 sm:px-6 py-2.5 bg-background/95 backdrop-blur-md border-b border-border/70 overflow-x-auto scrollbar-none'>
-      <div className='mx-auto flex max-w-5xl items-center gap-2'>
+    <div className='sticky top-16 z-30 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-2.5 bg-background/95 backdrop-blur-md border-b border-border/70 overflow-x-auto scrollbar-none'>
+      <div className='mx-auto flex max-w-7xl 2xl:max-w-[1440px] items-center gap-2'>
         {categories.map((cat) => {
           const isActive = activeCategoryId === cat.id;
           return (

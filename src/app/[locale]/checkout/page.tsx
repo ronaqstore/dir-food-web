@@ -183,7 +183,7 @@ export default function CheckoutPage() {
 
   return (
     <div className='min-h-[85vh] bg-muted/20 py-6 sm:py-10'>
-      <div className='mx-auto max-w-6xl px-4 sm:px-6'>
+      <div className='mx-auto max-w-7xl 2xl:max-w-[1440px] px-4 sm:px-6 lg:px-8'>
         {/* Navigation link back to cart */}
         <div className='mb-6'>
           <Link

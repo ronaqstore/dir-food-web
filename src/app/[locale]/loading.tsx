@@ -4,7 +4,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 export default function HomeLoading() {
   return (
-    <div className='mx-auto max-w-5xl px-4 py-6 sm:px-6 sm:py-10 space-y-10'>
+    <div className='mx-auto max-w-7xl 2xl:max-w-[1440px] px-4 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-10'>
       {/* Hero Banner Skeleton */}
       <div className='rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/10 via-background to-accent/20 p-6 sm:p-10 space-y-4'>
         <Skeleton className='h-6 w-32 rounded-full' />

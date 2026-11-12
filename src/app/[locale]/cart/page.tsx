@@ -62,7 +62,7 @@ export default function CartPage() {
 
   return (
     <div className='min-h-[80vh] bg-muted/20 py-6 sm:py-10'>
-      <div className='mx-auto max-w-6xl px-4 sm:px-6'>
+      <div className='mx-auto max-w-7xl 2xl:max-w-[1440px] px-4 sm:px-6 lg:px-8'>
         {/* Page Title */}
         <div className='mb-6'>
           <h1 className='text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl'>

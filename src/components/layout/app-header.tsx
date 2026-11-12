@@ -29,7 +29,7 @@ export function AppHeader() {
 
   return (
     <header className='sticky top-0 z-40 w-full border-b border-border/80 bg-background/95 backdrop-blur-md transition-colors'>
-      <div className='mx-auto flex h-16 max-w-5xl items-center justify-between px-4 sm:px-6'>
+      <div className='mx-auto flex h-16 max-w-7xl 2xl:max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:px-8'>
         {/* Brand & Location */}
         <div className='flex items-center gap-2 sm:gap-6'>
           <Link href='/' className='flex items-center gap-2 group'>
