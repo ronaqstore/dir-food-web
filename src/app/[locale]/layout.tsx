@@ -5,6 +5,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { isLocale, isRtlLocale, locales, type AppLocale } from '@/i18n/request';
 import { Providers } from '@/components/providers';
 import { AppHeader } from '@/components/layout/app-header';
+import { AppFooter } from '@/components/layout/app-footer';
 import { MobileNav } from '@/components/layout/mobile-nav';
 import { AreaModal } from '@/features/directory/components/area-modal';
 import { RestaurantConflictModal } from '@/features/cart/components/restaurant-conflict-modal';
@@ -52,11 +53,7 @@ export default async function LocaleLayout({
             <AreaModal />
             <RestaurantConflictModal />
             <StickyCartBar />
-            <footer className='border-t border-border/60 py-6 text-center text-xs text-muted-foreground hidden sm:block'>
-              <div className='mx-auto max-w-5xl px-4'>
-                <p>© 2026 Dir Food. Timergara, Lower Dir, Khyber Pakhtunkhwa.</p>
-              </div>
-            </footer>
+            <AppFooter />
           </NextIntlClientProvider>
         </Providers>
       </body>

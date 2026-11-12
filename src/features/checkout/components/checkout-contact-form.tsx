@@ -11,6 +11,7 @@ import {
   IconChevronRight
 } from '@tabler/icons-react';
 import { useArea } from '@/features/directory/context/area-context';
+import { isReservedPhoneNumber } from '@/lib/phone';
 
 export interface CheckoutFormData {
   name: string;
@@ -150,9 +151,17 @@ export function CheckoutContactForm({ formData, onChange, disabled }: CheckoutCo
                 onChange={(e) => onChange('phone', e.target.value)}
                 disabled={disabled}
                 placeholder='0300 1234567'
-                className='block w-full rounded-xl border border-border bg-background py-2.5 pe-3 ps-10 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20 disabled:opacity-60'
+                suppressHydrationWarning
+                className={`block w-full rounded-xl border bg-background py-2.5 pe-3 ps-10 text-sm text-foreground placeholder:text-muted-foreground focus:outline-hidden focus:ring-2 disabled:opacity-60 ${
+                  isReservedPhoneNumber(formData.phone)
+                    ? 'border-destructive focus:border-destructive focus:ring-destructive/20'
+                    : 'border-border focus:border-primary focus:ring-primary/20'
+                }`}
               />
             </div>
+            {isReservedPhoneNumber(formData.phone) && (
+              <p className='text-xs text-destructive font-medium'>This phone number is already in use</p>
+            )}
           </div>
         </div>
       </div>

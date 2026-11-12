@@ -18,6 +18,7 @@ import { CartMinOrderAlert } from '@/features/cart/components/cart-min-order-ale
 import { CartValidationBanner } from '@/features/cart/components/cart-validation-banner';
 import { Link } from '@/i18n/navigation';
 import { IconArrowLeft, IconAlertCircle } from '@tabler/icons-react';
+import { isReservedPhoneNumber } from '@/lib/phone';
 
 const CUSTOMER_STORAGE_KEY = 'dir_food_customer_info';
 
@@ -122,6 +123,11 @@ export default function CheckoutPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isValidToSubmit || !selectedArea) return;
+
+    if (formData.phone.trim() && isReservedPhoneNumber(formData.phone)) {
+      setSubmitError('This phone number is already in use');
+      return;
+    }
 
     setSubmitError(null);
 
