@@ -7,7 +7,8 @@ import {
   IconBuildingStore,
   IconChevronDown,
   IconMapPin,
-  IconShoppingCart
+  IconShoppingCart,
+  IconUser
 } from '@/components/icons';
 import { useArea } from '@/features/directory/context/area-context';
 import { useCart } from '@/features/cart/context/cart-context';
@@ -18,6 +19,8 @@ export function AppHeader() {
   const t = useTranslations();
   const { selectedCity, selectedArea, openAreaModal } = useArea();
   const { itemCount } = useCart();
+  const adminBaseUrl = process.env.NEXT_PUBLIC_ADMIN_URL || 'http://localhost:3012';
+  const adminLoginUrl = `${adminBaseUrl}/login`;
 
   const areaLabel = selectedArea
     ? selectedCity
@@ -96,6 +99,17 @@ export function AppHeader() {
               </span>
             ) : null}
           </Link>
+
+          {/* Restaurant Owner / Platform Login Link (Opens in new tab) */}
+          <a
+            href={adminLoginUrl}
+            target='_blank'
+            rel='noopener noreferrer'
+            className='inline-flex h-9 items-center justify-center gap-1.5 rounded-xl bg-primary px-3 sm:px-4 text-xs font-semibold text-primary-foreground shadow-xs hover:opacity-90 transition-opacity cursor-pointer ms-1'
+          >
+            <IconUser className='h-3.5 w-3.5' />
+            <span>{t('nav.login')}</span>
+          </a>
         </div>
       </div>
     </header>

@@ -16,7 +16,8 @@
     "home": "Home",
     "restaurants": "Restaurants",
     "cart": "Cart",
-    "orders": "Requests"
+    "orders": "Requests",
+    "login": "Login"
   },
   "header": {
     "selectArea": "Select Area",
