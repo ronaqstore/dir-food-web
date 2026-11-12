@@ -9,14 +9,30 @@ export function RestaurantConflictModal() {
   const t = useTranslations('cart');
   const { restaurant, pendingConflict, resolveConflict } = useCart();
 
+  React.useEffect(() => {
+    if (!pendingConflict) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') resolveConflict(false);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [pendingConflict, resolveConflict]);
+
   if (!pendingConflict) return null;
 
   return (
-    <div className='fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-150'>
+    <div className='fixed inset-0 z-[70] flex items-center justify-center p-4 animate-in fade-in duration-150'>
+      <button
+        type='button'
+        aria-label='Close'
+        tabIndex={-1}
+        onClick={() => resolveConflict(false)}
+        className='fixed inset-0 bg-black/50 backdrop-blur-xs cursor-pointer border-0 p-0'
+      />
       <dialog
         open
         aria-labelledby='conflict-modal-title'
-        className='relative w-full max-w-sm rounded-2xl border border-border bg-card p-6 shadow-xl animate-in zoom-in-95 duration-150 text-card-foreground block m-0 text-center'
+        className='relative z-10 w-full max-w-sm rounded-2xl border border-border bg-card p-6 shadow-xl animate-in zoom-in-95 duration-150 text-card-foreground block m-0 text-center'
       >
         <div className='mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500/10 text-amber-600 dark:text-amber-400 mb-4'>
           <IconAlertCircle className='h-6 w-6' />

@@ -22,6 +22,9 @@ export function AreaModal() {
   const activeCity = selectedCity || cities[0] || null;
   const { data: areas, isLoading } = usePublicAreasQuery(activeCity?.id);
   const [searchQuery, setSearchQuery] = React.useState('');
+  const [visibleLimit, setVisibleLimit] = React.useState(20);
+  const [isLoadingBatch, setIsLoadingBatch] = React.useState(false);
+  const listRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     if (!selectedCity && cities.length > 0) {
@@ -29,12 +32,49 @@ export function AreaModal() {
     }
   }, [selectedCity, cities, setSelectedCity]);
 
+  // Reset pagination when active city or search changes
+  React.useEffect(() => {
+    setVisibleLimit(20);
+    if (listRef.current) {
+      listRef.current.scrollTop = 0;
+    }
+  }, [activeCity?.id, searchQuery]);
+
   const filteredAreas = React.useMemo(() => {
     if (!areas) return [];
     if (!searchQuery.trim()) return areas;
     const q = searchQuery.trim().toLowerCase();
     return areas.filter((a) => a.name.toLowerCase().includes(q));
   }, [areas, searchQuery]);
+
+  const displayedAreas = React.useMemo(() => {
+    return filteredAreas.slice(0, visibleLimit);
+  }, [filteredAreas, visibleLimit]);
+
+  const handleScroll = React.useCallback(
+    (e: React.UIEvent<HTMLDivElement>) => {
+      const target = e.currentTarget;
+      if (target.scrollTop + target.clientHeight >= target.scrollHeight - 30) {
+        if (visibleLimit < filteredAreas.length && !isLoadingBatch) {
+          setIsLoadingBatch(true);
+          setTimeout(() => {
+            setVisibleLimit((prev) => Math.min(prev + 20, filteredAreas.length));
+            setIsLoadingBatch(false);
+          }, 120);
+        }
+      }
+    },
+    [visibleLimit, filteredAreas.length, isLoadingBatch]
+  );
+
+  React.useEffect(() => {
+    if (!isAreaModalOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeAreaModal();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isAreaModalOpen, closeAreaModal]);
 
   if (!isAreaModalOpen) return null;
 
@@ -45,11 +85,18 @@ export function AreaModal() {
   };
 
   return (
-    <div className='fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-150'>
+    <div className='fixed inset-0 z-[70] flex items-center justify-center p-4 animate-in fade-in duration-150'>
+      <button
+        type='button'
+        aria-label='Close'
+        tabIndex={-1}
+        onClick={closeAreaModal}
+        className='fixed inset-0 bg-black/50 backdrop-blur-xs cursor-pointer border-0 p-0'
+      />
       <dialog
         open
         aria-labelledby='area-modal-title'
-        className='relative w-full max-w-md rounded-2xl border border-border bg-card p-6 shadow-xl animate-in zoom-in-95 duration-150 text-card-foreground block m-0'
+        className='relative z-10 w-full max-w-md rounded-2xl border border-border bg-card p-6 shadow-xl animate-in zoom-in-95 duration-150 text-card-foreground block m-0'
       >
         {/* Header */}
         <div className='flex items-center justify-between pb-4 border-b border-border'>
@@ -119,8 +166,8 @@ export function AreaModal() {
           )}
         </div>
 
-        {/* Search input for large area lists */}
-        {areas && areas.length > 5 && (
+        {/* Search input for area lists */}
+        {areas && (areas.length > 0 || searchQuery) && (
           <div className='mt-1 relative'>
             <IconSearch className='absolute start-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground' />
             <input
@@ -142,8 +189,22 @@ export function AreaModal() {
           </div>
         )}
 
-        {/* Content */}
-        <div className='mt-2 max-h-[50vh] overflow-y-auto space-y-1.5 pe-1'>
+        {/* Counter Header when many items */}
+        {filteredAreas.length > 20 && (
+          <div className='mt-2 flex items-center justify-between px-1 text-[11px] text-muted-foreground'>
+            <span>Matches: {filteredAreas.length}</span>
+            <span className='text-primary font-medium text-[10px]'>
+              Showing {displayedAreas.length} of {filteredAreas.length}
+            </span>
+          </div>
+        )}
+
+        {/* Content with 20-by-20 auto-fetch infinite scroll */}
+        <div
+          ref={listRef}
+          onScroll={handleScroll}
+          className='mt-2 max-h-[50vh] overflow-y-auto space-y-1.5 pe-1'
+        >
           {/* All Areas Option */}
           <button
             type='button'
@@ -175,8 +236,8 @@ export function AreaModal() {
             </div>
           )}
 
-          {/* List of active delivery areas */}
-          {filteredAreas.map((area) => {
+          {/* List of active delivery areas (paginated 20-by-20) */}
+          {displayedAreas.map((area) => {
             const isSelected = selectedArea?.id === area.id;
             return (
               <button
@@ -197,6 +258,21 @@ export function AreaModal() {
               </button>
             );
           })}
+
+          {/* Loading indicator when scrolling near bottom to fetch next 20 items */}
+          {isLoadingBatch && (
+            <div className='flex items-center justify-center gap-1.5 py-2 text-xs text-primary font-medium'>
+              <IconLoader2 className='h-3.5 w-3.5 animate-spin' />
+              <span className='text-[11px]'>Loading more areas...</span>
+            </div>
+          )}
+
+          {/* End of list */}
+          {displayedAreas.length >= filteredAreas.length && filteredAreas.length > 20 && (
+            <div className='py-2 text-center text-[10px] text-muted-foreground/70'>
+              All {filteredAreas.length} areas loaded
+            </div>
+          )}
         </div>
       </dialog>
     </div>

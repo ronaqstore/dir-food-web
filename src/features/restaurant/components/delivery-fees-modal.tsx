@@ -21,14 +21,30 @@ export function DeliveryFeesModal({
 }: DeliveryFeesModalProps) {
   const t = useTranslations('restaurant');
 
+  React.useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   return (
-    <div className='fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-150'>
+    <div className='fixed inset-0 z-[70] flex items-center justify-center p-4 animate-in fade-in duration-150'>
+      <button
+        type='button'
+        aria-label='Close'
+        tabIndex={-1}
+        onClick={onClose}
+        className='fixed inset-0 bg-black/50 backdrop-blur-xs cursor-pointer border-0 p-0'
+      />
       <dialog
         open
         aria-labelledby='delivery-fees-title'
-        className='relative w-full max-w-sm rounded-2xl border border-border bg-card p-6 shadow-xl animate-in zoom-in-95 duration-150 text-card-foreground block m-0'
+        className='relative z-10 w-full max-w-sm rounded-2xl border border-border bg-card p-6 shadow-xl animate-in zoom-in-95 duration-150 text-card-foreground block m-0'
       >
         <div className='flex items-center justify-between pb-3 border-b border-border'>
           <div className='flex items-center gap-2'>

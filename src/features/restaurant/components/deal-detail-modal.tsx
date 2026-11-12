@@ -30,6 +30,15 @@ export function DealDetailModal({
     setQuantity(1);
   }, [item]);
 
+  React.useEffect(() => {
+    if (!item) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [item, onClose]);
+
   if (!item) return null;
 
   const hasVariants = item.variants && item.variants.length > 0;
@@ -73,11 +82,18 @@ export function DealDetailModal({
   };
 
   return (
-    <div className='fixed inset-0 z-[70] flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-150'>
+    <div className='fixed inset-0 z-[70] flex items-end sm:items-center justify-center p-0 sm:p-4 animate-in fade-in duration-150'>
+      <button
+        type='button'
+        aria-label='Close'
+        tabIndex={-1}
+        onClick={onClose}
+        className='fixed inset-0 bg-black/60 backdrop-blur-xs cursor-pointer border-0 p-0'
+      />
       <dialog
         open
         aria-labelledby='deal-modal-title'
-        className='relative w-full max-w-lg max-h-[90vh] flex flex-col rounded-t-3xl sm:rounded-3xl border border-border bg-card shadow-2xl animate-in slide-in-from-bottom-8 sm:zoom-in-95 duration-200 text-card-foreground m-0 overflow-hidden'
+        className='relative z-10 w-full max-w-lg max-h-[90vh] flex flex-col rounded-t-3xl sm:rounded-3xl border border-border bg-card shadow-2xl animate-in slide-in-from-bottom-8 sm:zoom-in-95 duration-200 text-card-foreground m-0 overflow-hidden'
       >
         {/* Hero Image Section */}
         <div className='relative h-52 sm:h-60 w-full shrink-0 overflow-hidden bg-muted'>

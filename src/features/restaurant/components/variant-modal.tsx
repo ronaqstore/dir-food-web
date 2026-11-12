@@ -30,6 +30,20 @@ export function VariantModal({ restaurant, item, onClose }: VariantModalProps) {
     return item.variants[0] ?? null;
   }, [item, selectedVariantId]);
 
+  const handleClose = React.useCallback(() => {
+    setSelectedVariantId(null);
+    onClose();
+  }, [onClose]);
+
+  React.useEffect(() => {
+    if (!item) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') handleClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [item, handleClose]);
+
   if (!item) return null;
 
   const handleAddToCart = () => {
@@ -49,17 +63,19 @@ export function VariantModal({ restaurant, item, onClose }: VariantModalProps) {
     onClose();
   };
 
-  const handleClose = () => {
-    setSelectedVariantId(null);
-    onClose();
-  };
-
   return (
-    <div className='fixed inset-0 z-[70] flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-150'>
+    <div className='fixed inset-0 z-[70] flex items-end sm:items-center justify-center p-0 sm:p-4 animate-in fade-in duration-150'>
+      <button
+        type='button'
+        aria-label='Close'
+        tabIndex={-1}
+        onClick={handleClose}
+        className='fixed inset-0 bg-black/50 backdrop-blur-xs cursor-pointer border-0 p-0'
+      />
       <dialog
         open
         aria-labelledby='variant-modal-title'
-        className='relative w-full max-w-md rounded-t-3xl sm:rounded-2xl border border-border bg-card p-5 sm:p-6 shadow-xl animate-in slide-in-from-bottom-6 sm:zoom-in-95 duration-200 text-card-foreground block m-0'
+        className='relative z-10 w-full max-w-md rounded-t-3xl sm:rounded-2xl border border-border bg-card p-5 sm:p-6 shadow-xl animate-in slide-in-from-bottom-6 sm:zoom-in-95 duration-200 text-card-foreground block m-0'
       >
         {/* Top Header */}
         <div className='flex items-start justify-between pb-3 border-b border-border'>
