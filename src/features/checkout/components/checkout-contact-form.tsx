@@ -1,6 +1,5 @@
 'use client';
 
-import * as React from 'react';
 import { useTranslations } from 'next-intl';
 import {
   IconMapPin,
@@ -12,19 +11,7 @@ import {
 } from '@tabler/icons-react';
 import { useArea } from '@/features/directory/context/area-context';
 import { isReservedPhoneNumber } from '@/lib/phone';
-
-export interface CheckoutFormData {
-  name: string;
-  phone: string;
-  landmark: string;
-  directions: string;
-}
-
-interface CheckoutContactFormProps {
-  formData: CheckoutFormData;
-  onChange: (field: keyof CheckoutFormData, value: string) => void;
-  disabled?: boolean;
-}
+import type { CheckoutContactFormProps } from '@/features/checkout/types';
 
 export function CheckoutContactForm({ formData, onChange, disabled }: CheckoutContactFormProps) {
   const t = useTranslations('checkout');
@@ -38,7 +25,7 @@ export function CheckoutContactForm({ formData, onChange, disabled }: CheckoutCo
       </div>
 
       <div className='space-y-4'>
-        {/* Delivery Area Picker */}
+        {}
         <div className='space-y-1.5'>
           <label className='block text-xs font-semibold text-foreground'>
             {t('areaLabel')} <span className='text-destructive'>*</span>
@@ -64,13 +51,13 @@ export function CheckoutContactForm({ formData, onChange, disabled }: CheckoutCo
           </button>
         </div>
 
-        {/* Landmark / Street address (Required) */}
+        {}
         <div className='space-y-1.5'>
           <label htmlFor='landmark' className='block text-xs font-semibold text-foreground'>
             {t('landmarkLabel')} <span className='text-destructive'>*</span>
           </label>
           <div className='relative'>
-            <div className='pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3 text-muted-foreground'>
+            <div className='pointer-events-none absolute inset-y-0 inset-s-0 flex items-center ps-3 text-muted-foreground'>
               <IconHome className='size-4' />
             </div>
             <input
@@ -89,13 +76,13 @@ export function CheckoutContactForm({ formData, onChange, disabled }: CheckoutCo
           <p className='text-[11px] text-muted-foreground'>{t('landmarkHint')}</p>
         </div>
 
-        {/* Optional directions or house details */}
+        {}
         <div className='space-y-1.5'>
           <label htmlFor='directions' className='block text-xs font-medium text-foreground'>
             {t('directionsLabel')}
           </label>
           <div className='relative'>
-            <div className='pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3 text-muted-foreground'>
+            <div className='pointer-events-none absolute inset-y-0 inset-s-0 flex items-center ps-3 text-muted-foreground'>
               <IconNotes className='size-4' />
             </div>
             <input
@@ -111,15 +98,15 @@ export function CheckoutContactForm({ formData, onChange, disabled }: CheckoutCo
           </div>
         </div>
 
-        {/* Customer Name & Phone grid */}
+        {}
         <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2'>
-          {/* Customer Name */}
+          {}
           <div className='space-y-1.5'>
             <label htmlFor='customer-name' className='block text-xs font-medium text-foreground'>
               {t('nameLabel')}
             </label>
             <div className='relative'>
-              <div className='pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3 text-muted-foreground'>
+              <div className='pointer-events-none absolute inset-y-0 inset-s-0 flex items-center ps-3 text-muted-foreground'>
                 <IconUser className='size-4' />
               </div>
               <input
@@ -135,13 +122,13 @@ export function CheckoutContactForm({ formData, onChange, disabled }: CheckoutCo
             </div>
           </div>
 
-          {/* Customer Phone */}
+          {}
           <div className='space-y-1.5'>
             <label htmlFor='customer-phone' className='block text-xs font-medium text-foreground'>
               {t('phoneLabel')}
             </label>
             <div className='relative'>
-              <div className='pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3 text-muted-foreground'>
+              <div className='pointer-events-none absolute inset-y-0 inset-s-0 flex items-center ps-3 text-muted-foreground'>
                 <IconPhone className='size-4' />
               </div>
               <input
@@ -160,7 +147,7 @@ export function CheckoutContactForm({ formData, onChange, disabled }: CheckoutCo
               />
             </div>
             {isReservedPhoneNumber(formData.phone) && (
-              <p className='text-xs text-destructive font-medium'>This phone number is already in use</p>
+              <p className='text-xs text-destructive font-medium'>{t('phoneReserved')}</p>
             )}
           </div>
         </div>

@@ -5,18 +5,13 @@ import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { formatPkr } from '@/lib/money';
 import { IconCheck, IconX } from '@/components/icons';
-import type { PublicMenuItem } from '../api/types';
-import type { CartRestaurant } from '@/features/cart/types';
 import { useCart } from '@/features/cart/context/cart-context';
 
-interface VariantModalProps {
-  restaurant: CartRestaurant;
-  item: PublicMenuItem | null;
-  onClose: () => void;
-}
+import type { VariantModalProps } from '../types';
 
 export function VariantModal({ restaurant, item, onClose }: VariantModalProps) {
   const t = useTranslations('menu');
+  const tc = useTranslations('common');
   const { addItem, getItemQuantity } = useCart();
 
   const [selectedVariantId, setSelectedVariantId] = React.useState<string | null>(null);
@@ -67,7 +62,7 @@ export function VariantModal({ restaurant, item, onClose }: VariantModalProps) {
     <div className='fixed inset-0 z-[70] flex items-end sm:items-center justify-center p-0 sm:p-4 animate-in fade-in duration-150'>
       <button
         type='button'
-        aria-label='Close'
+        aria-label={tc('close')}
         tabIndex={-1}
         onClick={handleClose}
         className='fixed inset-0 bg-black/50 backdrop-blur-xs cursor-pointer border-0 p-0'
@@ -77,7 +72,7 @@ export function VariantModal({ restaurant, item, onClose }: VariantModalProps) {
         aria-labelledby='variant-modal-title'
         className='relative z-10 w-full max-w-md rounded-t-3xl sm:rounded-2xl border border-border bg-card p-5 sm:p-6 shadow-xl animate-in slide-in-from-bottom-6 sm:zoom-in-95 duration-200 text-card-foreground block m-0'
       >
-        {/* Top Header */}
+        {}
         <div className='flex items-start justify-between pb-3 border-b border-border'>
           <div className='flex gap-3'>
             {item.imageUrl && (
@@ -105,13 +100,12 @@ export function VariantModal({ restaurant, item, onClose }: VariantModalProps) {
             type='button'
             onClick={handleClose}
             className='flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors cursor-pointer'
-            aria-label='Close'
+            aria-label={tc('close')}
           >
             <IconX className='h-4 w-4' />
           </button>
         </div>
 
-        {/* Variants Radio List */}
         <div className='my-4 max-h-[50vh] overflow-y-auto space-y-2 pe-1'>
           {item.variants.map((variant) => {
             const isSelected = activeVariant?.id === variant.id;
@@ -142,7 +136,7 @@ export function VariantModal({ restaurant, item, onClose }: VariantModalProps) {
                     <span className='text-sm font-medium'>{variant.name}</span>
                     {currentQty > 0 && (
                       <span className='ms-2 inline-flex items-center rounded-md bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground'>
-                        {currentQty} in cart
+                        {currentQty} {t('inCart')}
                       </span>
                     )}
                   </div>
@@ -156,7 +150,7 @@ export function VariantModal({ restaurant, item, onClose }: VariantModalProps) {
           })}
         </div>
 
-        {/* Action Button */}
+        {}
         <div className='pt-2'>
           <button
             type='button'

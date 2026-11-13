@@ -1,18 +1,11 @@
 'use client';
 
-import * as React from 'react';
 import { useTranslations } from 'next-intl';
 import { RestaurantCard } from './restaurant-card';
 import { RestaurantGridSkeleton } from './restaurant-card-skeleton';
 import { useArea } from '../context/area-context';
 import { IconBuildingStore, IconMapPin } from '@/components/icons';
-import type { PublicRestaurantCard } from '../api/types';
-
-interface RestaurantGridProps {
-  restaurants?: PublicRestaurantCard[];
-  isLoading: boolean;
-  onResetFilters?: () => void;
-}
+import type { RestaurantGridProps } from '../types';
 
 export function RestaurantGrid({ restaurants, isLoading, onResetFilters }: RestaurantGridProps) {
   const t = useTranslations('directory');

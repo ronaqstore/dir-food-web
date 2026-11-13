@@ -1,14 +1,8 @@
 'use client';
 
-import * as React from 'react';
 import { useTranslations } from 'next-intl';
 import { IconAlertCircle, IconClock } from '@tabler/icons-react';
-import type { ValidatedCartRestaurant } from '../types';
-
-interface CartValidationBannerProps {
-  restaurant?: ValidatedCartRestaurant | null;
-  problems?: string[];
-}
+import type { CartValidationBannerProps } from '@/features/cart/types';
 
 export function CartValidationBanner({ restaurant, problems }: CartValidationBannerProps) {
   const t = useTranslations('cart');

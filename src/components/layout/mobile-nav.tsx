@@ -1,6 +1,5 @@
 'use client';
 
-import * as React from 'react';
 import { useTranslations } from 'next-intl';
 import { Link, usePathname } from '@/i18n/navigation';
 import { IconBuildingStore, IconHome, IconShoppingCart } from '@/components/icons';
@@ -34,7 +33,7 @@ export function MobileNav() {
   ];
 
   return (
-    <nav className='fixed bottom-0 start-0 z-40 w-full border-t border-border bg-background/95 backdrop-blur-md sm:hidden'>
+    <nav className='fixed bottom-0 inset-s-0 z-40 w-full border-t border-border bg-background/95 backdrop-blur-md sm:hidden'>
       <div className='flex h-16 items-center justify-around px-2'>
         {navItems.map((item) => {
           const Icon = item.icon;
@@ -54,7 +53,7 @@ export function MobileNav() {
               <div className='relative'>
                 <Icon className='h-5 w-5' />
                 {isCartItem && itemCount > 0 ? (
-                  <span className='absolute -top-1.5 -end-2.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground shadow-xs animate-in zoom-in-50 duration-200'>
+                  <span className='absolute -top-1.5 -inset-e-2.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground shadow-xs animate-in zoom-in-50 duration-200'>
                     {itemCount > 99 ? '99+' : itemCount}
                   </span>
                 ) : null}

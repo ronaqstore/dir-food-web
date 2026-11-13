@@ -1,17 +1,9 @@
 'use client';
 
 import * as React from 'react';
-import type { PublicArea, PublicCity } from '../api/types';
-
-interface AreaContextValue {
-  selectedCity: PublicCity | null;
-  setSelectedCity: (city: PublicCity | null) => void;
-  selectedArea: PublicArea | null;
-  setSelectedArea: (area: PublicArea | null) => void;
-  isAreaModalOpen: boolean;
-  openAreaModal: () => void;
-  closeAreaModal: () => void;
-}
+import { AppError } from '@/lib/errors';
+import type { ChildrenProps } from '@/types/common';
+import type { PublicArea, PublicCity, AreaContextValue } from '../types';
 
 const AreaContext = React.createContext<AreaContextValue | null>(null);
 
@@ -38,7 +30,7 @@ function getStoredArea(): PublicArea | null {
   }
 }
 
-export function AreaProvider({ children }: { children: React.ReactNode }) {
+export function AreaProvider({ children }: ChildrenProps) {
   const [selectedCity, setSelectedCityState] = React.useState<PublicCity | null>(null);
   const [selectedArea, setSelectedAreaState] = React.useState<PublicArea | null>(null);
   const [isAreaModalOpen, setIsAreaModalOpen] = React.useState(false);
@@ -62,8 +54,8 @@ export function AreaProvider({ children }: { children: React.ReactNode }) {
       } else {
         localStorage.removeItem(STORAGE_KEY_CITY);
       }
-    } catch {
-      // ignore
+    } catch (error) {
+      const _fallback = error;
     }
   }, []);
 
@@ -75,8 +67,8 @@ export function AreaProvider({ children }: { children: React.ReactNode }) {
       } else {
         localStorage.removeItem(STORAGE_KEY_AREA);
       }
-    } catch {
-      // ignore storage failure
+    } catch (error) {
+      const _fallback = error;
     }
   }, []);
 
@@ -110,7 +102,7 @@ export function AreaProvider({ children }: { children: React.ReactNode }) {
 export function useArea(): AreaContextValue {
   const context = React.useContext(AreaContext);
   if (!context) {
-    throw new Error('useArea must be used within an AreaProvider');
+    throw new AppError('useArea must be used within an AreaProvider');
   }
   return context;
 }

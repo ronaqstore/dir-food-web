@@ -1,13 +1,13 @@
 'use client';
 
-import * as React from 'react';
 import NextTopLoader from 'nextjs-toploader';
 import { ThemeProvider } from './theme-provider';
 import { QueryProvider } from './query-provider';
 import { AreaProvider } from '@/features/directory/context/area-context';
 import { CartProvider } from '@/features/cart/context/cart-context';
+import type { ChildrenProps } from '@/types/common';
 
-export function Providers({ children }: { children: React.ReactNode }) {
+export function Providers({ children }: ChildrenProps) {
   return (
     <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
       <QueryProvider>

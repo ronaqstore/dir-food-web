@@ -7,6 +7,7 @@ import { IconAlertCircle } from '@/components/icons';
 
 export function RestaurantConflictModal() {
   const t = useTranslations('cart');
+  const tc = useTranslations('common');
   const { restaurant, pendingConflict, resolveConflict } = useCart();
 
   React.useEffect(() => {
@@ -24,7 +25,7 @@ export function RestaurantConflictModal() {
     <div className='fixed inset-0 z-[70] flex items-center justify-center p-4 animate-in fade-in duration-150'>
       <button
         type='button'
-        aria-label='Close'
+        aria-label={tc('close')}
         tabIndex={-1}
         onClick={() => resolveConflict(false)}
         className='fixed inset-0 bg-black/50 backdrop-blur-xs cursor-pointer border-0 p-0'

@@ -1,17 +1,19 @@
 'use client';
 
 import * as React from 'react';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { usePathname, useRouter } from '@/i18n/navigation';
 import { IconChevronDown, IconCheck, IconLanguage } from '@/components/icons';
+import type { LocaleItem } from '@/types/common';
 
-const LOCALES: { code: 'en' | 'ur' | 'ps'; label: string; nativeName: string }[] = [
+const LOCALES: LocaleItem[] = [
   { code: 'en', label: 'English', nativeName: 'English' },
   { code: 'ur', label: 'Urdu', nativeName: 'اردو' },
   { code: 'ps', label: 'Pashto', nativeName: 'پښتو' }
 ];
 
 export function LocaleSwitcher() {
+  const t = useTranslations();
   const currentLocale = useLocale();
   const pathname = usePathname();
   const router = useRouter();
@@ -43,7 +45,7 @@ export function LocaleSwitcher() {
         onClick={() => setIsOpen(!isOpen)}
         suppressHydrationWarning
         className='flex h-9 items-center gap-1.5 rounded-full px-2.5 text-xs font-medium text-foreground/80 hover:bg-muted transition-colors cursor-pointer'
-        aria-label='Switch language'
+        aria-label={t('nav.switchLanguage')}
         aria-expanded={isOpen}
       >
         <IconLanguage className='h-4 w-4 text-muted-foreground' />
@@ -52,7 +54,7 @@ export function LocaleSwitcher() {
       </button>
 
       {isOpen && (
-        <div className='absolute end-0 mt-1.5 w-32 rounded-xl border border-border bg-popover p-1 shadow-lg ring-1 ring-black/5 z-50 animate-in fade-in zoom-in-95 duration-100'>
+        <div className='absolute inset-e-0 mt-1.5 w-32 rounded-xl border border-border bg-popover p-1 shadow-lg ring-1 ring-black/5 z-50 animate-in fade-in zoom-in-95 duration-100'>
           {LOCALES.map((locale) => (
             <button
               key={locale.code}

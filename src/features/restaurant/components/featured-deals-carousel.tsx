@@ -1,21 +1,13 @@
 'use client';
 
-import * as React from 'react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { formatPkr } from '@/lib/money';
-import { IconMinus, IconPlus, IconShoppingCart, IconTag } from '@/components/icons';
-import type { PublicMenuItem } from '../api/types';
-import type { CartRestaurant } from '@/features/cart/types';
+import { IconMinus, IconPlus, IconTag } from '@/components/icons';
 import { useCart } from '@/features/cart/context/cart-context';
 import { parseDealDescription } from '../utils/deal-parser';
 
-interface FeaturedDealsCarouselProps {
-  restaurant: CartRestaurant;
-  deals: PublicMenuItem[];
-  onSelectVariant: (item: PublicMenuItem) => void;
-  onOpenDeal: (item: PublicMenuItem) => void;
-}
+import type { FeaturedDealsCarouselProps } from '../types';
 
 export function FeaturedDealsCarousel({
   restaurant,
@@ -24,6 +16,7 @@ export function FeaturedDealsCarousel({
   onOpenDeal
 }: FeaturedDealsCarouselProps) {
   const t = useTranslations('menu');
+  const tc = useTranslations('common');
   const { addItem, updateQuantity, getItemQuantity, items } = useCart();
 
   if (!deals || deals.length === 0) {
@@ -32,7 +25,7 @@ export function FeaturedDealsCarousel({
 
   return (
     <section className='space-y-3.5 pt-2'>
-      {/* Section Header */}
+      {}
       <div className='flex items-center justify-between'>
         <div className='space-y-0.5'>
           <div className='flex items-center gap-2'>
@@ -52,7 +45,7 @@ export function FeaturedDealsCarousel({
         </div>
       </div>
 
-      {/* Horizontal Carousel (Swipeable on mobile, smooth scroll) */}
+      {}
       <div className='flex gap-3.5 sm:gap-4 overflow-x-auto pb-3 pt-1 px-1 -mx-1 snap-x snap-mandatory scrollbar-none'>
         {deals.map((item) => {
           const hasVariants = item.variants && item.variants.length > 0;
@@ -112,7 +105,7 @@ export function FeaturedDealsCarousel({
                 onClick={() => onOpenDeal(item)}
                 className='text-start w-full cursor-pointer focus:outline-hidden'
               >
-                {/* Image & Badges */}
+                {}
                 <div className='relative h-36 w-full overflow-hidden rounded-xl bg-muted mb-3'>
                   {item.imageUrl ? (
                     <Image
@@ -128,8 +121,8 @@ export function FeaturedDealsCarousel({
                     </div>
                   )}
 
-                  {/* Deal Ribbon / Badges Overlay */}
-                  <div className='absolute top-2.5 start-2.5 flex items-center gap-1.5'>
+                  {}
+                  <div className='absolute top-2.5 inset-s-2.5 flex items-center gap-1.5'>
                     <span className='inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-rose-600 to-amber-600 px-2.5 py-0.5 text-[10px] font-black text-white shadow-md'>
                       <span>🔥</span>
                       <span>{t('hotDeal')}</span>
@@ -137,7 +130,7 @@ export function FeaturedDealsCarousel({
                   </div>
 
                   {savingsAmount > 0 && (
-                    <div className='absolute bottom-2.5 start-2.5 rounded-lg bg-background/90 backdrop-blur-md px-2 py-0.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400 shadow-xs border border-emerald-500/20'>
+                    <div className='absolute bottom-2.5 inset-s-2.5 rounded-lg bg-background/90 backdrop-blur-md px-2 py-0.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400 shadow-xs border border-emerald-500/20'>
                       {t('saveAmount', { amount: formatPkr(savingsAmount) })}
                     </div>
                   )}
@@ -151,7 +144,7 @@ export function FeaturedDealsCarousel({
                   )}
                 </div>
 
-                {/* Deal Title & Description */}
+                {}
                 <div>
                   <div className='flex items-center justify-between gap-2'>
                     <h4 className='font-bold text-foreground text-sm sm:text-base line-clamp-1 group-hover:text-rose-600 transition-colors'>
@@ -168,7 +161,7 @@ export function FeaturedDealsCarousel({
                   )}
                 </div>
 
-                {/* KFC / Foodpanda Style Items Checklist Preview */}
+                {}
                 {parsedDetails.items.length > 0 && (
                   <div className='mt-2.5 flex flex-wrap gap-1'>
                     {parsedDetails.items.slice(0, 3).map((ci, idx) => (
@@ -182,14 +175,14 @@ export function FeaturedDealsCarousel({
                     ))}
                     {parsedDetails.items.length > 3 && (
                       <span className='inline-flex items-center rounded-md bg-rose-500/10 px-1.5 py-0.5 text-[10px] font-bold text-rose-600 dark:text-rose-400'>
-                        +{parsedDetails.items.length - 3} more
+                        +{parsedDetails.items.length - 3} {tc('more')}
                       </span>
                     )}
                   </div>
                 )}
               </button>
 
-              {/* Price & Add to Cart Footer */}
+              {}
               <div className='mt-3.5 pt-2.5 border-t border-border/60 flex items-center justify-between gap-2'>
                 <div>
                   {hasVariants ? (
@@ -205,7 +198,7 @@ export function FeaturedDealsCarousel({
                         {originalPrice !== null ? formatPkr(originalPrice) : null}
                       </span>
                       <span className='rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 px-1 py-0.2 text-[9px] font-extrabold'>
-                        {discountPercent}% OFF
+                        {t('off', { percent: discountPercent })}
                       </span>
                     </div>
                   ) : (
@@ -215,7 +208,6 @@ export function FeaturedDealsCarousel({
                   )}
                 </div>
 
-                {/* Actions */}
                 <div>
                   {!item.isAvailable ? (
                     <span className='text-xs text-muted-foreground font-medium'>
@@ -249,7 +241,7 @@ export function FeaturedDealsCarousel({
                         type='button'
                         onClick={() => handleQuantityStep(-1)}
                         className='flex h-7 w-7 items-center justify-center rounded-lg bg-card text-foreground hover:bg-muted transition-colors cursor-pointer shadow-2xs'
-                        aria-label='Decrease quantity'
+                        aria-label={t('decreaseQty')}
                       >
                         <IconMinus className='h-3.5 w-3.5' />
                       </button>
@@ -260,7 +252,7 @@ export function FeaturedDealsCarousel({
                         type='button'
                         onClick={() => handleQuantityStep(1)}
                         className='flex h-7 w-7 items-center justify-center rounded-lg bg-rose-600 text-white hover:opacity-90 transition-opacity cursor-pointer shadow-2xs'
-                        aria-label='Increase quantity'
+                        aria-label={t('increaseQty')}
                       >
                         <IconPlus className='h-3.5 w-3.5' />
                       </button>

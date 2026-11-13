@@ -4,14 +4,7 @@ import * as React from 'react';
 import { useTranslations } from 'next-intl';
 import { formatPkr } from '@/lib/money';
 import { IconMapPin, IconX } from '@/components/icons';
-import type { DeliveryAreaFee } from '../api/types';
-
-interface DeliveryFeesModalProps {
-  restaurantName: string;
-  areas: DeliveryAreaFee[];
-  isOpen: boolean;
-  onClose: () => void;
-}
+import type { DeliveryFeesModalProps } from '../types';
 
 export function DeliveryFeesModal({
   restaurantName,
@@ -20,6 +13,7 @@ export function DeliveryFeesModal({
   onClose
 }: DeliveryFeesModalProps) {
   const t = useTranslations('restaurant');
+  const tc = useTranslations('common');
 
   React.useEffect(() => {
     if (!isOpen) return;
@@ -36,7 +30,7 @@ export function DeliveryFeesModal({
     <div className='fixed inset-0 z-[70] flex items-center justify-center p-4 animate-in fade-in duration-150'>
       <button
         type='button'
-        aria-label='Close'
+        aria-label={tc('close')}
         tabIndex={-1}
         onClick={onClose}
         className='fixed inset-0 bg-black/50 backdrop-blur-xs cursor-pointer border-0 p-0'

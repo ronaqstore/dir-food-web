@@ -1,20 +1,9 @@
 'use client';
 
-import * as React from 'react';
 import { useTranslations } from 'next-intl';
 import { IconBrandWhatsapp, IconLoader2, IconShieldCheck, IconLock } from '@tabler/icons-react';
 import { formatPkr } from '@/lib/money';
-import type { CartItem, CartRestaurant, ValidatedDeliveryInfo } from '@/features/cart/types';
-
-interface CheckoutOrderSummaryProps {
-  restaurant: CartRestaurant;
-  items: CartItem[];
-  subtotal: number;
-  delivery?: ValidatedDeliveryInfo | null;
-  isSubmitting: boolean;
-  isValidToSubmit: boolean;
-  onSubmit: (e: React.FormEvent) => void;
-}
+import type { CheckoutOrderSummaryProps } from '@/features/checkout/types';
 
 export function CheckoutOrderSummary({
   restaurant,
@@ -37,7 +26,7 @@ export function CheckoutOrderSummary({
         <p className='text-xs text-muted-foreground mt-0.5'>{restaurant.name}</p>
       </div>
 
-      {/* Items list */}
+      {}
       <div className='divide-y divide-border/60 max-h-60 overflow-y-auto pe-1 text-xs'>
         {items.map((item) => (
           <div
@@ -59,7 +48,7 @@ export function CheckoutOrderSummary({
         ))}
       </div>
 
-      {/* Pricing breakdown */}
+      {}
       <div className='space-y-2 border-t border-border pt-3 text-xs'>
         <div className='flex justify-between text-muted-foreground'>
           <span>{t('subtotal')}</span>
@@ -87,7 +76,7 @@ export function CheckoutOrderSummary({
         </div>
       </div>
 
-      {/* Submit Button */}
+      {}
       <div className='pt-2'>
         <button
           type='button'
@@ -109,7 +98,7 @@ export function CheckoutOrderSummary({
         </button>
       </div>
 
-      {/* Cash on delivery notice */}
+      {}
       <div className='flex items-center gap-2 rounded-xl bg-muted/50 p-3 text-xs text-muted-foreground border border-border/60'>
         <IconShieldCheck className='size-4 text-emerald-600 dark:text-emerald-400 shrink-0' />
         <span>{t('cashOnDeliveryNotice')}</span>

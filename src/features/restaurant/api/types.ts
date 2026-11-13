@@ -1,7 +1,7 @@
 export interface DeliveryAreaFee {
   areaId: string;
   name: string;
-  deliveryFee: number | null; // in paisa
+  deliveryFee: number | null;
 }
 
 export interface OperatingHoursRange {
@@ -19,7 +19,7 @@ export interface PublicRestaurantProfile {
   contactPhone: string | null;
   whatsappNumber: string | null;
   addressText: string | null;
-  minOrderAmount: number | null; // in paisa
+  minOrderAmount: number | null;
   isOpenNow: boolean;
   manualStatus: string;
   unavailableNote: string | null;
@@ -32,7 +32,7 @@ export interface PublicRestaurantProfile {
 export interface PublicItemVariant {
   id: string;
   name: string;
-  price: number; // in paisa
+  price: number;
 }
 
 export interface PublicMenuItem {
@@ -40,9 +40,9 @@ export interface PublicMenuItem {
   name: string;
   description: string | null;
   imageUrl: string | null;
-  price?: number | null; // in paisa (returned from backend API)
-  basePrice?: number | null; // in paisa
-  originalPrice?: number | null; // in paisa (regular price before deal)
+  price?: number | null;
+  basePrice?: number | null;
+  originalPrice?: number | null;
   isDeal?: boolean;
   isAvailable: boolean;
   variants: PublicItemVariant[];

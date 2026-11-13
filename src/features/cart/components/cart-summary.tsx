@@ -1,20 +1,10 @@
 'use client';
 
-import * as React from 'react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { IconArrowRight, IconShieldCheck, IconLoader2 } from '@tabler/icons-react';
 import { formatPkr } from '@/lib/money';
-import type { ValidatedDeliveryInfo, ValidatedCartRestaurant } from '../types';
-
-interface CartSummaryProps {
-  subtotal: number; // in paisa
-  minOrderAmount: number | null; // in paisa
-  delivery?: ValidatedDeliveryInfo | null;
-  restaurant?: ValidatedCartRestaurant | null;
-  isValidating?: boolean;
-  hasErrors?: boolean;
-}
+import type { CartSummaryProps } from '../types';
 
 export function CartSummary({
   subtotal,
@@ -41,7 +31,7 @@ export function CartSummary({
         {t('orderSummary')}
       </h3>
 
-      {/* Breakdown */}
+      {}
       <div className='space-y-2.5 text-sm'>
         <div className='flex justify-between text-muted-foreground'>
           <span>{t('subtotal')}</span>
@@ -76,7 +66,7 @@ export function CartSummary({
         </div>
       </div>
 
-      {/* Action CTA */}
+      {}
       <div className='pt-2'>
         {canProceed ? (
           <Link
@@ -110,7 +100,7 @@ export function CartSummary({
         )}
       </div>
 
-      {/* Cash on delivery notice */}
+      {}
       <div className='flex items-center gap-2 rounded-xl bg-muted/50 p-3 text-xs text-muted-foreground border border-border/60'>
         <IconShieldCheck className='size-4 text-primary shrink-0' />
         <span>{t('codNotice')}</span>

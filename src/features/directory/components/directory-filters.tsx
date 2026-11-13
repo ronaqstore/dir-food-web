@@ -1,8 +1,8 @@
 'use client';
 
-import * as React from 'react';
 import { useTranslations } from 'next-intl';
 import { IconSearch, IconX } from '@/components/icons';
+import type { DirectoryFiltersProps } from '../types';
 
 const COMMON_CUISINES = [
   'Fast Food',
@@ -14,15 +14,6 @@ const COMMON_CUISINES = [
   'Chai & Cafe',
   'Traditional'
 ];
-
-interface DirectoryFiltersProps {
-  searchQuery: string;
-  onSearchChange: (query: string) => void;
-  selectedCuisine: string | undefined;
-  onCuisineSelect: (cuisine: string | undefined) => void;
-  openNowOnly: boolean;
-  onOpenNowToggle: (enabled: boolean) => void;
-}
 
 export function DirectoryFilters({
   searchQuery,
@@ -36,11 +27,11 @@ export function DirectoryFilters({
 
   return (
     <div className='space-y-3'>
-      {/* Search Bar & Open Now switch */}
+      {}
       <div className='flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5'>
-        {/* Search Input */}
+        {}
         <div className='relative flex-1'>
-          <IconSearch className='absolute start-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground' />
+          <IconSearch className='absolute inset-s-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground' />
           <input
             type='text'
             value={searchQuery}
@@ -56,14 +47,14 @@ export function DirectoryFilters({
               type='button'
               onClick={() => onSearchChange('')}
               suppressHydrationWarning
-              className='absolute end-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground p-1 cursor-pointer'
+              className='absolute inset-e-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground p-1 cursor-pointer'
             >
               <IconX className='h-3.5 w-3.5' />
             </button>
           )}
         </div>
 
-        {/* Open Now Toggle Pill */}
+        {}
         <button
           type='button'
           onClick={() => onOpenNowToggle(!openNowOnly)}
@@ -83,7 +74,7 @@ export function DirectoryFilters({
         </button>
       </div>
 
-      {/* Horizontal Cuisine Chips */}
+      {}
       <div className='flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none'>
         <button
           type='button'

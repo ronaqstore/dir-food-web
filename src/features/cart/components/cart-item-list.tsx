@@ -19,11 +19,16 @@ export function CartItemList() {
   const { restaurant, items, updateQuantity, removeItem, clearCart } = useCart();
   const [isClearing, setIsClearing] = React.useState(false);
 
+  const handleConfirmClear = () => {
+    clearCart();
+    setIsClearing(false);
+  };
+
   if (!restaurant || items.length === 0) return null;
 
   return (
     <div className='rounded-2xl border border-border bg-card p-4 sm:p-6 shadow-xs space-y-5'>
-      {/* Restaurant Header */}
+      {}
       <div className='flex items-center justify-between border-b border-border pb-4'>
         <div className='flex items-center gap-3 min-w-0'>
           <div className='flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary font-bold overflow-hidden'>
@@ -54,7 +59,7 @@ export function CartItemList() {
         </Link>
       </div>
 
-      {/* Items list */}
+      {}
       <div className='divide-y divide-border'>
         {items.map((item) => {
           const itemTotal = item.unitPrice * item.quantity;
@@ -64,7 +69,7 @@ export function CartItemList() {
               key={item.key}
               className='flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-4 first:pt-0 last:pb-0'
             >
-              {/* Item Info */}
+              {}
               <div className='flex items-start gap-3 min-w-0 flex-1'>
                 {item.imageUrl ? (
                   <div className='relative size-14 shrink-0 overflow-hidden rounded-xl border border-border bg-muted'>
@@ -93,9 +98,9 @@ export function CartItemList() {
                 </div>
               </div>
 
-              {/* Actions & Price */}
+              {}
               <div className='flex items-center justify-between sm:justify-end gap-4'>
-                {/* Quantity Stepper */}
+                {}
                 <div className='flex items-center rounded-xl border border-border bg-background p-0.5 shadow-xs'>
                   <button
                     type='button'
@@ -118,12 +123,12 @@ export function CartItemList() {
                   </button>
                 </div>
 
-                {/* Line total */}
+                {}
                 <span className='text-sm font-bold text-foreground min-w-16 text-end'>
                   {formatPkr(itemTotal)}
                 </span>
 
-                {/* Remove button */}
+                {}
                 <button
                   type='button'
                   onClick={() => removeItem(item.key)}
@@ -138,17 +143,14 @@ export function CartItemList() {
         })}
       </div>
 
-      {/* Clear Cart Action */}
+      {}
       <div className='border-t border-border pt-4 flex justify-between items-center'>
         {isClearing ? (
           <div className='flex items-center gap-2'>
             <span className='text-xs text-muted-foreground'>{t('confirmClearPrompt')}</span>
             <button
               type='button'
-              onClick={() => {
-                clearCart();
-                setIsClearing(false);
-              }}
+              onClick={handleConfirmClear}
               className='text-xs font-bold text-destructive hover:underline'
             >
               {t('confirmClearYes')}

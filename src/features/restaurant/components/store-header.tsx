@@ -6,11 +6,8 @@ import { useTranslations } from 'next-intl';
 import { formatPkr } from '@/lib/money';
 import { IconBuildingStore, IconClock, IconMapPin, IconPhone } from '@/components/icons';
 import { DeliveryFeesModal } from './delivery-fees-modal';
-import type { PublicRestaurantProfile } from '../api/types';
 
-interface StoreHeaderProps {
-  restaurant: PublicRestaurantProfile;
-}
+import type { StoreHeaderProps } from '../types';
 
 export function StoreHeader({ restaurant }: StoreHeaderProps) {
   const t = useTranslations('restaurant');
@@ -18,12 +15,12 @@ export function StoreHeader({ restaurant }: StoreHeaderProps) {
 
   return (
     <div className='relative overflow-hidden rounded-3xl border border-border/80 bg-card shadow-xs'>
-      {/* Cover Photo */}
+      {}
       <div className='relative h-44 sm:h-56 w-full bg-gradient-to-r from-primary/10 via-accent/20 to-primary/5 overflow-hidden'>
         {restaurant.coverUrl ? (
           <Image
             src={restaurant.coverUrl}
-            alt={`${restaurant.name} cover`}
+            alt={restaurant.name}
             fill
             priority
             sizes='100vw'
@@ -35,8 +32,8 @@ export function StoreHeader({ restaurant }: StoreHeaderProps) {
           </div>
         )}
 
-        {/* Status Badge Overlay */}
-        <div className='absolute top-4 start-4'>
+        {}
+        <div className='absolute top-4 inset-s-4'>
           <span
             className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold backdrop-blur-md shadow-xs ${
               restaurant.isOpenNow
@@ -54,10 +51,10 @@ export function StoreHeader({ restaurant }: StoreHeaderProps) {
         </div>
       </div>
 
-      {/* Profile Info Bar */}
+      {}
       <div className='p-4 sm:p-6'>
         <div className='flex flex-col sm:flex-row sm:items-end justify-between gap-4'>
-          {/* Logo & Store Name */}
+          {}
           <div className='flex items-start sm:items-center gap-4 -mt-12 sm:-mt-16'>
             <div className='relative h-20 w-20 sm:h-24 sm:w-24 shrink-0 rounded-2xl border-4 border-card bg-card shadow-md overflow-hidden flex items-center justify-center'>
               {restaurant.logoUrl ? (
@@ -95,7 +92,7 @@ export function StoreHeader({ restaurant }: StoreHeaderProps) {
             </div>
           </div>
 
-          {/* Quick info badges */}
+          {}
           <div className='flex flex-wrap items-center gap-2 text-xs'>
             {restaurant.deliveryAreas && restaurant.deliveryAreas.length > 0 && (
               <button
@@ -116,7 +113,7 @@ export function StoreHeader({ restaurant }: StoreHeaderProps) {
           </div>
         </div>
 
-        {/* Sub details: Address, hours info, description */}
+        {}
         <div className='mt-4 pt-4 border-t border-border/60 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-muted-foreground'>
           {restaurant.addressText && (
             <div className='flex items-center gap-1.5'>
@@ -145,7 +142,7 @@ export function StoreHeader({ restaurant }: StoreHeaderProps) {
         )}
       </div>
 
-      {/* Delivery Fees Modal */}
+      {}
       <DeliveryFeesModal
         restaurantName={restaurant.name}
         areas={restaurant.deliveryAreas || []}

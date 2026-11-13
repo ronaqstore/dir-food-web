@@ -1,22 +1,21 @@
-import * as React from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export function StoreHeaderSkeleton() {
   return (
     <div className='relative overflow-hidden rounded-3xl border border-border/80 bg-card shadow-xs'>
-      {/* Cover Photo Skeleton */}
+      {}
       <div className='relative h-44 sm:h-56 w-full bg-muted/50 overflow-hidden'>
         <Skeleton className='h-full w-full rounded-none' />
-        {/* Status Badge overlay placeholder */}
-        <div className='absolute top-4 start-4'>
+        {}
+        <div className='absolute top-4 inset-s-4'>
           <Skeleton className='h-7 w-24 rounded-full bg-background/70 backdrop-blur-xs' />
         </div>
       </div>
 
-      {/* Profile Info Bar */}
+      {}
       <div className='p-4 sm:p-6'>
         <div className='flex flex-col sm:flex-row sm:items-end justify-between gap-4'>
-          {/* Logo & Store Name */}
+          {}
           <div className='flex items-start sm:items-center gap-4 -mt-12 sm:-mt-16'>
             <div className='relative h-20 w-20 sm:h-24 sm:w-24 shrink-0 rounded-2xl border-4 border-card bg-card shadow-md overflow-hidden'>
               <Skeleton className='h-full w-full rounded-xl' />
@@ -32,14 +31,14 @@ export function StoreHeaderSkeleton() {
             </div>
           </div>
 
-          {/* Quick info badges */}
+          {}
           <div className='flex flex-wrap items-center gap-2'>
             <Skeleton className='h-8 w-28 rounded-xl' />
             <Skeleton className='h-8 w-24 rounded-xl' />
           </div>
         </div>
 
-        {/* Sub details: Address, hours info */}
+        {}
         <div className='mt-4 pt-4 border-t border-border/60 flex flex-wrap items-center gap-4'>
           <Skeleton className='h-4 w-32 rounded-md' />
           <Skeleton className='h-4 w-44 rounded-md' />
@@ -67,7 +66,7 @@ export function CategoryNavSkeleton() {
 export function MenuItemCardSkeleton() {
   return (
     <div className='flex items-start justify-between gap-3 rounded-2xl border border-border/80 bg-card p-3.5 sm:p-4 shadow-xs'>
-      {/* Left: Info & Pricing */}
+      {}
       <div className='flex flex-1 flex-col pe-2 space-y-2'>
         <Skeleton className='h-5 w-3/4 rounded-md' />
         <Skeleton className='h-3.5 w-full rounded-md' />
@@ -77,7 +76,7 @@ export function MenuItemCardSkeleton() {
         </div>
       </div>
 
-      {/* Right: Dish Image Thumbnail & Add Button */}
+      {}
       <div className='relative flex flex-col items-center shrink-0'>
         <Skeleton className='h-20 w-20 sm:h-24 sm:w-24 rounded-xl' />
         <div className='-mt-3.5'>
@@ -91,13 +90,13 @@ export function MenuItemCardSkeleton() {
 export function StorefrontSkeleton() {
   return (
     <div className='space-y-6'>
-      {/* Header Skeleton */}
+      {}
       <StoreHeaderSkeleton />
 
-      {/* Category Nav Skeleton */}
+      {}
       <CategoryNavSkeleton />
 
-      {/* Categories & Dishes Skeleton */}
+      {}
       <div className='space-y-8 pt-2'>
         {[1, 2].map((catIdx) => (
           <div key={catIdx} className='space-y-4'>

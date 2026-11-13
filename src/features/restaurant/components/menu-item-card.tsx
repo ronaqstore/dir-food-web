@@ -4,18 +4,11 @@ import * as React from 'react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { formatPkr } from '@/lib/money';
-import { IconMinus, IconPlus, IconShoppingCart } from '@/components/icons';
-import type { PublicMenuItem } from '../api/types';
-import type { CartRestaurant } from '@/features/cart/types';
+import { IconMinus, IconPlus } from '@/components/icons';
 import { useCart } from '@/features/cart/context/cart-context';
 import { parseDealDescription } from '../utils/deal-parser';
 
-interface MenuItemCardProps {
-  restaurant: CartRestaurant;
-  item: PublicMenuItem;
-  onSelectVariant: (item: PublicMenuItem) => void;
-  onOpenDeal?: (item: PublicMenuItem) => void;
-}
+import type { MenuItemCardProps } from '../types';
 
 export function MenuItemCard({
   restaurant,
@@ -24,11 +17,11 @@ export function MenuItemCard({
   onOpenDeal
 }: MenuItemCardProps) {
   const t = useTranslations('menu');
+  const tc = useTranslations('common');
   const { addItem, updateQuantity, getItemQuantity, items } = useCart();
 
   const hasVariants = item.variants && item.variants.length > 0;
 
-  // Calculate total in cart for this item
   const totalItemQtyInCart = React.useMemo(() => {
     return items.filter((i) => i.itemId === item.id).reduce((acc, curr) => acc + curr.quantity, 0);
   }, [items, item.id]);
@@ -82,7 +75,7 @@ export function MenuItemCard({
           : 'border-border/40 bg-muted/30 opacity-75'
       }`}
     >
-      {/* Left: Info & Pricing */}
+      {}
       <div className='flex flex-1 flex-col pe-2'>
         <div className='flex items-center gap-1.5 flex-wrap'>
           {item.isDeal && onOpenDeal ? (
@@ -121,7 +114,7 @@ export function MenuItemCard({
           </p>
         )}
 
-        {/* Combo Checklist Pills (KFC / Foodpanda Style) */}
+        {}
         {parsedDetails && parsedDetails.items.length > 0 && (
           <button
             type='button'
@@ -139,13 +132,13 @@ export function MenuItemCard({
             ))}
             {parsedDetails.items.length > 3 && (
               <span className='inline-flex items-center rounded-md bg-rose-500/10 px-1.5 py-0.5 text-[10px] font-bold text-rose-600 dark:text-rose-400 group-hover/combo:underline'>
-                +{parsedDetails.items.length - 3} more
+                +{parsedDetails.items.length - 3} {tc('more')}
               </span>
             )}
           </button>
         )}
 
-        {/* Price & Action row */}
+        {}
         <div className='mt-3 flex items-center justify-between gap-2'>
           <div>
             {hasVariants ? (
@@ -171,7 +164,7 @@ export function MenuItemCard({
             )}
           </div>
 
-          {/* Action buttons */}
+          {}
           <div>
             {!item.isAvailable ? (
               <span className='text-xs text-muted-foreground font-medium'>{t('unavailable')}</span>
@@ -198,13 +191,12 @@ export function MenuItemCard({
                 <span>{t('add')}</span>
               </button>
             ) : (
-              /* Inline stepper when item is already added */
               <div className='flex items-center gap-2 rounded-xl bg-primary/10 p-0.5'>
                 <button
                   type='button'
                   onClick={() => handleQuantityStep(-1)}
                   className='flex h-7 w-7 items-center justify-center rounded-lg bg-card text-foreground hover:bg-muted transition-colors cursor-pointer shadow-2xs'
-                  aria-label='Decrease quantity'
+                  aria-label={t('decreaseQty')}
                 >
                   <IconMinus className='h-3.5 w-3.5' />
                 </button>
@@ -215,7 +207,7 @@ export function MenuItemCard({
                   type='button'
                   onClick={() => handleQuantityStep(1)}
                   className='flex h-7 w-7 items-center justify-center rounded-lg bg-primary text-primary-foreground hover:opacity-90 transition-opacity cursor-pointer shadow-2xs'
-                  aria-label='Increase quantity'
+                  aria-label={t('increaseQty')}
                 >
                   <IconPlus className='h-3.5 w-3.5' />
                 </button>
@@ -225,7 +217,6 @@ export function MenuItemCard({
         </div>
       </div>
 
-      {/* Right: Dish Photo */}
       {item.imageUrl && (
         <div className='relative h-20 w-20 sm:h-24 sm:w-24 shrink-0 overflow-hidden rounded-xl bg-muted'>
           {item.isDeal && onOpenDeal ? (
@@ -253,8 +244,8 @@ export function MenuItemCard({
             />
           )}
           {hasDiscount && (
-            <div className='absolute bottom-1 end-1 rounded-md bg-rose-600/95 text-white px-1.5 py-0.5 text-[9px] font-black shadow-xs backdrop-blur-xs pointer-events-none'>
-              {discountPercent}% OFF
+            <div className='absolute bottom-1 inset-e-1 rounded-md bg-rose-600/95 text-white px-1.5 py-0.5 text-[9px] font-black shadow-xs backdrop-blur-xs pointer-events-none'>
+              {t('off', { percent: discountPercent })}
             </div>
           )}
         </div>

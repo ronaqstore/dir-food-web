@@ -1,15 +1,9 @@
 'use client';
 
-import * as React from 'react';
 import { useTranslations } from 'next-intl';
 import { IconAlertTriangle, IconCircleCheck } from '@tabler/icons-react';
 import { formatPkr } from '@/lib/money';
-
-interface CartMinOrderAlertProps {
-  subtotal: number; // in paisa
-  minOrderAmount: number | null; // in paisa
-  areaName?: string | null;
-}
+import type { CartMinOrderAlertProps } from '@/features/cart/types';
 
 export function CartMinOrderAlert({ subtotal, minOrderAmount, areaName }: CartMinOrderAlertProps) {
   const t = useTranslations('cart');
@@ -50,7 +44,6 @@ export function CartMinOrderAlert({ subtotal, minOrderAmount, areaName }: CartMi
         </div>
       </div>
 
-      {/* Progress Bar */}
       <div className='space-y-1 pt-1'>
         <div className='flex justify-between text-[11px] font-semibold text-amber-800/90 dark:text-amber-300'>
           <span>{formatPkr(subtotal)}</span>

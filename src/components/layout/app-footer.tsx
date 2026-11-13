@@ -1,22 +1,22 @@
-import * as React from 'react';
+import { useTranslations } from 'next-intl';
 import { IconBrandWhatsapp } from '@/components/icons';
 import { PUBLIC_ADMIN_CONTACTS } from '@/lib/phone';
 
 export function AppFooter() {
+  const t = useTranslations('brand');
+
   return (
     <footer className='border-t border-border/60 bg-muted/30 py-8 text-xs text-muted-foreground'>
       <div className='mx-auto max-w-7xl 2xl:max-w-[1440px] px-4 sm:px-6 lg:px-8 space-y-4'>
         <div className='flex flex-col sm:flex-row items-center justify-between gap-4'>
           <div className='text-center sm:text-start'>
-            <p className='font-bold text-foreground text-sm'>Dir Food</p>
-            <p className='text-xs text-muted-foreground mt-0.5'>
-              Local Food Discovery & WhatsApp Ordering in Timergara & Lower Dir
-            </p>
+            <p className='font-bold text-foreground text-sm'>{t('name')}</p>
+            <p className='text-xs text-muted-foreground mt-0.5'>{t('tagline')}</p>
           </div>
 
           <div className='flex flex-col items-center sm:items-end gap-1.5'>
             <span className='font-semibold text-foreground text-xs'>
-              Support & Inquiries:
+              {t('support')}
             </span>
             <div className='flex flex-wrap items-center justify-center sm:justify-end gap-2.5'>
               {PUBLIC_ADMIN_CONTACTS.map((c) => (
@@ -36,10 +36,9 @@ export function AppFooter() {
         </div>
 
         <div className='border-t border-border/40 pt-4 text-center text-[11px] text-muted-foreground/80'>
-          <p>© 2026 Dir Food. Timergara, Lower Dir, Khyber Pakhtunkhwa.</p>
+          <p>{t('copyright')}</p>
         </div>
       </div>
     </footer>
   );
 }
-

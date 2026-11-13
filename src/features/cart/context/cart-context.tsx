@@ -1,37 +1,9 @@
 'use client';
 
 import * as React from 'react';
-import type { CartItem, CartRestaurant, CartState } from '../types';
-
-interface AddItemPayload {
-  restaurant: CartRestaurant;
-  item: {
-    id: string;
-    name: string;
-    imageUrl?: string | null;
-    price: number;
-  };
-  variant?: {
-    id: string;
-    name: string;
-    price: number;
-  };
-  quantity?: number;
-}
-
-interface CartContextValue {
-  restaurant: CartRestaurant | null;
-  items: CartItem[];
-  itemCount: number;
-  subtotal: number;
-  addItem: (payload: AddItemPayload) => void;
-  updateQuantity: (key: string, quantity: number) => void;
-  removeItem: (key: string) => void;
-  clearCart: () => void;
-  getItemQuantity: (itemId: string, variantId?: string) => number;
-  pendingConflict: AddItemPayload | null;
-  resolveConflict: (acceptNew: boolean) => void;
-}
+import { AppError } from '@/lib/errors';
+import type { ChildrenProps } from '@/types/common';
+import type { CartItem, CartState, AddItemPayload, CartContextValue } from '../types';
 
 const STORAGE_KEY = 'dir_food_cart';
 
@@ -46,15 +18,15 @@ function getStoredCart(): CartState {
     if (parsed && Array.isArray(parsed.items)) {
       return parsed;
     }
-  } catch {
-    // fallback
+  } catch (error) {
+    const _fallback = error;
   }
   return { restaurant: null, items: [] };
 }
 
 const CartContext = React.createContext<CartContextValue | null>(null);
 
-export function CartProvider({ children }: { children: React.ReactNode }) {
+export function CartProvider({ children }: ChildrenProps) {
   const [cartState, setCartState] = React.useState<CartState>({ restaurant: null, items: [] });
   const [pendingConflict, setPendingConflict] = React.useState<AddItemPayload | null>(null);
 
@@ -73,8 +45,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       } else {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(nextState));
       }
-    } catch {
-      // storage error ignored
+    } catch (error) {
+      const _fallback = error;
     }
   }, []);
 
@@ -115,8 +87,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       };
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(nextState));
-      } catch {
-        // ignore
+      } catch (error) {
+        const _fallback = error;
       }
       return nextState;
     });
@@ -166,8 +138,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         } else {
           localStorage.setItem(STORAGE_KEY, JSON.stringify(nextState));
         }
-      } catch {
-        // ignore
+      } catch (error) {
+        const _fallback = error;
       }
       return nextState;
     });
@@ -238,7 +210,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 export function useCart(): CartContextValue {
   const context = React.useContext(CartContext);
   if (!context) {
-    throw new Error('useCart must be used within a CartProvider');
+    throw new AppError('useCart must be used within a CartProvider');
   }
   return context;
 }

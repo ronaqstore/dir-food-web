@@ -2,7 +2,12 @@
   "brand": {
     "name": "دیر فوډ",
     "tagline": "د کوز دیر ځایی رستورانتونو څخه په واټس اپ ډوډۍ فرمایش کړئ",
-    "regionBadge": "تیمرګره او کوز دیر"
+    "regionBadge": "تیمرګره او کوز دیر",
+    "province": "خیبر پښتونخوا",
+    "orderDirect": "مستقیم واټس اېپ فرمایش",
+    "orderDirectSubtitle": "هیڅ حساب یا اپلیکیشن ته اړتیا نشته. خپل خواړه وټاکئ او مستقیم پخلنځي ته واټس اېپ واستوئ.",
+    "support": "مرسته او پوښتنې:",
+    "copyright": "© 2026 دیر فوډ۔ تیمرګره، کوز دیر، خیبر پښتونخوا۔"
   },
   "home": {
     "featureSpotsTitle": "ځایي هوټلونه او رستورانتونه",
@@ -17,7 +22,8 @@
     "restaurants": "رستورانتونه",
     "cart": "ټوکرۍ",
     "orders": "غوښتنې",
-    "login": "ننوتل"
+    "login": "ننوتل",
+    "switchLanguage": "ژبه بدله کړئ"
   },
   "header": {
     "selectArea": "سیمه وټاکئ",
@@ -54,7 +60,20 @@
     "resetFilters": "فلټرونه پاکول",
     "featuredTitle": "په کوز دیر کې مشهور",
     "viewAll": "ټول رستورانتونه وګورئ",
-    "loadMore": "نور رستورانتونه کتل"
+    "loadMore": "نور رستورانتونه کتل",
+    "featuredSubtitle": "په کوز دیر کې ځایی هوټلونه وپلټئ او د واټس اېپ له لارې فرمایش ورکړئ",
+    "browseMenu": "هوټلونه وګورئ",
+    "viewMenu": "مینو وګورئ",
+    "selectDistrict": "1. ولسوالۍ وټاکئ",
+    "chooseAreaIn": "2. سیمه وټاکئ په",
+    "matches": "پایلې:",
+    "showing": "ښودل شوي",
+    "of": "د",
+    "noAreasIn": "هیڅ تحویلي سیمه نه ده ثبت شوې په",
+    "yet": "تر اوسه پورې۔",
+    "loadingMore": "نورې سیمې لوډ کیږي...",
+    "all": "ټول",
+    "areasLoaded": "سیمې بار شوې"
   },
   "restaurant": {
     "openNow": "اوس خلاص دی",
@@ -65,7 +84,8 @@
     "noDeliveryAreas": "د سپارلو لګښت به په واټس اپ وټاکل شي.",
     "freeDelivery": "وړیا رسول",
     "notFound": "رستورانت ونه موندل شو",
-    "notFoundDesc": "دا رستورانت شتون نلري یا ړنګ شوی دی."
+    "notFoundDesc": "دا رستورانت شتون نلري یا ړنګ شوی دی.",
+    "coverAlt": "پوښ عکس"
   },
   "menu": {
     "dishes": "خواړه",
@@ -87,7 +107,12 @@
     "viewDeal": "ډیل وګورئ",
     "dealBreakdown": "د ډیل د توکو تفصیل",
     "totalSavings": "ستاسو سپما: {amount}",
-    "addToCartWithPrice": "ټوکرۍ ته اضافه کړئ • {price}"
+    "addToCartWithPrice": "ټوکرۍ ته اضافه کړئ • {price}",
+    "offSuffix": "% تخفیف",
+    "decreaseQty": "اندازه کمه کړئ",
+    "increaseQty": "اندازه زیاته کړئ",
+    "inCart": "په ټوکرۍ کې",
+    "inCartSuffix": "په ټوکرۍ کې)"
   },
   "cart": {
     "itemsCount": "{count, plural, =1 {1 توکی} other {# توکي}}",
@@ -173,7 +198,9 @@
     "noItemsDesc": "مخکې له تګ مهرباني وکړئ خواړه وټاکئ.",
     "backToRestaurants": "رستورانتونه کتل",
     "orderErrorTitle": "فرمایش ونه شو",
-    "failedToPlaceOrder": "د فرمایش په جوړولو کې تېروتنه وشوه. بیا هڅه وکړئ."
+    "failedToPlaceOrder": "د فرمایش په جوړولو کې تېروتنه وشوه. بیا هڅه وکړئ.",
+    "phoneReserved": "دا تلیفون شمیره دمخه کارول شوې",
+    "reservedPhoneError": "دا تلیفون شمیره ساتل شوې یا دمخه کارول شوې ده"
   },
   "order": {
     "orderPlacedTitle": "فرمایش په بریا جوړ شو!",
@@ -205,6 +232,8 @@
     "tryAgain": "بیا هڅه وکړئ",
     "backToHome": "کور پاڼې ته ستانه شئ",
     "notFound": "پاڼه ونه موندل شوه",
-    "notFoundDesc": "غوښتل شوې پاڼه شتون نلري یا ړنګه شوې ده."
+    "notFoundDesc": "غوښتل شوې پاڼه شتون نلري یا ړنګه شوې ده.",
+    "close": "بند کړئ",
+    "more": "نور"
   }
 }

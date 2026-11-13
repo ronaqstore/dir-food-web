@@ -7,13 +7,8 @@ import { usePublicRestaurantsQuery } from '../api/queries';
 import { DirectoryFilters } from './directory-filters';
 import { RestaurantGrid } from './restaurant-grid';
 import { IconMapPin } from '@/components/icons';
+import type { DirectoryViewProps } from '../types';
 import type { PublicRestaurantCard } from '../api/types';
-
-interface DirectoryViewProps {
-  initialCuisine?: string;
-  limit?: number;
-  showFilters?: boolean;
-}
 
 export function DirectoryView({
   initialCuisine,
@@ -28,7 +23,6 @@ export function DirectoryView({
   const [selectedCuisine, setSelectedCuisine] = React.useState<string | undefined>(initialCuisine);
   const [openNowOnly, setOpenNowOnly] = React.useState(false);
 
-  // Debounced search query
   const [debouncedSearch, setDebouncedSearch] = React.useState('');
   React.useEffect(() => {
     const timer = setTimeout(() => setDebouncedSearch(searchQuery), 300);
@@ -70,7 +64,7 @@ export function DirectoryView({
 
   return (
     <div className='space-y-6'>
-      {/* Area banner status */}
+      {}
       <div className='flex flex-wrap items-center justify-between gap-3 pb-2 border-b border-border/60'>
         <div className='flex items-center gap-2'>
           <span className='text-xs text-muted-foreground'>{t('deliveringTo')}</span>
@@ -100,7 +94,7 @@ export function DirectoryView({
         )}
       </div>
 
-      {/* Filters (Search & Cuisines) */}
+      {}
       {showFilters && (
         <DirectoryFilters
           searchQuery={searchQuery}
@@ -112,14 +106,14 @@ export function DirectoryView({
         />
       )}
 
-      {/* Restaurant Grid */}
+      {}
       <RestaurantGrid
         restaurants={restaurantList}
         isLoading={isLoading}
         onResetFilters={hasActiveFilters ? handleResetFilters : undefined}
       />
 
-      {/* Load More Restaurants if more exist */}
+      {}
       {!isLoading && restaurantList.length < totalCount && (
         <div className='flex justify-center pt-4'>
           <button

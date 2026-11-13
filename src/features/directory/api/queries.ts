@@ -14,21 +14,21 @@ export const citiesQueryOptions = () =>
   queryOptions({
     queryKey: directoryKeys.cities(),
     queryFn: () => directoryService.getCities(),
-    staleTime: 10 * 60 * 1000 // 10 minutes
+    staleTime: 10 * 60 * 1000
   });
 
 export const areasQueryOptions = (cityId?: string) =>
   queryOptions({
     queryKey: directoryKeys.areas(cityId),
     queryFn: () => directoryService.getAreas(cityId),
-    staleTime: 5 * 60 * 1000 // 5 minutes
+    staleTime: 5 * 60 * 1000
   });
 
 export const restaurantsQueryOptions = (params: QueryPublicRestaurantsParams = {}) =>
   queryOptions({
     queryKey: directoryKeys.restaurants(params),
     queryFn: () => directoryService.getRestaurants(params),
-    staleTime: 30 * 1000, // 30 seconds
+    staleTime: 30 * 1000,
     refetchOnWindowFocus: true
   });
 

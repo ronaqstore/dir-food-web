@@ -25,13 +25,12 @@ export const metadata: Metadata = {
   }
 };
 
+import type { LocaleLayoutProps } from '@/types/pages';
+
 export default async function LocaleLayout({
   children,
   params
-}: {
-  children: React.ReactNode;
-  params: Promise<{ locale: string }>;
-}) {
+}: LocaleLayoutProps) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   setRequestLocale(locale);

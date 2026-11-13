@@ -1,15 +1,11 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 import { setRequestLocale } from 'next-intl/server';
 import { getTranslations } from 'next-intl/server';
 import { restaurantService } from '@/features/restaurant/api/restaurant.service';
 import { StorefrontMenu } from '@/features/restaurant/components/storefront-menu';
 import { Link } from '@/i18n/navigation';
 import { IconArrowLeft, IconBuildingStore } from '@/components/icons';
-
-interface RestaurantPageProps {
-  params: Promise<{ locale: string; slug: string }>;
-}
+import type { RestaurantPageProps } from '@/types/pages';
 
 export async function generateMetadata({ params }: RestaurantPageProps): Promise<Metadata> {
   const { slug } = await params;
@@ -21,7 +17,8 @@ export async function generateMetadata({ params }: RestaurantPageProps): Promise
         restaurant.description ||
         `Order food from ${restaurant.name} in Timergara & Lower Dir via WhatsApp.`
     };
-  } catch {
+  } catch (error) {
+    const _fallback = error;
     return {
       title: 'Restaurant Menu | Dir Food'
     };
@@ -42,7 +39,6 @@ export default async function RestaurantPage({ params }: RestaurantPageProps) {
       restaurantService.getMenu(slug)
     ]);
   } catch {
-    // If not found in backend or inactive
     return (
       <div className='mx-auto max-w-3xl px-4 py-16 text-center'>
         <div className='mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-muted text-muted-foreground mb-4'>
@@ -63,7 +59,7 @@ export default async function RestaurantPage({ params }: RestaurantPageProps) {
 
   return (
     <div className='mx-auto max-w-7xl 2xl:max-w-[1440px] px-4 sm:px-6 lg:px-8 py-4 sm:py-6'>
-      {/* Back to Directory Link */}
+      {}
       <div className='mb-4'>
         <Link
           href='/restaurants'
@@ -74,7 +70,7 @@ export default async function RestaurantPage({ params }: RestaurantPageProps) {
         </Link>
       </div>
 
-      {/* Storefront Layout */}
+      {}
       <StorefrontMenu restaurant={restaurant} categories={menu.categories} />
     </div>
   );

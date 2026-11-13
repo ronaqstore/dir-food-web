@@ -1,14 +1,4 @@
-export interface ParsedDealItem {
-  name: string;
-  emoji: string;
-  quantityText?: string;
-}
-
-export interface ParsedDealDetails {
-  items: ParsedDealItem[];
-  servingNote?: string;
-  rawText: string;
-}
+import type { ParsedDealItem, ParsedDealDetails } from '../types';
 
 function getEmojiForItem(text: string): string {
   const lower = text.toLowerCase();
@@ -32,10 +22,6 @@ function getEmojiForItem(text: string): string {
   return '🍽️';
 }
 
-/**
- * Parses deal/combo description text into structured list of individual items.
- * Works with '+', newlines, bullet points, numbered lists, and sentence separators.
- */
 export function parseDealDescription(description?: string | null): ParsedDealDetails {
   if (!description || !description.trim()) {
     return { items: [], rawText: '' };
@@ -45,7 +31,6 @@ export function parseDealDescription(description?: string | null): ParsedDealDet
   let text = rawText;
   let servingNote: string | undefined;
 
-  // Extract serving note if present (e.g. "Feeds 5-6 persons." or "Perfect for 3 students.")
   const servingRegex = /(?:feeds|serves|suitable for|perfect for|for)\s+([0-9]+(?:-[0-9]+)?\s+(?:persons?|people|students?|heads?|members?))/i;
   const servingMatch = text.match(servingRegex);
   if (servingMatch && servingMatch[0]) {
@@ -53,7 +38,6 @@ export function parseDealDescription(description?: string | null): ParsedDealDet
     text = text.replace(servingMatch[0], '').replace(/\.\s*$/, '').trim();
   }
 
-  // Split items by '+', newlines, bullet points ('•', '-', '*'), or semicolons
   let rawParts: string[] = [];
 
   if (text.includes('\n')) {

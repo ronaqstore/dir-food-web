@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useArea } from '../context/area-context';
 import { usePublicAreasQuery, usePublicCitiesQuery } from '../api/queries';
 import { IconCheck, IconLoader2, IconMapPin, IconSearch, IconX } from '@/components/icons';
-import type { PublicArea } from '../api/types';
+import type { PublicArea, PublicCity } from '../api/types';
 
 export function AreaModal() {
   const t = useTranslations();
@@ -32,7 +32,6 @@ export function AreaModal() {
     }
   }, [selectedCity, cities, setSelectedCity]);
 
-  // Reset pagination when active city or search changes
   React.useEffect(() => {
     setVisibleLimit(20);
     if (listRef.current) {
@@ -84,11 +83,16 @@ export function AreaModal() {
     closeAreaModal();
   };
 
+  const handleSelectCity = (city: PublicCity) => {
+    setSelectedCity(city);
+    setSelectedArea(null);
+  };
+
   return (
     <div className='fixed inset-0 z-[70] flex items-center justify-center p-4 animate-in fade-in duration-150'>
       <button
         type='button'
-        aria-label='Close'
+        aria-label={t('common.close')}
         tabIndex={-1}
         onClick={closeAreaModal}
         className='fixed inset-0 bg-black/50 backdrop-blur-xs cursor-pointer border-0 p-0'
@@ -98,7 +102,7 @@ export function AreaModal() {
         aria-labelledby='area-modal-title'
         className='relative z-10 w-full max-w-md rounded-2xl border border-border bg-card p-6 shadow-xl animate-in zoom-in-95 duration-150 text-card-foreground block m-0'
       >
-        {/* Header */}
+        {}
         <div className='flex items-center justify-between pb-4 border-b border-border'>
           <div className='flex items-center gap-2'>
             <div className='flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary'>
@@ -115,17 +119,16 @@ export function AreaModal() {
             type='button'
             onClick={closeAreaModal}
             className='flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors cursor-pointer'
-            aria-label='Close'
+            aria-label={t('common.close')}
           >
             <IconX className='h-4 w-4' />
           </button>
         </div>
 
-        {/* District Switcher Section */}
         {cities.length > 0 && (
           <div className='py-3 border-b border-border space-y-1.5'>
             <span className='text-[11px] font-semibold uppercase tracking-wider text-muted-foreground'>
-              1. Select District
+              {t('directory.selectDistrict')}
             </span>
             <div className='flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none'>
               {cities.map((city) => {
@@ -134,10 +137,7 @@ export function AreaModal() {
                   <button
                     key={city.id}
                     type='button'
-                    onClick={() => {
-                      setSelectedCity(city);
-                      setSelectedArea(null);
-                    }}
+                    onClick={() => handleSelectCity(city)}
                     className={`flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium rounded-xl transition-all whitespace-nowrap cursor-pointer ${
                       isActive
                         ? 'bg-primary text-primary-foreground font-bold shadow-xs'
@@ -154,10 +154,9 @@ export function AreaModal() {
           </div>
         )}
 
-        {/* Section 2 Header */}
         <div className='pt-3 pb-1 flex items-center justify-between'>
           <span className='text-[11px] font-semibold uppercase tracking-wider text-muted-foreground'>
-            2. Choose Area in {activeCity?.name ?? 'District'}
+            {t('directory.chooseAreaIn')} {activeCity?.name ?? ''}
           </span>
           {activeCity && (
             <span className='text-[10px] text-primary font-medium'>
@@ -166,10 +165,10 @@ export function AreaModal() {
           )}
         </div>
 
-        {/* Search input for area lists */}
+        {}
         {areas && (areas.length > 0 || searchQuery) && (
           <div className='mt-1 relative'>
-            <IconSearch className='absolute start-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground' />
+            <IconSearch className='absolute inset-s-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground' />
             <input
               type='text'
               value={searchQuery}
@@ -181,7 +180,7 @@ export function AreaModal() {
               <button
                 type='button'
                 onClick={() => setSearchQuery('')}
-                className='absolute end-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground p-1 cursor-pointer'
+                className='absolute inset-e-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground p-1 cursor-pointer'
               >
                 <IconX className='h-3 w-3' />
               </button>
@@ -189,23 +188,21 @@ export function AreaModal() {
           </div>
         )}
 
-        {/* Counter Header when many items */}
+        {}
         {filteredAreas.length > 20 && (
           <div className='mt-2 flex items-center justify-between px-1 text-[11px] text-muted-foreground'>
-            <span>Matches: {filteredAreas.length}</span>
+            <span>{t('directory.matches')} {filteredAreas.length}</span>
             <span className='text-primary font-medium text-[10px]'>
-              Showing {displayedAreas.length} of {filteredAreas.length}
+              {t('directory.showing')} {displayedAreas.length} {t('directory.of')} {filteredAreas.length}
             </span>
           </div>
         )}
 
-        {/* Content with 20-by-20 auto-fetch infinite scroll */}
         <div
           ref={listRef}
           onScroll={handleScroll}
           className='mt-2 max-h-[50vh] overflow-y-auto space-y-1.5 pe-1'
         >
-          {/* All Areas Option */}
           <button
             type='button'
             onClick={() => handleSelect(null)}
@@ -222,21 +219,18 @@ export function AreaModal() {
             {selectedArea === null && <IconCheck className='h-4 w-4 text-primary' />}
           </button>
 
-          {/* Loading */}
           {isLoading && (
             <div className='flex items-center justify-center py-8 text-muted-foreground'>
               <IconLoader2 className='h-5 w-5 animate-spin' />
             </div>
           )}
 
-          {/* Empty state */}
           {!isLoading && filteredAreas.length === 0 && (
             <div className='py-6 text-center text-xs text-muted-foreground'>
-              No delivery areas registered in {activeCity?.name || 'this district'} yet.
+              {t('directory.noAreasIn')} {activeCity?.name || ''} {t('directory.yet')}
             </div>
           )}
 
-          {/* List of active delivery areas (paginated 20-by-20) */}
           {displayedAreas.map((area) => {
             const isSelected = selectedArea?.id === area.id;
             return (
@@ -259,18 +253,16 @@ export function AreaModal() {
             );
           })}
 
-          {/* Loading indicator when scrolling near bottom to fetch next 20 items */}
           {isLoadingBatch && (
             <div className='flex items-center justify-center gap-1.5 py-2 text-xs text-primary font-medium'>
               <IconLoader2 className='h-3.5 w-3.5 animate-spin' />
-              <span className='text-[11px]'>Loading more areas...</span>
+              <span className='text-[11px]'>{t('directory.loadingMore')}</span>
             </div>
           )}
 
-          {/* End of list */}
           {displayedAreas.length >= filteredAreas.length && filteredAreas.length > 20 && (
             <div className='py-2 text-center text-[10px] text-muted-foreground/70'>
-              All {filteredAreas.length} areas loaded
+              {t('directory.all')} {filteredAreas.length} {t('directory.areasLoaded')}
             </div>
           )}
         </div>

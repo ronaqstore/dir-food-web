@@ -9,13 +9,10 @@ import { FeaturedDealsCarousel } from './featured-deals-carousel';
 import { VariantModal } from './variant-modal';
 import { DealDetailModal } from './deal-detail-modal';
 import { useRestaurantMenuQuery, useRestaurantProfileQuery } from '../api/queries';
-import type { PublicMenuCategory, PublicMenuItem, PublicRestaurantProfile } from '../api/types';
+import type { PublicMenuItem } from '../api/types';
 import type { CartRestaurant } from '@/features/cart/types';
 
-interface StorefrontMenuProps {
-  restaurant: PublicRestaurantProfile;
-  categories: PublicMenuCategory[];
-}
+import type { StorefrontMenuProps } from '../types';
 
 export function StorefrontMenu({
   restaurant: initialRestaurant,
@@ -77,10 +74,10 @@ export function StorefrontMenu({
 
   return (
     <div className='space-y-6'>
-      {/* Header */}
+      {}
       <StoreHeader restaurant={restaurant} />
 
-      {/* Featured Deals Carousel (Zomato / Foodpanda Style) */}
+      {}
       <FeaturedDealsCarousel
         restaurant={cartRestaurant}
         deals={dealItems}
@@ -88,14 +85,14 @@ export function StorefrontMenu({
         onOpenDeal={setSelectedDealItem}
       />
 
-      {/* Sticky Categories */}
+      {}
       <CategoryNav
         categories={categories}
         activeCategoryId={activeCategoryId}
         onSelectCategory={setSelectedCategoryId}
       />
 
-      {/* Categories & Dishes */}
+      {}
       <div className='space-y-10 pt-2'>
         {categories.length === 0 ? (
           <div className='rounded-2xl border border-dashed border-border p-12 text-center text-muted-foreground text-sm'>
@@ -129,14 +126,14 @@ export function StorefrontMenu({
         )}
       </div>
 
-      {/* Variant Selection Modal (Fast food sizes / Portions) */}
+      {}
       <VariantModal
         restaurant={cartRestaurant}
         item={selectedVariantItem}
         onClose={() => setSelectedVariantItem(null)}
       />
 
-      {/* KFC / Foodpanda Style Deal Breakdown Modal */}
+      {}
       <DealDetailModal
         restaurant={cartRestaurant}
         item={selectedDealItem}

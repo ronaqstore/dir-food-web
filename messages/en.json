@@ -2,7 +2,12 @@
   "brand": {
     "name": "Dir Food",
     "tagline": "Discover local restaurants and order via WhatsApp in Lower Dir",
-    "regionBadge": "Timergara & Lower Dir"
+    "regionBadge": "Timergara & Lower Dir",
+    "province": "Khyber Pakhtunkhwa",
+    "orderDirect": "Direct WhatsApp Ordering",
+    "orderDirectSubtitle": "No account or app install required. Pick your meals and send directly to the kitchen on WhatsApp.",
+    "support": "Support & Inquiries:",
+    "copyright": "© 2026 Dir Food. Timergara, Lower Dir, Khyber Pakhtunkhwa."
   },
   "home": {
     "featureSpotsTitle": "Local Hotels & Restaurants",
@@ -17,7 +22,8 @@
     "restaurants": "Restaurants",
     "cart": "Cart",
     "orders": "Requests",
-    "login": "Login"
+    "login": "Login",
+    "switchLanguage": "Switch language"
   },
   "header": {
     "selectArea": "Select Area",
@@ -54,7 +60,20 @@
     "resetFilters": "Reset Filters",
     "featuredTitle": "Popular in Lower Dir",
     "viewAll": "View All Restaurants",
-    "loadMore": "Load More Restaurants"
+    "loadMore": "Load More Restaurants",
+    "featuredSubtitle": "Discover local restaurants and order via WhatsApp in Lower Dir",
+    "browseMenu": "Browse Restaurants",
+    "viewMenu": "View Menu",
+    "selectDistrict": "1. Select District",
+    "chooseAreaIn": "2. Choose Area in",
+    "matches": "Matches:",
+    "showing": "Showing",
+    "of": "of",
+    "noAreasIn": "No delivery areas registered in",
+    "yet": "yet.",
+    "loadingMore": "Loading more areas...",
+    "all": "All",
+    "areasLoaded": "areas loaded"
   },
   "restaurant": {
     "openNow": "Open Now",
@@ -65,7 +84,8 @@
     "noDeliveryAreas": "Delivery fees will be confirmed directly on WhatsApp.",
     "freeDelivery": "Free Delivery",
     "notFound": "Restaurant Not Found",
-    "notFoundDesc": "This restaurant is either not available or has been removed."
+    "notFoundDesc": "This restaurant is either not available or has been removed.",
+    "coverAlt": "cover"
   },
   "menu": {
     "dishes": "dishes",
@@ -87,7 +107,12 @@
     "viewDeal": "View Deal",
     "dealBreakdown": "Combo Items Breakdown",
     "totalSavings": "You save {amount}",
-    "addToCartWithPrice": "Add to Cart • {price}"
+    "addToCartWithPrice": "Add to Cart • {price}",
+    "offSuffix": "% OFF",
+    "decreaseQty": "Decrease quantity",
+    "increaseQty": "Increase quantity",
+    "inCart": "in cart",
+    "inCartSuffix": "in cart)"
   },
   "cart": {
     "itemsCount": "{count, plural, =1 {1 item} other {# items}}",
@@ -173,7 +198,9 @@
     "noItemsDesc": "Please choose some dishes from restaurants before proceeding to checkout.",
     "backToRestaurants": "Browse Restaurants",
     "orderErrorTitle": "Unable to place order",
-    "failedToPlaceOrder": "Failed to create order. Please try again."
+    "failedToPlaceOrder": "Failed to create order. Please try again.",
+    "phoneReserved": "This phone number is already in use",
+    "reservedPhoneError": "This phone number is reserved or already in use"
   },
   "order": {
     "orderPlacedTitle": "Order Registered!",
@@ -205,6 +232,8 @@
     "tryAgain": "Try again",
     "backToHome": "Back to Home",
     "notFound": "Page Not Found",
-    "notFoundDesc": "The page you are looking for does not exist or has been moved."
+    "notFoundDesc": "The page you are looking for does not exist or has been moved.",
+    "close": "Close",
+    "more": "more"
   }
 }

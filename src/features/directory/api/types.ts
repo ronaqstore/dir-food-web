@@ -17,7 +17,7 @@ export interface PublicRestaurantCard {
   name: string;
   cuisines: string[];
   logoUrl: string | null;
-  minOrderAmount: number | null; // in paisa
+  minOrderAmount: number | null;
   isOpenNow: boolean;
   availabilityText: string;
   nextOpenAt: string | null;

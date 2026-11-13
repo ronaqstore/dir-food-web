@@ -1,8 +1,6 @@
 import { API_BASE_URL } from '@/config/env';
 import type { ApiSuccessResponse, ApiErrorResponse } from '@/types/api';
 
-export type { ApiSuccessResponse, ApiErrorResponse };
-
 export class ApiError extends Error {
   constructor(
     public readonly code: string,

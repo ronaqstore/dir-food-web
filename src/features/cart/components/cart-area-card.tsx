@@ -1,15 +1,10 @@
 'use client';
 
-import * as React from 'react';
 import { useTranslations } from 'next-intl';
 import { IconMapPin, IconChevronRight, IconCheck, IconAlertCircle } from '@tabler/icons-react';
 import { useArea } from '@/features/directory/context/area-context';
 import { formatPkr } from '@/lib/money';
-import type { ValidatedDeliveryInfo } from '../types';
-
-interface CartAreaCardProps {
-  delivery?: ValidatedDeliveryInfo | null;
-}
+import type { CartAreaCardProps } from '../types';
 
 export function CartAreaCard({ delivery }: CartAreaCardProps) {
   const t = useTranslations('cart');

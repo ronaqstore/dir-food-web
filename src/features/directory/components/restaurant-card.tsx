@@ -1,16 +1,11 @@
 'use client';
 
-import * as React from 'react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { formatPkr } from '@/lib/money';
 import { IconBuildingStore, IconClock } from '@/components/icons';
-import type { PublicRestaurantCard } from '../api/types';
-
-interface RestaurantCardProps {
-  restaurant: PublicRestaurantCard;
-}
+import type { RestaurantCardProps } from '../types';
 
 export function RestaurantCard({ restaurant }: RestaurantCardProps) {
   const t = useTranslations('directory');
@@ -20,7 +15,7 @@ export function RestaurantCard({ restaurant }: RestaurantCardProps) {
       href={`/r/${restaurant.slug}`}
       className='group flex flex-col overflow-hidden rounded-2xl border border-border/80 bg-card hover:border-primary/40 hover:shadow-md transition-all duration-200'
     >
-      {/* Top Banner / Logo Area */}
+      {}
       <div className='relative h-36 w-full bg-muted/60 overflow-hidden flex items-center justify-center'>
         {restaurant.logoUrl ? (
           <Image
@@ -36,8 +31,8 @@ export function RestaurantCard({ restaurant }: RestaurantCardProps) {
           </div>
         )}
 
-        {/* Live Status Badge overlay */}
-        <div className='absolute start-3 top-3'>
+        {}
+        <div className='absolute inset-s-3 top-3'>
           <span
             className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold backdrop-blur-md shadow-xs ${
               restaurant.isOpenNow
@@ -55,13 +50,13 @@ export function RestaurantCard({ restaurant }: RestaurantCardProps) {
         </div>
       </div>
 
-      {/* Info Body */}
+      {}
       <div className='flex flex-1 flex-col p-4'>
         <h3 className='text-base font-bold text-foreground group-hover:text-primary transition-colors line-clamp-1'>
           {restaurant.name}
         </h3>
 
-        {/* Cuisines Tags */}
+        {}
         {restaurant.cuisines && restaurant.cuisines.length > 0 && (
           <div className='mt-1.5 flex flex-wrap gap-1'>
             {restaurant.cuisines.slice(0, 3).map((cuisine) => (
@@ -75,7 +70,7 @@ export function RestaurantCard({ restaurant }: RestaurantCardProps) {
           </div>
         )}
 
-        {/* Footer info: Availability text & min order */}
+        {}
         <div className='mt-auto pt-4 flex items-center justify-between text-xs text-muted-foreground border-t border-border/50'>
           <div className='flex items-center gap-1'>
             <IconClock className='h-3.5 w-3.5 text-muted-foreground/80' />

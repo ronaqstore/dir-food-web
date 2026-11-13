@@ -3,18 +3,13 @@
 import * as React from 'react';
 import { useTranslations } from 'next-intl';
 import { IconAlertCircle } from '@/components/icons';
+import type { ErrorProps } from '@/types/error';
 
-export default function ErrorBoundary({
-  error,
-  reset
-}: {
-  error: Error & { digest?: string };
-  reset: () => void;
-}) {
+export default function ErrorBoundary({ error, reset }: ErrorProps) {
   const t = useTranslations('common');
 
   React.useEffect(() => {
-    // Log error in production monitoring
+    void error;
   }, [error]);
 
   return (

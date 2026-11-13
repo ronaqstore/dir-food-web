@@ -76,15 +76,30 @@ export interface CheckoutFormData {
 export interface CheckoutContactFormProps {
   formData: CheckoutFormData;
   onChange: (field: keyof CheckoutFormData, value: string) => void;
-  isLoading: boolean;
-  minOrderAmount: number | null;
-  subtotal: number;
-  restaurantOpen: boolean;
-  areaSelected: boolean;
-  onSubmit: (e: React.FormEvent) => void;
+  disabled?: boolean;
 }
 
+import type { FormEvent } from 'react';
+import type { CartItem, CartRestaurant, ValidatedDeliveryInfo } from '@/features/cart/types';
+
 export interface CheckoutOrderSummaryProps {
-  deliveryFee: number | null;
-  isFreeDelivery: boolean;
+  restaurant: CartRestaurant;
+  items: CartItem[];
+  subtotal: number;
+  delivery?: ValidatedDeliveryInfo | null;
+  isSubmitting: boolean;
+  isValidToSubmit: boolean;
+  onSubmit: (e: FormEvent) => void;
+}
+
+export interface OrderPageParams {
+  ref: string;
+}
+
+export interface OrderPageProps {
+  params: Promise<OrderPageParams>;
+}
+
+export interface OrderStatusViewProps {
+  refCode?: string;
 }

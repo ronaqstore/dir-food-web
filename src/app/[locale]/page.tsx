@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { setRequestLocale } from 'next-intl/server';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
@@ -8,15 +9,25 @@ import {
   IconBrandWhatsapp,
   IconChevronRight
 } from '@/components/icons';
+import type { HomePageProps } from '@/types/pages';
 
-export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('brand');
+  return {
+    title: t('name'),
+    description: t('tagline')
+  };
+}
+
+export default async function HomePage({ params, searchParams }: HomePageProps) {
   const { locale } = await params;
+  const resolvedSearchParams = searchParams ? await searchParams : undefined;
+  void resolvedSearchParams;
   setRequestLocale(locale);
   const t = await getTranslations();
 
   return (
     <div className='mx-auto max-w-7xl 2xl:max-w-[1440px] px-4 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-10'>
-      {/* Hero Banner */}
       <section className='relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary/10 via-background to-accent/20 border border-primary/20 p-6 sm:p-10 text-center sm:text-start'>
         <div className='max-w-2xl'>
           <div className='inline-flex items-center gap-1.5 rounded-full bg-primary/10 text-primary px-3 py-1 text-xs font-semibold mb-3'>
@@ -42,53 +53,42 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         </div>
       </section>
 
-      {/* Directory Section: Restaurants Grid */}
       <section className='space-y-4'>
         <div className='flex items-center justify-between'>
           <div>
             <h2 className='text-xl font-bold tracking-tight text-foreground'>
               {t('directory.featuredTitle')}
             </h2>
-            <p className='text-xs text-muted-foreground'>{t('brand.tagline')}</p>
+            <p className='text-xs text-muted-foreground'>{t('directory.featuredSubtitle')}</p>
           </div>
-
           <Link
             href='/restaurants'
             className='inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline'
           >
             <span>{t('directory.viewAll')}</span>
-            <IconChevronRight className='h-3.5 w-3.5' />
+            <IconChevronRight className='h-3.5 w-3.5 rtl:rotate-180' />
           </Link>
         </div>
 
-        <DirectoryView limit={6} />
+        <DirectoryView />
       </section>
 
-      {/* Value props banner */}
-      <section className='grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-border/60'>
-        <div className='rounded-2xl border border-border/80 bg-card p-5 text-card-foreground'>
-          <div className='flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary mb-3'>
-            <IconBuildingStore className='h-5 w-5' />
+      <section className='rounded-3xl border border-emerald-500/20 bg-gradient-to-r from-emerald-500/10 via-emerald-500/5 to-transparent p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-4'>
+        <div className='flex items-center gap-4 text-center sm:text-start flex-col sm:flex-row'>
+          <div className='flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/20 text-emerald-600'>
+            <IconBrandWhatsapp className='h-6 w-6' />
           </div>
-          <h3 className='font-semibold text-sm'>{t('home.featureSpotsTitle')}</h3>
-          <p className='text-xs text-muted-foreground mt-1'>{t('home.featureSpotsDesc')}</p>
-        </div>
-
-        <div className='rounded-2xl border border-border/80 bg-card p-5 text-card-foreground'>
-          <div className='flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 mb-3'>
-            <IconBrandWhatsapp className='h-5 w-5' />
+          <div>
+            <h3 className='font-bold text-foreground'>{t('brand.orderDirect')}</h3>
+            <p className='text-xs text-muted-foreground'>{t('brand.orderDirectSubtitle')}</p>
           </div>
-          <h3 className='font-semibold text-sm'>{t('home.featureWhatsappTitle')}</h3>
-          <p className='text-xs text-muted-foreground mt-1'>{t('home.featureWhatsappDesc')}</p>
         </div>
-
-        <div className='rounded-2xl border border-border/80 bg-card p-5 text-card-foreground'>
-          <div className='flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 mb-3'>
-            <IconMapPin className='h-5 w-5' />
-          </div>
-          <h3 className='font-semibold text-sm'>{t('home.featureAreasTitle')}</h3>
-          <p className='text-xs text-muted-foreground mt-1'>{t('home.featureAreasDesc')}</p>
-        </div>
+        <Link
+          href='/restaurants'
+          className='inline-flex h-10 shrink-0 items-center justify-center rounded-xl bg-emerald-600 px-5 text-sm font-semibold text-white shadow-xs hover:bg-emerald-700 transition-colors'
+        >
+          {t('directory.browseMenu')}
+        </Link>
       </section>
     </div>
   );
