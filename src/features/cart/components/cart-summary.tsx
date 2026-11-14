@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
-import { IconArrowRight, IconShieldCheck, IconLoader2 } from '@tabler/icons-react';
+import { IconArrowRight, IconShieldCheck } from '@tabler/icons-react';
 import { formatPkr } from '@/lib/money';
 import type { CartSummaryProps } from '../types';
 
@@ -68,23 +68,23 @@ export function CartSummary({
 
       {}
       <div className='pt-2'>
-        {canProceed ? (
+        {canProceed && !isValidating ? (
           <Link
             href='/checkout'
             className='flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3.5 px-4 text-sm font-bold text-primary-foreground shadow-md hover:bg-primary/95 active:scale-[0.99] transition-all'
           >
-            {isValidating ? (
-              <>
-                <IconLoader2 className='size-4 animate-spin' />
-                <span>{t('checkingAvailability')}</span>
-              </>
-            ) : (
-              <>
-                <span>{t('proceedToCheckout')}</span>
-                <IconArrowRight className='size-4 rtl:rotate-180' />
-              </>
-            )}
+            <span>{t('proceedToCheckout')}</span>
+            <IconArrowRight className='size-4 rtl:rotate-180' />
           </Link>
+        ) : canProceed && isValidating ? (
+          <button
+            type='button'
+            disabled
+            className='flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3.5 px-4 text-sm font-bold text-primary-foreground opacity-50 cursor-not-allowed shadow-md'
+          >
+            <span>{t('proceedToCheckout')}</span>
+            <IconArrowRight className='size-4 rtl:rotate-180' />
+          </button>
         ) : (
           <button
             type='button'

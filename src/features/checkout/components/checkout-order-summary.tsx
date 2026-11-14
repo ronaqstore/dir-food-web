@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { IconBrandWhatsapp, IconLoader2, IconShieldCheck, IconLock } from '@tabler/icons-react';
+import { IconBrandWhatsapp, IconShieldCheck, IconLock } from '@tabler/icons-react';
 import { formatPkr } from '@/lib/money';
 import type { CheckoutOrderSummaryProps } from '@/features/checkout/types';
 
@@ -93,17 +93,8 @@ export function CheckoutOrderSummary({
           disabled={!isValidToSubmit || isSubmitting}
           className='flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] disabled:bg-muted disabled:text-muted-foreground disabled:cursor-not-allowed py-3.5 px-4 text-sm font-bold text-white shadow-md transition-all'
         >
-          {isSubmitting ? (
-            <>
-              <IconLoader2 className='size-4 animate-spin' />
-              <span>{t('placingOrder')}</span>
-            </>
-          ) : (
-            <>
-              <IconBrandWhatsapp className='size-5' />
-              <span>{t('confirmAndOpenWhatsApp')}</span>
-            </>
-          )}
+          <IconBrandWhatsapp className='size-5' />
+          <span>{t('confirmAndOpenWhatsApp')}</span>
         </button>
       </div>
 
