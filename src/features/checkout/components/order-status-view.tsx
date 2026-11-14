@@ -201,6 +201,11 @@ export function OrderStatusView({ refCode }: OrderStatusViewProps) {
                       {item.variant}
                     </span>
                   ) : null}
+                  {item.addons && item.addons.length > 0 ? (
+                    <span className='text-[10px] text-muted-foreground'>
+                      ({item.addons.map((a) => `+${a.name}`).join(', ')})
+                    </span>
+                  ) : null}
                 </div>
                 <span className='font-semibold text-foreground shrink-0'>
                   {formatPkr(item.lineTotal)}

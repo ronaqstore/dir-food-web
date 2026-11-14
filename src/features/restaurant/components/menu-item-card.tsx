@@ -20,7 +20,9 @@ export function MenuItemCard({
   const tc = useTranslations('common');
   const { addItem, updateQuantity, getItemQuantity, items } = useCart();
 
-  const hasVariants = item.variants && item.variants.length > 0;
+  const hasVariants = Boolean(item.variants && item.variants.length > 0);
+  const hasAddons = Boolean(item.addons && item.addons.length > 0);
+  const needsCustomization = hasVariants || hasAddons;
 
   const totalItemQtyInCart = React.useMemo(() => {
     return items.filter((i) => i.itemId === item.id).reduce((acc, curr) => acc + curr.quantity, 0);
@@ -168,7 +170,7 @@ export function MenuItemCard({
           <div>
             {!item.isAvailable ? (
               <span className='text-xs text-muted-foreground font-medium'>{t('unavailable')}</span>
-            ) : hasVariants ? (
+            ) : needsCustomization ? (
               <button
                 type='button'
                 onClick={() => onSelectVariant(item)}

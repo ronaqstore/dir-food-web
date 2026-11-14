@@ -92,6 +92,18 @@ export function CartItemList() {
                       </span>
                     ) : null}
                   </div>
+                  {item.addons && item.addons.length > 0 ? (
+                    <div className='mt-1 flex flex-wrap gap-1'>
+                      {item.addons.map((a) => (
+                        <span
+                          key={a.id}
+                          className='inline-flex items-center rounded-md bg-muted px-1.5 py-0.5 text-[11px] text-muted-foreground'
+                        >
+                          +{a.name} ({formatPkr(a.price)})
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
                   <p className='mt-0.5 text-xs text-muted-foreground'>
                     {formatPkr(item.unitPrice)}
                   </p>

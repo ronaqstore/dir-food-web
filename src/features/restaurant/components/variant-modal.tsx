@@ -4,7 +4,7 @@ import * as React from 'react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { formatPkr } from '@/lib/money';
-import { IconCheck, IconX } from '@/components/icons';
+import { IconCheck, IconX, IconScale, IconSquarePlus } from '@/components/icons';
 import { useCart } from '@/features/cart/context/cart-context';
 
 import type { VariantModalProps } from '../types';
@@ -15,20 +15,40 @@ export function VariantModal({ restaurant, item, onClose }: VariantModalProps) {
   const { addItem, getItemQuantity } = useCart();
 
   const [selectedVariantId, setSelectedVariantId] = React.useState<string | null>(null);
+  const [selectedAddonIds, setSelectedAddonIds] = React.useState<string[]>([]);
+
+  const hasVariants = Boolean(item && item.variants && item.variants.length > 0);
+  const hasAddons = Boolean(item && item.addons && item.addons.length > 0);
 
   const activeVariant = React.useMemo(() => {
-    if (!item || item.variants.length === 0) return null;
+    if (!item || !hasVariants) return null;
     if (selectedVariantId) {
       const found = item.variants.find((v) => v.id === selectedVariantId);
       if (found) return found;
     }
     return item.variants[0] ?? null;
-  }, [item, selectedVariantId]);
+  }, [item, hasVariants, selectedVariantId]);
+
+  const selectedAddons = React.useMemo(() => {
+    if (!item?.addons) return [];
+    return item.addons.filter((a) => selectedAddonIds.includes(a.id));
+  }, [item, selectedAddonIds]);
+
+  const basePrice = hasVariants ? (activeVariant?.price ?? 0) : (item?.price ?? item?.basePrice ?? 0);
+  const addonsTotal = selectedAddons.reduce((sum, a) => sum + a.price, 0);
+  const totalUnitPrice = basePrice + addonsTotal;
+  const canAddToCart = hasVariants ? Boolean(activeVariant) : true;
 
   const handleClose = React.useCallback(() => {
     setSelectedVariantId(null);
+    setSelectedAddonIds([]);
     onClose();
   }, [onClose]);
+
+  React.useEffect(() => {
+    setSelectedVariantId(null);
+    setSelectedAddonIds([]);
+  }, [item]);
 
   React.useEffect(() => {
     if (!item) return;
@@ -41,21 +61,27 @@ export function VariantModal({ restaurant, item, onClose }: VariantModalProps) {
 
   if (!item) return null;
 
+  const handleToggleAddon = (addonId: string) => {
+    setSelectedAddonIds((prev) =>
+      prev.includes(addonId) ? prev.filter((id) => id !== addonId) : [...prev, addonId]
+    );
+  };
+
   const handleAddToCart = () => {
-    if (!activeVariant) return;
+    if (!canAddToCart) return;
     addItem({
       restaurant,
       item: {
         id: item.id,
         name: item.name,
         imageUrl: item.imageUrl,
-        price: activeVariant.price
+        price: item.price ?? item.basePrice ?? 0
       },
-      variant: activeVariant,
+      variant: activeVariant ?? undefined,
+      addons: selectedAddons.length > 0 ? selectedAddons : undefined,
       quantity: 1
     });
-    setSelectedVariantId(null);
-    onClose();
+    handleClose();
   };
 
   return (
@@ -72,7 +98,6 @@ export function VariantModal({ restaurant, item, onClose }: VariantModalProps) {
         aria-labelledby='variant-modal-title'
         className='relative z-10 w-full max-w-md rounded-t-3xl sm:rounded-2xl border border-border bg-card p-5 sm:p-6 shadow-xl animate-in slide-in-from-bottom-6 sm:zoom-in-95 duration-200 text-card-foreground block m-0'
       >
-        {}
         <div className='flex items-start justify-between pb-3 border-b border-border'>
           <div className='flex gap-3'>
             {item.imageUrl && (
@@ -106,60 +131,116 @@ export function VariantModal({ restaurant, item, onClose }: VariantModalProps) {
           </button>
         </div>
 
-        <div className='my-4 max-h-[50vh] overflow-y-auto space-y-2 pe-1'>
-          {item.variants.map((variant) => {
-            const isSelected = activeVariant?.id === variant.id;
-            const currentQty = getItemQuantity(item.id, variant.id);
+        <div className='my-4 max-h-[50vh] overflow-y-auto space-y-4 pe-1'>
+          {hasVariants && (
+            <div className='space-y-2'>
+              <p className='flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-muted-foreground'>
+                <IconScale className='size-3.5 text-primary' />
+                <span>{t('chooseSize')}</span>
+              </p>
+              <div className='space-y-2'>
+                {item.variants.map((variant) => {
+                  const isSelected = activeVariant?.id === variant.id;
+                  const currentQty = getItemQuantity(item.id, variant.id);
 
-            return (
-              <button
-                key={variant.id}
-                type='button'
-                onClick={() => setSelectedVariantId(variant.id)}
-                className={`flex w-full cursor-pointer items-center justify-between rounded-xl p-3.5 text-sm transition-all border text-start ${
-                  isSelected
-                    ? 'border-primary bg-primary/10 text-primary font-semibold shadow-xs'
-                    : 'border-border/80 bg-card hover:bg-muted/60 text-foreground'
-                }`}
-              >
-                <div className='flex items-center gap-3'>
-                  <div
-                    className={`flex h-5 w-5 items-center justify-center rounded-full border transition-colors ${
-                      isSelected
-                        ? 'border-primary bg-primary text-primary-foreground'
-                        : 'border-muted-foreground/40'
-                    }`}
-                  >
-                    {isSelected && <IconCheck className='h-3 w-3 stroke-[3]' />}
-                  </div>
-                  <div>
-                    <span className='text-sm font-medium'>{variant.name}</span>
-                    {currentQty > 0 && (
-                      <span className='ms-2 inline-flex items-center rounded-md bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground'>
-                        {currentQty} {t('inCart')}
+                  return (
+                    <button
+                      key={variant.id}
+                      type='button'
+                      onClick={() => setSelectedVariantId(variant.id)}
+                      className={`flex w-full cursor-pointer items-center justify-between rounded-xl p-3.5 text-sm transition-all border text-start ${
+                        isSelected
+                          ? 'border-primary bg-primary/10 text-primary font-semibold shadow-xs'
+                          : 'border-border/80 bg-card hover:bg-muted/60 text-foreground'
+                      }`}
+                    >
+                      <div className='flex items-center gap-3'>
+                        <div
+                          className={`flex h-5 w-5 items-center justify-center rounded-full border transition-colors ${
+                            isSelected
+                              ? 'border-primary bg-primary text-primary-foreground'
+                              : 'border-muted-foreground/40'
+                          }`}
+                        >
+                          {isSelected && <IconCheck className='h-3 w-3 stroke-[3]' />}
+                        </div>
+                        <div>
+                          <span className='text-sm font-medium'>{variant.name}</span>
+                          {currentQty > 0 && (
+                            <span className='ms-2 inline-flex items-center rounded-md bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground'>
+                              {currentQty} {t('inCart')}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      <span className='text-sm font-bold text-foreground'>
+                        {formatPkr(variant.price)}
                       </span>
-                    )}
-                  </div>
-                </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
-                <span className='text-sm font-bold text-foreground'>
-                  {formatPkr(variant.price)}
-                </span>
-              </button>
-            );
-          })}
+          {hasAddons && (
+            <div className='space-y-2'>
+              <div className='flex items-center justify-between'>
+                <p className='flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-muted-foreground'>
+                  <IconSquarePlus className='size-3.5 text-primary' />
+                  <span>{t('chooseAddons')}</span>
+                </p>
+                <span className='text-[11px] text-muted-foreground'>{t('optional')}</span>
+              </div>
+              <div className='space-y-2'>
+                {item.addons?.map((addon) => {
+                  const isSelected = selectedAddonIds.includes(addon.id);
+
+                  return (
+                    <button
+                      key={addon.id}
+                      type='button'
+                      onClick={() => handleToggleAddon(addon.id)}
+                      className={`flex w-full cursor-pointer items-center justify-between rounded-xl p-3 text-sm transition-all border text-start ${
+                        isSelected
+                          ? 'border-primary bg-primary/5 text-foreground font-semibold shadow-xs'
+                          : 'border-border/80 bg-card hover:bg-muted/60 text-foreground'
+                      }`}
+                    >
+                      <div className='flex items-center gap-3'>
+                        <div
+                          className={`flex h-5 w-5 items-center justify-center rounded-md border transition-colors ${
+                            isSelected
+                              ? 'border-primary bg-primary text-primary-foreground'
+                              : 'border-muted-foreground/40'
+                          }`}
+                        >
+                          {isSelected && <IconCheck className='h-3 w-3 stroke-[3]' />}
+                        </div>
+                        <span className='text-sm font-medium'>{addon.name}</span>
+                      </div>
+
+                      <span className='text-sm font-bold text-emerald-600 dark:text-emerald-400'>
+                        +{formatPkr(addon.price)}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
 
-        {}
         <div className='pt-2'>
           <button
             type='button'
-            disabled={!activeVariant}
+            disabled={!canAddToCart}
             onClick={handleAddToCart}
             className='flex h-12 w-full items-center justify-between rounded-xl bg-primary px-5 text-sm font-bold text-primary-foreground shadow-sm hover:opacity-95 transition-opacity disabled:opacity-50 cursor-pointer'
           >
             <span>{t('addToCart')}</span>
-            <span>{activeVariant ? formatPkr(activeVariant.price) : ''}</span>
+            <span>{formatPkr(totalUnitPrice)}</span>
           </button>
         </div>
       </dialog>

@@ -51,9 +51,13 @@ export function CartProvider({ children }: ChildrenProps) {
   }, []);
 
   const addItemDirect = React.useCallback((payload: AddItemPayload) => {
-    const { restaurant, item, variant, quantity = 1 } = payload;
-    const key = `${item.id}:${variant?.id || 'base'}`;
-    const unitPrice = variant ? variant.price : item.price;
+    const { restaurant, item, variant, addons = [], quantity = 1 } = payload;
+    const sortedAddons = [...addons].sort((a, b) => a.id.localeCompare(b.id));
+    const addonsKey = sortedAddons.map((a) => a.id).join(',');
+    const key = `${item.id}:${variant?.id || 'base'}:${addonsKey}`;
+    const basePrice = variant ? variant.price : item.price;
+    const addonsTotal = sortedAddons.reduce((sum, a) => sum + a.price, 0);
+    const unitPrice = basePrice + addonsTotal;
 
     setCartState((prev) => {
       const isSameRestaurant = prev.restaurant?.slug === restaurant.slug;
@@ -77,7 +81,8 @@ export function CartProvider({ children }: ChildrenProps) {
           variantName: variant?.name,
           unitPrice,
           quantity,
-          imageUrl: item.imageUrl
+          imageUrl: item.imageUrl,
+          addons: sortedAddons.length > 0 ? sortedAddons : undefined
         });
       }
 
@@ -158,9 +163,9 @@ export function CartProvider({ children }: ChildrenProps) {
 
   const getItemQuantity = React.useCallback(
     (itemId: string, variantId?: string): number => {
-      const key = `${itemId}:${variantId || 'base'}`;
-      const item = cartState.items.find((i) => i.key === key);
-      return item ? item.quantity : 0;
+      return cartState.items
+        .filter((i) => i.itemId === itemId && (!variantId || i.variantId === variantId))
+        .reduce((sum, i) => sum + i.quantity, 0);
     },
     [cartState.items]
   );

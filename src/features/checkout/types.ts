@@ -1,3 +1,6 @@
+import type { FormEvent } from 'react';
+import type { CartItem, CartRestaurant, ValidatedDeliveryInfo } from '@/features/cart/types';
+
 export interface CreateOrderIntentCustomer {
   name?: string;
   phone?: string;
@@ -18,6 +21,7 @@ export interface CreateOrderIntentDelivery {
 export interface CreateOrderIntentItem {
   menuItemId: string;
   variantId?: string | null;
+  addonIds?: string[];
   quantity: number;
 }
 
@@ -30,9 +34,15 @@ export interface CreateOrderIntentPayload {
   expectedSubtotal: number;
 }
 
+export interface OrderIntentLineAddon {
+  name: string;
+  price: number;
+}
+
 export interface OrderIntentLine {
   name: string;
   variant: string | null;
+  addons?: OrderIntentLineAddon[];
   unitPrice: number;
   quantity: number;
   lineTotal: number;
@@ -78,9 +88,6 @@ export interface CheckoutContactFormProps {
   onChange: (field: keyof CheckoutFormData, value: string) => void;
   disabled?: boolean;
 }
-
-import type { FormEvent } from 'react';
-import type { CartItem, CartRestaurant, ValidatedDeliveryInfo } from '@/features/cart/types';
 
 export interface CheckoutOrderSummaryProps {
   restaurant: CartRestaurant;

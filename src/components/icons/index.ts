@@ -22,5 +22,7 @@ export {
   IconAlertCircle,
   IconLoader2,
   IconTag,
+  IconScale,
+  IconSquarePlus,
   IconUser
 } from '@tabler/icons-react';

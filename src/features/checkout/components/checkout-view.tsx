@@ -67,6 +67,7 @@ export function CheckoutView() {
       items: items.map((i) => ({
         menuItemId: i.itemId,
         variantId: i.variantId || null,
+        addonIds: i.addons ? i.addons.map((a) => a.id) : undefined,
         quantity: i.quantity
       })),
       deliveryAreaId: selectedAreaId || null
@@ -152,6 +153,7 @@ export function CheckoutView() {
       items: items.map((i) => ({
         menuItemId: i.itemId,
         variantId: i.variantId || null,
+        addonIds: i.addons ? i.addons.map((a) => a.id) : undefined,
         quantity: i.quantity
       })),
       customer: {

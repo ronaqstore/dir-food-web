@@ -40,6 +40,15 @@ export function CheckoutOrderSummary({
               {item.variantName ? (
                 <span className='text-[11px] text-primary font-medium'>{item.variantName}</span>
               ) : null}
+              {item.addons && item.addons.length > 0 ? (
+                <div className='flex flex-wrap gap-1 mt-0.5'>
+                  {item.addons.map((a) => (
+                    <span key={a.id} className='text-[10px] text-muted-foreground'>
+                      +{a.name}
+                    </span>
+                  ))}
+                </div>
+              ) : null}
             </div>
             <span className='font-bold text-foreground shrink-0'>
               {formatPkr(item.unitPrice * item.quantity)}

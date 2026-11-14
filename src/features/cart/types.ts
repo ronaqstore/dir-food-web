@@ -5,6 +5,12 @@ export interface CartRestaurant {
   minOrderAmount?: number | null;
 }
 
+export interface CartItemAddon {
+  id: string;
+  name: string;
+  price: number;
+}
+
 export interface CartItem {
   key: string;
   itemId: string;
@@ -14,6 +20,7 @@ export interface CartItem {
   unitPrice: number;
   quantity: number;
   imageUrl?: string | null;
+  addons?: CartItemAddon[];
 }
 
 export interface CartState {
@@ -26,6 +33,7 @@ export type DeliveryFeeStatus = 'KNOWN' | 'TO_BE_CONFIRMED';
 export interface ValidatedCartLine {
   menuItemId: string;
   variantId: string | null;
+  addonIds?: string[];
   name: string;
   variantName: string | null;
   unitPrice: number;
@@ -66,6 +74,7 @@ export interface ValidateCartRequest {
   items: Array<{
     menuItemId: string;
     variantId?: string | null;
+    addonIds?: string[];
     quantity: number;
   }>;
   deliveryAreaId?: string | null;
@@ -84,6 +93,7 @@ export interface AddItemPayload {
     name: string;
     price: number;
   };
+  addons?: CartItemAddon[];
   quantity?: number;
 }
 

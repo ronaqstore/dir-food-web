@@ -35,6 +35,12 @@ export interface PublicItemVariant {
   price: number;
 }
 
+export interface PublicItemAddon {
+  id: string;
+  name: string;
+  price: number;
+}
+
 export interface PublicMenuItem {
   id: string;
   name: string;
@@ -46,6 +52,7 @@ export interface PublicMenuItem {
   isDeal?: boolean;
   isAvailable: boolean;
   variants: PublicItemVariant[];
+  addons?: PublicItemAddon[];
 }
 
 export interface PublicMenuCategory {

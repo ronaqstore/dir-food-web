@@ -48,7 +48,9 @@ export function FeaturedDealsCarousel({
       {}
       <div className='flex gap-3.5 sm:gap-4 overflow-x-auto pb-3 pt-1 px-1 -mx-1 snap-x snap-mandatory scrollbar-none'>
         {deals.map((item) => {
-          const hasVariants = item.variants && item.variants.length > 0;
+          const hasVariants = Boolean(item.variants && item.variants.length > 0);
+          const hasAddons = Boolean(item.addons && item.addons.length > 0);
+          const needsCustomization = hasVariants || hasAddons;
           const effectiveBasePrice = item.price ?? item.basePrice ?? 0;
           const originalPrice = item.originalPrice ?? null;
           const hasDiscount =
@@ -213,7 +215,7 @@ export function FeaturedDealsCarousel({
                     <span className='text-xs text-muted-foreground font-medium'>
                       {t('unavailable')}
                     </span>
-                  ) : hasVariants ? (
+                  ) : needsCustomization ? (
                     <button
                       type='button'
                       onClick={() => onSelectVariant(item)}
