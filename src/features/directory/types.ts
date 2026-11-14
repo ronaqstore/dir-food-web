@@ -36,3 +36,4 @@ export interface AreaContextValue {
   openAreaModal: () => void;
   closeAreaModal: () => void;
 }
+

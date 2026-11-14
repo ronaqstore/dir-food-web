@@ -60,3 +60,4 @@ export interface ParsedDealDetails {
   servingNote?: string;
   rawText: string;
 }
+

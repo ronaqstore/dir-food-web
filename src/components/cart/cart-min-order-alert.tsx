@@ -59,3 +59,4 @@ export function CartMinOrderAlert({ subtotal, minOrderAmount, areaName }: CartMi
     </div>
   );
 }
+

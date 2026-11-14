@@ -44,3 +44,4 @@ export function CartValidationBanner({ restaurant, problems }: CartValidationBan
     </div>
   );
 }
+
