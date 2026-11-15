@@ -57,7 +57,7 @@ export function FeaturedDealsCarouselSkeleton() {
         </div>
       </div>
 
-      <div className='flex gap-3.5 sm:gap-4 overflow-x-hidden pb-3 pt-1'>
+      <div className='flex gap-3.5 sm:gap-4 overflow-x-hidden pb-3 pt-1 px-1 -mx-1 snap-x snap-mandatory'>
         {[1, 2, 3].map((i) => (
           <div
             key={i}
