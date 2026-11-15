@@ -203,7 +203,8 @@
     "orderErrorTitle": "Unable to place order",
     "failedToPlaceOrder": "Failed to create order. Please try again.",
     "phoneReserved": "This phone number is already in use",
-    "reservedPhoneError": "This phone number is reserved or already in use"
+    "reservedPhoneError": "This phone number is reserved or already in use",
+    "invalidPhone": "Must be an 11-digit mobile number (e.g. 03029825213)"
   },
   "order": {
     "orderPlacedTitle": "Order Registered!",

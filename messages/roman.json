@@ -203,7 +203,8 @@
     "orderErrorTitle": "Unable to place order",
     "failedToPlaceOrder": "Failed to create order. Please try again.",
     "phoneReserved": "Yeh phone number pehle se istemal mein hai",
-    "reservedPhoneError": "Yeh phone number pehle se istemal mein hai"
+    "reservedPhoneError": "Yeh phone number pehle se istemal mein hai",
+    "invalidPhone": "11 digits mobile number darj karein (maslan 03029825213)"
   },
   "order": {
     "orderPlacedTitle": "Order Registered!",

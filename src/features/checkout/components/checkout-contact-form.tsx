@@ -10,7 +10,7 @@ import {
   IconChevronRight
 } from '@tabler/icons-react';
 import { useArea } from '@/features/directory/context/area-context';
-import { isReservedPhoneNumber } from '@/lib/phone';
+import { isReservedPhoneNumber, isExactPkMobile, sanitizePkMobileInput } from '@/lib/phone';
 import type { CheckoutContactFormProps } from '@/features/checkout/types';
 
 export function CheckoutContactForm({ formData, onChange, disabled }: CheckoutContactFormProps) {
@@ -122,7 +122,6 @@ export function CheckoutContactForm({ formData, onChange, disabled }: CheckoutCo
             </div>
           </div>
 
-          {}
           <div className='space-y-1.5'>
             <label htmlFor='customer-phone' className='block text-xs font-medium text-foreground'>
               {t('phoneLabel')}
@@ -135,20 +134,23 @@ export function CheckoutContactForm({ formData, onChange, disabled }: CheckoutCo
                 id='customer-phone'
                 type='tel'
                 value={formData.phone}
-                onChange={(e) => onChange('phone', e.target.value)}
+                onChange={(e) => onChange('phone', sanitizePkMobileInput(e.target.value))}
+                maxLength={11}
                 disabled={disabled}
-                placeholder='0300 1234567'
+                placeholder='03001234567'
                 suppressHydrationWarning
                 className={`block w-full rounded-xl border bg-background py-2.5 pe-3 ps-10 text-sm text-foreground placeholder:text-muted-foreground focus:outline-hidden focus:ring-2 disabled:opacity-60 ${
-                  isReservedPhoneNumber(formData.phone)
+                  (formData.phone && !isExactPkMobile(formData.phone)) || isReservedPhoneNumber(formData.phone)
                     ? 'border-destructive focus:border-destructive focus:ring-destructive/20'
                     : 'border-border focus:border-primary focus:ring-primary/20'
                 }`}
               />
             </div>
-            {isReservedPhoneNumber(formData.phone) && (
+            {formData.phone && !isExactPkMobile(formData.phone) ? (
+              <p className='text-xs text-destructive font-medium'>{t('invalidPhone')}</p>
+            ) : isReservedPhoneNumber(formData.phone) ? (
               <p className='text-xs text-destructive font-medium'>{t('phoneReserved')}</p>
-            )}
+            ) : null}
           </div>
         </div>
       </div>

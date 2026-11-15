@@ -15,7 +15,7 @@ import { CartMinOrderAlert } from '@/components/cart/cart-min-order-alert';
 import { CartValidationBanner } from '@/components/cart/cart-validation-banner';
 import { Link } from '@/i18n/navigation';
 import { IconArrowLeft, IconAlertCircle } from '@tabler/icons-react';
-import { isReservedPhoneNumber } from '@/lib/phone';
+import { isReservedPhoneNumber, isExactPkMobile, formatPkMobile } from '@/lib/phone';
 
 const CUSTOMER_STORAGE_KEY = 'dir_food_customer_info';
 
@@ -48,7 +48,7 @@ export function CheckoutView() {
     if (saved.name || saved.phone || saved.landmark || saved.directions) {
       setFormData({
         name: saved.name || '',
-        phone: saved.phone || '',
+        phone: formatPkMobile(saved.phone || ''),
         landmark: saved.landmark || '',
         directions: saved.directions || ''
       });
@@ -123,9 +123,15 @@ export function CheckoutView() {
     e.preventDefault();
     if (!isValidToSubmit || !selectedArea) return;
 
-    if (formData.phone.trim() && isReservedPhoneNumber(formData.phone)) {
-      setSubmitError(t('reservedPhoneError'));
-      return;
+    if (formData.phone.trim()) {
+      if (!isExactPkMobile(formData.phone)) {
+        setSubmitError(t('invalidPhone'));
+        return;
+      }
+      if (isReservedPhoneNumber(formData.phone)) {
+        setSubmitError(t('reservedPhoneError'));
+        return;
+      }
     }
 
     setSubmitError(null);
