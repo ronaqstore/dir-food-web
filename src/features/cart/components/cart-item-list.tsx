@@ -113,22 +113,22 @@ export function CartItemList() {
               {}
               <div className='flex items-center justify-between sm:justify-end gap-4'>
                 {}
-                <div className='flex items-center rounded-xl border border-border bg-background p-0.5 shadow-xs'>
+                <div className='flex items-center rounded-xl border border-border bg-background p-0.5 shadow-2xs'>
                   <button
                     type='button'
                     onClick={() => updateQuantity(item.key, item.quantity - 1)}
-                    className='flex size-7 items-center justify-center rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors'
+                    className='flex size-7 items-center justify-center rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground active:scale-95 transition-all cursor-pointer'
                     aria-label={t('decreaseQuantity')}
                   >
                     <IconMinus className='size-3.5' />
                   </button>
-                  <span className='min-w-7 text-center text-xs font-bold text-foreground'>
+                  <span className='min-w-7 text-center text-xs font-bold text-foreground select-none'>
                     {item.quantity}
                   </span>
                   <button
                     type='button'
                     onClick={() => updateQuantity(item.key, item.quantity + 1)}
-                    className='flex size-7 items-center justify-center rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors'
+                    className='flex size-7 items-center justify-center rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground active:scale-95 transition-all cursor-pointer'
                     aria-label={t('increaseQuantity')}
                   >
                     <IconPlus className='size-3.5' />
@@ -144,7 +144,7 @@ export function CartItemList() {
                 <button
                   type='button'
                   onClick={() => removeItem(item.key)}
-                  className='flex size-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors'
+                  className='flex size-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-destructive/10 hover:text-destructive active:scale-95 transition-all cursor-pointer'
                   aria-label={t('removeItem')}
                 >
                   <IconTrash className='size-4' />

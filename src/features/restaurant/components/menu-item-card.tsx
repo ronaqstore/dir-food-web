@@ -62,9 +62,12 @@ export function MenuItemCard({
   };
 
   const handleQuantityStep = (delta: number) => {
-    const key = `${item.id}:base`;
-    const currentQty = getItemQuantity(item.id);
-    updateQuantity(key, currentQty + delta);
+    const existing = items.find((i) => i.itemId === item.id);
+    if (existing) {
+      updateQuantity(existing.key, existing.quantity + delta);
+    } else if (delta > 0) {
+      handleSimpleAdd();
+    }
   };
 
   const parsedDetails = item.isDeal ? parseDealDescription(item.description) : null;
@@ -110,7 +113,7 @@ export function MenuItemCard({
           )}
         </div>
 
-        {item.description && (
+        {item.description && item.description.trim().toLowerCase() !== item.name.trim().toLowerCase() && (
           <p className='mt-1 text-xs text-muted-foreground line-clamp-2 leading-relaxed'>
             {item.description}
           </p>
@@ -193,25 +196,25 @@ export function MenuItemCard({
                 <span>{t('add')}</span>
               </button>
             ) : (
-              <div className='flex items-center gap-2 rounded-xl bg-primary/10 p-0.5'>
+              <div className='flex items-center gap-1.5 rounded-xl border border-primary/20 bg-primary/5 p-1 shadow-2xs'>
                 <button
                   type='button'
                   onClick={() => handleQuantityStep(-1)}
-                  className='flex h-7 w-7 items-center justify-center rounded-lg bg-card text-foreground hover:bg-muted transition-colors cursor-pointer shadow-2xs'
+                  className='flex size-7 items-center justify-center rounded-lg bg-card text-foreground hover:bg-muted active:scale-95 transition-all cursor-pointer shadow-2xs border border-border/60'
                   aria-label={t('decreaseQty')}
                 >
-                  <IconMinus className='h-3.5 w-3.5' />
+                  <IconMinus className='size-3.5' />
                 </button>
-                <span className='w-5 text-center text-xs font-bold text-primary'>
+                <span className='min-w-6 text-center text-xs font-black text-primary'>
                   {totalItemQtyInCart}
                 </span>
                 <button
                   type='button'
                   onClick={() => handleQuantityStep(1)}
-                  className='flex h-7 w-7 items-center justify-center rounded-lg bg-primary text-primary-foreground hover:opacity-90 transition-opacity cursor-pointer shadow-2xs'
+                  className='flex size-7 items-center justify-center rounded-lg bg-primary text-primary-foreground hover:opacity-95 active:scale-95 transition-all cursor-pointer shadow-2xs'
                   aria-label={t('increaseQty')}
                 >
-                  <IconPlus className='h-3.5 w-3.5' />
+                  <IconPlus className='size-3.5' />
                 </button>
               </div>
             )}

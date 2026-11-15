@@ -53,8 +53,8 @@ export function CartProvider({ children }: ChildrenProps) {
   const addItemDirect = React.useCallback((payload: AddItemPayload) => {
     const { restaurant, item, variant, addons = [], quantity = 1 } = payload;
     const sortedAddons = [...addons].sort((a, b) => a.id.localeCompare(b.id));
-    const addonsKey = sortedAddons.map((a) => a.id).join(',');
-    const key = `${item.id}:${variant?.id || 'base'}:${addonsKey}`;
+    const addonsSuffix = sortedAddons.length > 0 ? `:${sortedAddons.map((a) => a.id).join(',')}` : '';
+    const key = `${item.id}:${variant?.id || 'base'}${addonsSuffix}`;
     const basePrice = variant ? variant.price : item.price;
     const addonsTotal = sortedAddons.reduce((sum, a) => sum + a.price, 0);
     const unitPrice = basePrice + addonsTotal;
@@ -126,11 +126,13 @@ export function CartProvider({ children }: ChildrenProps) {
 
   const updateQuantity = React.useCallback((key: string, quantity: number) => {
     setCartState((prev) => {
+      const matchKey = (itemKey: string) =>
+        itemKey === key || itemKey === `${key}:` || `${itemKey}:` === key;
       let updatedItems: CartItem[];
       if (quantity <= 0) {
-        updatedItems = prev.items.filter((i) => i.key !== key);
+        updatedItems = prev.items.filter((i) => !matchKey(i.key));
       } else {
-        updatedItems = prev.items.map((i) => (i.key === key ? { ...i, quantity } : i));
+        updatedItems = prev.items.map((i) => (matchKey(i.key) ? { ...i, quantity } : i));
       }
 
       const nextState = {

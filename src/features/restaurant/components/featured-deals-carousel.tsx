@@ -92,9 +92,12 @@ export function FeaturedDealsCarousel({
           };
 
           const handleQuantityStep = (delta: number) => {
-            const key = `${item.id}:base`;
-            const currentQty = getItemQuantity(item.id);
-            updateQuantity(key, currentQty + delta);
+            const existing = items.find((i) => i.itemId === item.id);
+            if (existing) {
+              updateQuantity(existing.key, existing.quantity + delta);
+            } else if (delta > 0) {
+              handleSimpleAdd();
+            }
           };
 
           return (
@@ -238,25 +241,25 @@ export function FeaturedDealsCarousel({
                       <span>{t('add')}</span>
                     </button>
                   ) : (
-                    <div className='flex items-center gap-1.5 rounded-xl bg-rose-500/10 p-0.5'>
+                    <div className='flex items-center gap-1.5 rounded-xl border border-rose-500/20 bg-rose-500/5 p-1 shadow-2xs'>
                       <button
                         type='button'
                         onClick={() => handleQuantityStep(-1)}
-                        className='flex h-7 w-7 items-center justify-center rounded-lg bg-card text-foreground hover:bg-muted transition-colors cursor-pointer shadow-2xs'
+                        className='flex size-7 items-center justify-center rounded-lg bg-card text-foreground hover:bg-muted active:scale-95 transition-all cursor-pointer shadow-2xs border border-border/60'
                         aria-label={t('decreaseQty')}
                       >
-                        <IconMinus className='h-3.5 w-3.5' />
+                        <IconMinus className='size-3.5' />
                       </button>
-                      <span className='w-5 text-center text-xs font-bold text-rose-600'>
+                      <span className='min-w-6 text-center text-xs font-black text-rose-600 dark:text-rose-400'>
                         {totalItemQtyInCart}
                       </span>
                       <button
                         type='button'
                         onClick={() => handleQuantityStep(1)}
-                        className='flex h-7 w-7 items-center justify-center rounded-lg bg-rose-600 text-white hover:opacity-90 transition-opacity cursor-pointer shadow-2xs'
+                        className='flex size-7 items-center justify-center rounded-lg bg-rose-600 text-white hover:opacity-95 active:scale-95 transition-all cursor-pointer shadow-2xs'
                         aria-label={t('increaseQty')}
                       >
-                        <IconPlus className='h-3.5 w-3.5' />
+                        <IconPlus className='size-3.5' />
                       </button>
                     </div>
                   )}

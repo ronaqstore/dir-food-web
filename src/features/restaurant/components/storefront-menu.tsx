@@ -30,10 +30,14 @@ export function StorefrontMenu({
     categories: initialCategories
   });
 
-  const categories = menuData?.categories ?? initialCategories;
+  const rawCategories = menuData?.categories ?? initialCategories;
+  const categories = React.useMemo(
+    () => rawCategories.filter((cat) => cat.items && cat.items.length > 0),
+    [rawCategories]
+  );
 
   const [selectedCategoryId, setSelectedCategoryId] = React.useState<string | undefined>(
-    initialCategories[0]?.id
+    categories[0]?.id
   );
   const [selectedVariantItem, setSelectedVariantItem] = React.useState<PublicMenuItem | null>(null);
   const [selectedDealItem, setSelectedDealItem] = React.useState<PublicMenuItem | null>(null);
@@ -101,13 +105,15 @@ export function StorefrontMenu({
         ) : (
           categories.map((category) => (
             <section key={category.id} id={`cat-${category.id}`} className='scroll-mt-28 space-y-4'>
-              <div className='flex items-center justify-between border-b border-border/60 pb-2'>
-                <h3 className='text-lg font-black text-foreground tracking-tight'>
-                  {category.name}
-                </h3>
-                <span className='text-xs text-muted-foreground font-medium'>
-                  {category.items.length} {t('dishes')}
-                </span>
+              <div className='flex items-center justify-between border-b border-border/60 pb-2.5'>
+                <div className='flex items-center gap-2'>
+                  <h3 className='text-lg sm:text-xl font-black text-foreground tracking-tight'>
+                    {category.name}
+                  </h3>
+                  <span className='rounded-full bg-primary/10 px-2.5 py-0.5 text-[11px] font-bold text-primary'>
+                    {category.items.length}
+                  </span>
+                </div>
               </div>
 
               <div className='grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4'>

@@ -20,14 +20,16 @@ export function CartAreaCard({ delivery }: CartAreaCardProps) {
           <span>{t('deliveryLocation')}</span>
         </div>
 
-        <button
-          type='button'
-          onClick={openAreaModal}
-          className='inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline'
-        >
-          <span>{selectedArea ? t('changeArea') : t('selectArea')}</span>
-          <IconChevronRight className='size-3.5 rtl:rotate-180' />
-        </button>
+        {selectedArea ? (
+          <button
+            type='button'
+            onClick={openAreaModal}
+            className='inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline cursor-pointer'
+          >
+            <span>{t('changeArea')}</span>
+            <IconChevronRight className='size-3.5 rtl:rotate-180' />
+          </button>
+        ) : null}
       </div>
 
       {selectedArea ? (
@@ -67,7 +69,7 @@ export function CartAreaCard({ delivery }: CartAreaCardProps) {
           <button
             type='button'
             onClick={openAreaModal}
-            className='shrink-0 rounded-lg bg-primary/10 px-3 py-1.5 text-xs font-bold text-primary hover:bg-primary/20 transition-colors'
+            className='shrink-0 rounded-xl bg-primary px-3.5 py-1.5 text-xs font-bold text-primary-foreground hover:opacity-90 active:scale-95 transition-all cursor-pointer shadow-xs'
           >
             {t('chooseArea')}
           </button>
