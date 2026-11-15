@@ -9,6 +9,9 @@ export interface DirectoryFiltersProps {
   onCuisineSelect: (cuisine: string | undefined) => void;
   openNowOnly: boolean;
   onOpenNowToggle: (enabled: boolean) => void;
+  sortBy?: string;
+  onSortChange?: (sort: string) => void;
+  availableCuisines?: string[];
 }
 
 export interface DirectoryViewProps {
@@ -36,4 +39,3 @@ export interface AreaContextValue {
   openAreaModal: () => void;
   closeAreaModal: () => void;
 }
-

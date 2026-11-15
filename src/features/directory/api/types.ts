@@ -29,6 +29,7 @@ export interface QueryPublicRestaurantsParams {
   cuisine?: string;
   q?: string;
   openNow?: boolean;
+  sortBy?: string;
   page?: number;
   limit?: number;
 }
@@ -39,5 +40,8 @@ export interface PublicRestaurantsResponse {
     page: number;
     limit: number;
     total: number;
+    totalPages?: number;
+    hasNextPage?: boolean;
+    hasPrevPage?: boolean;
   };
 }

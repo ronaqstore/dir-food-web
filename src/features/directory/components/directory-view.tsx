@@ -22,6 +22,7 @@ export function DirectoryView({
   const [searchQuery, setSearchQuery] = React.useState('');
   const [selectedCuisine, setSelectedCuisine] = React.useState<string | undefined>(initialCuisine);
   const [openNowOnly, setOpenNowOnly] = React.useState(false);
+  const [sortBy, setSortBy] = React.useState('default');
 
   const [debouncedSearch, setDebouncedSearch] = React.useState('');
   React.useEffect(() => {
@@ -29,16 +30,37 @@ export function DirectoryView({
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
+  React.useEffect(() => {
+    setCurrentLimit(initialLimit);
+  }, [
+    selectedCity?.id,
+    selectedArea?.id,
+    selectedCuisine,
+    debouncedSearch,
+    openNowOnly,
+    sortBy,
+    initialLimit
+  ]);
+
   const queryParams = React.useMemo(
     () => ({
       cityId: selectedCity?.id,
       areaId: selectedArea?.id,
       cuisine: selectedCuisine,
-      q: debouncedSearch.trim().length >= 2 ? debouncedSearch.trim() : undefined,
+      q: debouncedSearch.trim().length >= 1 ? debouncedSearch.trim() : undefined,
       openNow: openNowOnly ? true : undefined,
+      sortBy: sortBy !== 'default' ? sortBy : undefined,
       limit: currentLimit
     }),
-    [selectedCity?.id, selectedArea?.id, selectedCuisine, debouncedSearch, openNowOnly, currentLimit]
+    [
+      selectedCity?.id,
+      selectedArea?.id,
+      selectedCuisine,
+      debouncedSearch,
+      openNowOnly,
+      sortBy,
+      currentLimit
+    ]
   );
 
   const { data, isLoading } = usePublicRestaurantsQuery(queryParams);
@@ -54,17 +76,34 @@ export function DirectoryView({
 
   const totalCount = (data as { meta?: { total?: number } })?.meta?.total ?? restaurantList.length;
 
+  const availableCuisines = React.useMemo(() => {
+    const set = new Set<string>();
+    restaurantList.forEach((r) => {
+      r.cuisines?.forEach((c) => {
+        if (c && c.trim()) set.add(c.trim());
+      });
+    });
+    return Array.from(set);
+  }, [restaurantList]);
+
   const handleResetFilters = () => {
     setSearchQuery('');
     setSelectedCuisine(undefined);
     setOpenNowOnly(false);
+    setSortBy('default');
+    setCurrentLimit(initialLimit);
   };
 
-  const hasActiveFilters = Boolean(searchQuery || selectedCuisine || openNowOnly || selectedArea);
+  const hasActiveFilters = Boolean(
+    searchQuery ||
+      selectedCuisine ||
+      openNowOnly ||
+      (sortBy && sortBy !== 'default') ||
+      selectedArea
+  );
 
   return (
     <div className='space-y-6'>
-      {}
       <div className='flex flex-wrap items-center justify-between gap-3 pb-2 border-b border-border/60'>
         <div className='flex items-center gap-2'>
           <span className='text-xs text-muted-foreground'>{t('deliveringTo')}</span>
@@ -94,7 +133,6 @@ export function DirectoryView({
         )}
       </div>
 
-      {}
       {showFilters && (
         <DirectoryFilters
           searchQuery={searchQuery}
@@ -103,17 +141,18 @@ export function DirectoryView({
           onCuisineSelect={setSelectedCuisine}
           openNowOnly={openNowOnly}
           onOpenNowToggle={setOpenNowOnly}
+          sortBy={sortBy}
+          onSortChange={setSortBy}
+          availableCuisines={availableCuisines}
         />
       )}
 
-      {}
       <RestaurantGrid
         restaurants={restaurantList}
         isLoading={isLoading}
         onResetFilters={hasActiveFilters ? handleResetFilters : undefined}
       />
 
-      {}
       {!isLoading && restaurantList.length < totalCount && (
         <div className='flex justify-center pt-4'>
           <button
