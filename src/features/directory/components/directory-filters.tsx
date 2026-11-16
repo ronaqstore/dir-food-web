@@ -119,7 +119,7 @@ export function DirectoryFilters({
       </div>
 
       <div
-        className='flex items-center gap-1.5 overflow-x-auto pb-1'
+        className='flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none'
         onWheel={(e) => {
           if (e.deltaY !== 0 && e.currentTarget.scrollWidth > e.currentTarget.clientWidth) {
             e.currentTarget.scrollLeft += e.deltaY;
