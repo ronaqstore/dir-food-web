@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import { IconSearch, IconX } from '@/components/icons';
 import type { DirectoryFiltersProps } from '../types';
 
-const COMMON_CUISINES = [
+const FALLBACK_CUISINES = [
   'Fast Food',
   'Karahi',
   'BBQ',
@@ -12,7 +12,8 @@ const COMMON_CUISINES = [
   'Pizza',
   'Burgers',
   'Chai & Cafe',
-  'Traditional'
+  'Traditional',
+  'Kabab'
 ];
 
 export function DirectoryFilters({
@@ -24,16 +25,35 @@ export function DirectoryFilters({
   onOpenNowToggle,
   sortBy = 'default',
   onSortChange,
-  availableCuisines = []
+  availableCuisines = [],
+  masterCuisines = []
 }: DirectoryFiltersProps) {
   const t = useTranslations('directory');
 
+  const baseCuisines = masterCuisines.length > 0 ? masterCuisines : FALLBACK_CUISINES;
   const allCuisines = Array.from(
     new Set([
-      ...COMMON_CUISINES,
+      ...baseCuisines,
       ...availableCuisines.filter(Boolean)
     ])
   );
+
+  const handleClearSearch = () => {
+    onSearchChange('');
+  };
+
+  const handleOpenNowToggle = () => {
+    onOpenNowToggle(!openNowOnly);
+  };
+
+  const handleSelectAllCuisines = () => {
+    onCuisineSelect(undefined);
+  };
+
+  const handleCuisineClick = (cuisine: string) => {
+    const isSelected = selectedCuisine?.toLowerCase() === cuisine.toLowerCase();
+    onCuisineSelect(isSelected ? undefined : cuisine);
+  };
 
   return (
     <div className='space-y-3'>
@@ -53,7 +73,7 @@ export function DirectoryFilters({
           {searchQuery && (
             <button
               type='button'
-              onClick={() => onSearchChange('')}
+              onClick={handleClearSearch}
               suppressHydrationWarning
               className='absolute inset-e-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground p-1 cursor-pointer'
             >
@@ -65,7 +85,7 @@ export function DirectoryFilters({
         <div className='flex items-center gap-2'>
           <button
             type='button'
-            onClick={() => onOpenNowToggle(!openNowOnly)}
+            onClick={handleOpenNowToggle}
             suppressHydrationWarning
             className={`flex h-11 shrink-0 items-center justify-center gap-2 rounded-xl px-4 text-xs font-semibold border transition-all cursor-pointer ${
               openNowOnly
@@ -101,7 +121,7 @@ export function DirectoryFilters({
       <div className='flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none'>
         <button
           type='button'
-          onClick={() => onCuisineSelect(undefined)}
+          onClick={handleSelectAllCuisines}
           suppressHydrationWarning
           className={`shrink-0 rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors cursor-pointer ${
             selectedCuisine === undefined
@@ -118,7 +138,7 @@ export function DirectoryFilters({
             <button
               key={cuisine}
               type='button'
-              onClick={() => onCuisineSelect(isSelected ? undefined : cuisine)}
+              onClick={() => handleCuisineClick(cuisine)}
               suppressHydrationWarning
               className={`shrink-0 rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors cursor-pointer ${
                 isSelected

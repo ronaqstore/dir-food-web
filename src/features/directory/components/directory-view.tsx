@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { useTranslations } from 'next-intl';
 import { useArea } from '../context/area-context';
-import { usePublicRestaurantsQuery } from '../api/queries';
+import { usePublicRestaurantsQuery, usePublicCuisinesQuery } from '../api/queries';
 import { DirectoryFilters } from './directory-filters';
 import { RestaurantGrid } from './restaurant-grid';
 import { IconMapPin } from '@/components/icons';
@@ -64,6 +64,14 @@ export function DirectoryView({
   );
 
   const { data, isLoading } = usePublicRestaurantsQuery(queryParams);
+  const { data: cuisinesData } = usePublicCuisinesQuery();
+
+  const masterCuisines = React.useMemo(() => {
+    if (Array.isArray(cuisinesData)) {
+      return cuisinesData.map((c) => c.name);
+    }
+    return [];
+  }, [cuisinesData]);
 
   const restaurantList = React.useMemo<PublicRestaurantCard[]>(() => {
     if (!data) return [];
@@ -92,6 +100,10 @@ export function DirectoryView({
     setOpenNowOnly(false);
     setSortBy('default');
     setCurrentLimit(initialLimit);
+  };
+
+  const handleLoadMore = () => {
+    setCurrentLimit((prev) => prev + 20);
   };
 
   const hasActiveFilters = Boolean(
@@ -144,6 +156,7 @@ export function DirectoryView({
           sortBy={sortBy}
           onSortChange={setSortBy}
           availableCuisines={availableCuisines}
+          masterCuisines={masterCuisines}
         />
       )}
 
@@ -157,7 +170,7 @@ export function DirectoryView({
         <div className='flex justify-center pt-4'>
           <button
             type='button'
-            onClick={() => setCurrentLimit((prev) => prev + 20)}
+            onClick={handleLoadMore}
             suppressHydrationWarning
             className='inline-flex h-11 items-center justify-center rounded-xl border border-border bg-card px-6 text-sm font-bold text-foreground shadow-xs hover:border-primary/40 hover:bg-muted transition-all cursor-pointer'
           >

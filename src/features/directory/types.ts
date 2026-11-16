@@ -12,6 +12,7 @@ export interface DirectoryFiltersProps {
   sortBy?: string;
   onSortChange?: (sort: string) => void;
   availableCuisines?: string[];
+  masterCuisines?: string[];
 }
 
 export interface DirectoryViewProps {

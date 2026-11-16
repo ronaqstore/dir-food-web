@@ -6,9 +6,17 @@ export const directoryKeys = {
   all: ['directory'] as const,
   cities: () => [...directoryKeys.all, 'cities'] as const,
   areas: (cityId?: string) => [...directoryKeys.all, 'areas', cityId] as const,
+  cuisines: () => [...directoryKeys.all, 'cuisines'] as const,
   restaurants: (params: QueryPublicRestaurantsParams) =>
     [...directoryKeys.all, 'restaurants', params] as const
 };
+
+export const cuisinesQueryOptions = () =>
+  queryOptions({
+    queryKey: directoryKeys.cuisines(),
+    queryFn: () => directoryService.getCuisines(),
+    staleTime: 5 * 60 * 1000
+  });
 
 export const citiesQueryOptions = () =>
   queryOptions({
@@ -31,6 +39,10 @@ export const restaurantsQueryOptions = (params: QueryPublicRestaurantsParams = {
     staleTime: 30 * 1000,
     refetchOnWindowFocus: true
   });
+
+export function usePublicCuisinesQuery() {
+  return useQuery(cuisinesQueryOptions());
+}
 
 export function usePublicCitiesQuery() {
   return useQuery(citiesQueryOptions());

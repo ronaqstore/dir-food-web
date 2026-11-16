@@ -12,6 +12,14 @@ export interface PublicArea {
   slug: string;
 }
 
+export interface PublicCuisine {
+  id: string;
+  name: string;
+  slug: string;
+  icon: string | null;
+  sortOrder: number;
+}
+
 export interface PublicRestaurantCard {
   slug: string;
   name: string;

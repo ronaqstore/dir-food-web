@@ -2,6 +2,7 @@ import { apiClient } from '@/lib/api/client';
 import type {
   PublicCity,
   PublicArea,
+  PublicCuisine,
   PublicRestaurantsResponse,
   QueryPublicRestaurantsParams
 } from './types';
@@ -15,6 +16,10 @@ export const directoryService = {
     return apiClient<PublicArea[]>(
       `/public/areas${cityId ? `?cityId=${encodeURIComponent(cityId)}` : ''}`
     );
+  },
+
+  async getCuisines(): Promise<PublicCuisine[]> {
+    return apiClient<PublicCuisine[]>('/public/cuisines');
   },
 
   async getRestaurants(
