@@ -78,7 +78,11 @@
     "yet": "abhi tak.",
     "loadingMore": "Mazeed ilaqay load ho rahay hain...",
     "all": "Tamam",
-    "areasLoaded": "ilaqay load ho gaye"
+    "areasLoaded": "ilaqay load ho gaye",
+    "districts": "azlaa",
+    "scrollDistrictsLeft": "Districts baayein scroll karein",
+    "scrollDistrictsRight": "Districts daayein scroll karein",
+    "didYouMeanDistrict": "Kya aap ka matlab yeh zila tha:"
   },
   "restaurant": {
     "openNow": "Open Now",

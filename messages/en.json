@@ -78,7 +78,11 @@
     "yet": "yet.",
     "loadingMore": "Loading more areas...",
     "all": "All",
-    "areasLoaded": "areas loaded"
+    "areasLoaded": "areas loaded",
+    "districts": "districts",
+    "scrollDistrictsLeft": "Scroll districts left",
+    "scrollDistrictsRight": "Scroll districts right",
+    "didYouMeanDistrict": "Did you mean district:"
   },
   "restaurant": {
     "openNow": "Open Now",

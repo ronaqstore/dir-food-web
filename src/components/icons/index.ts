@@ -8,6 +8,7 @@ export {
   IconMapPin,
   IconSearch,
   IconChevronDown,
+  IconChevronLeft,
   IconChevronRight,
   IconArrowLeft,
   IconArrowRight,

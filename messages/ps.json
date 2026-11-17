@@ -78,7 +78,11 @@
     "yet": "تر اوسه پورې۔",
     "loadingMore": "نورې سیمې لوډ کیږي...",
     "all": "ټول",
-    "areasLoaded": "سیمې بار شوې"
+    "areasLoaded": "سیمې بار شوې",
+    "districts": "ولسوالۍ",
+    "scrollDistrictsLeft": "ولسوالۍ کیڼ لور ته سکرول کړئ",
+    "scrollDistrictsRight": "ولسوالۍ ښي لور ته سکرول کړئ",
+    "didYouMeanDistrict": "ایا ستاسو مطلب دا ولسوالۍ وه:"
   },
   "restaurant": {
     "openNow": "اوس خلاص دی",

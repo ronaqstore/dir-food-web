@@ -78,7 +78,11 @@
     "yet": "ابھی تک۔",
     "loadingMore": "مزید علاقے لوڈ ہو رہے ہیں...",
     "all": "تمام",
-    "areasLoaded": "علاقے لوڈ ہو گئے"
+    "areasLoaded": "علاقے لوڈ ہو گئے",
+    "districts": "اضلاع",
+    "scrollDistrictsLeft": "اضلاع بائیں سکرول کریں",
+    "scrollDistrictsRight": "اضلاع دائیں سکرول کریں",
+    "didYouMeanDistrict": "کیا آپ کا مطلب یہ ضلع تھا:"
   },
   "restaurant": {
     "openNow": "ابھی کھلا ہے",
