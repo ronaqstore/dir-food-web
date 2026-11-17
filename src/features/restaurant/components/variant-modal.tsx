@@ -96,7 +96,7 @@ export function VariantModal({ restaurant, item, onClose }: VariantModalProps) {
       <dialog
         open
         aria-labelledby='variant-modal-title'
-        className='relative z-10 w-full max-w-md rounded-t-3xl sm:rounded-2xl border border-border bg-card p-5 sm:p-6 shadow-xl animate-in slide-in-from-bottom-6 sm:zoom-in-95 duration-200 text-card-foreground block m-0'
+        className='relative z-10 w-full max-w-md max-h-[calc(100dvh-1rem)] sm:max-h-[calc(100dvh-2rem)] overflow-y-auto scrollbar-none rounded-t-3xl sm:rounded-2xl border border-border bg-card p-5 sm:p-6 shadow-xl animate-in slide-in-from-bottom-6 sm:zoom-in-95 duration-200 text-card-foreground block m-0'
       >
         <div className='flex items-start justify-between pb-3 border-b border-border'>
           <div className='flex gap-3'>
@@ -131,7 +131,7 @@ export function VariantModal({ restaurant, item, onClose }: VariantModalProps) {
           </button>
         </div>
 
-        <div className='my-4 max-h-[50vh] overflow-y-auto space-y-4 pe-1'>
+        <div className='my-4 max-h-[50vh] overflow-y-auto scrollbar-none space-y-4 pe-1'>
           {hasVariants && (
             <div className='space-y-2'>
               <p className='flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-muted-foreground'>

@@ -33,7 +33,7 @@ export function RestaurantConflictModal() {
       <dialog
         open
         aria-labelledby='conflict-modal-title'
-        className='relative z-10 w-full max-w-sm rounded-2xl border border-border bg-card p-6 shadow-xl animate-in zoom-in-95 duration-150 text-card-foreground block m-0 text-center'
+        className='relative z-10 w-full max-w-sm max-h-[calc(100dvh-2rem)] overflow-y-auto scrollbar-none rounded-2xl border border-border bg-card p-6 shadow-xl animate-in zoom-in-95 duration-150 text-card-foreground block m-0 text-center'
       >
         <div className='mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500/10 text-amber-600 dark:text-amber-400 mb-4'>
           <IconAlertCircle className='h-6 w-6' />

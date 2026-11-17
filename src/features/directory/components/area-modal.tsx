@@ -169,7 +169,7 @@ export function AreaModal() {
       <dialog
         open
         aria-labelledby='area-modal-title'
-        className='relative z-10 w-full max-w-md max-h-[calc(100dvh-2rem)] overflow-y-auto rounded-2xl border border-border bg-card p-4 sm:p-6 shadow-xl animate-in zoom-in-95 duration-150 text-card-foreground block m-0'
+        className='relative z-10 w-full max-w-md max-h-[calc(100dvh-2rem)] overflow-y-auto scrollbar-none rounded-2xl border border-border bg-card p-4 sm:p-6 shadow-xl animate-in zoom-in-95 duration-150 text-card-foreground block m-0'
       >
         <div className='flex items-center justify-between pb-4 border-b border-border'>
           <div className='flex items-center gap-2'>
