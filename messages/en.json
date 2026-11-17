@@ -82,7 +82,12 @@
     "districts": "districts",
     "scrollDistrictsLeft": "Scroll districts left",
     "scrollDistrictsRight": "Scroll districts right",
-    "didYouMeanDistrict": "Did you mean district:"
+    "didYouMeanDistrict": "Did you mean district:",
+    "searchDistrictPlaceholder": "Search district...",
+    "searchAreaPlaceholder": "Search area...",
+    "selectDistrictPlaceholder": "Select district...",
+    "selectAreaPlaceholder": "Select delivery area...",
+    "confirmSelection": "Confirm Delivery Area"
   },
   "restaurant": {
     "openNow": "Open Now",

@@ -82,7 +82,12 @@
     "districts": "اضلاع",
     "scrollDistrictsLeft": "اضلاع بائیں سکرول کریں",
     "scrollDistrictsRight": "اضلاع دائیں سکرول کریں",
-    "didYouMeanDistrict": "کیا آپ کا مطلب یہ ضلع تھا:"
+    "didYouMeanDistrict": "کیا آپ کا مطلب یہ ضلع تھا:",
+    "searchDistrictPlaceholder": "ضلع تلاش کریں...",
+    "searchAreaPlaceholder": "علاقہ تلاش کریں...",
+    "selectDistrictPlaceholder": "ضلع منتخب کریں...",
+    "selectAreaPlaceholder": "ترسیلی علاقہ منتخب کریں...",
+    "confirmSelection": "علاقہ تصدیق کریں"
   },
   "restaurant": {
     "openNow": "ابھی کھلا ہے",

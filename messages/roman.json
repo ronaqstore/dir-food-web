@@ -82,7 +82,12 @@
     "districts": "azlaa",
     "scrollDistrictsLeft": "Districts baayein scroll karein",
     "scrollDistrictsRight": "Districts daayein scroll karein",
-    "didYouMeanDistrict": "Kya aap ka matlab yeh zila tha:"
+    "didYouMeanDistrict": "Kya aap ka matlab yeh zila tha:",
+    "searchDistrictPlaceholder": "Zila search karein...",
+    "searchAreaPlaceholder": "Ilaqa search karein...",
+    "selectDistrictPlaceholder": "Zila muntakhib karein...",
+    "selectAreaPlaceholder": "Delivery ilaqa muntakhib karein...",
+    "confirmSelection": "Delivery Area Confirm Karein"
   },
   "restaurant": {
     "openNow": "Open Now",

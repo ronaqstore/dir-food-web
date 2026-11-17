@@ -82,7 +82,12 @@
     "districts": "ولسوالۍ",
     "scrollDistrictsLeft": "ولسوالۍ کیڼ لور ته سکرول کړئ",
     "scrollDistrictsRight": "ولسوالۍ ښي لور ته سکرول کړئ",
-    "didYouMeanDistrict": "ایا ستاسو مطلب دا ولسوالۍ وه:"
+    "didYouMeanDistrict": "ایا ستاسو مطلب دا ولسوالۍ وه:",
+    "searchDistrictPlaceholder": "ولسوالۍ وپلټئ...",
+    "searchAreaPlaceholder": "سیمه وپلټئ...",
+    "selectDistrictPlaceholder": "ولسوالۍ وټاکئ...",
+    "selectAreaPlaceholder": "د سپارلو سیمه وټاکئ...",
+    "confirmSelection": "سیمه تایید کړئ"
   },
   "restaurant": {
     "openNow": "اوس خلاص دی",
