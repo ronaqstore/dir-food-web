@@ -44,6 +44,7 @@
   },
   "directory": {
     "searchPlaceholder": "وپلټئ...",
+    "clearSearch": "لټون پاک کړئ",
     "allAreas": "ټول کوز دیر",
     "selectAreaTitle": "د سپارلو سیمه وټاکئ",
     "selectAreaDesc": "خپله سیمه وټاکئ ترڅو تاسو ته رسېدونکي ځایونه وګورئ",

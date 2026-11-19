@@ -82,7 +82,7 @@ export function DirectoryFilters({
             type='button'
             onClick={handleClearSearch}
             suppressHydrationWarning
-            aria-label='Clear search'
+            aria-label={t('clearSearch')}
             className='absolute inset-e-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground p-1 cursor-pointer'
           >
             <IconX className='h-3.5 w-3.5' />
@@ -113,7 +113,6 @@ export function DirectoryFilters({
 
         <div className='h-4 w-px bg-border/80 shrink-0 mx-0.5' aria-hidden='true' />
 
-        {/* Quick Filter: Deals */}
         <button
           type='button'
           onClick={() => onDealsToggle?.(!dealsOnly)}
@@ -128,7 +127,6 @@ export function DirectoryFilters({
           <span>{t('dealsFilter')}</span>
         </button>
 
-        {/* Quick Filter: Open Now */}
         <button
           type='button'
           onClick={() => onOpenNowToggle?.(!openNowOnly)}
@@ -147,7 +145,6 @@ export function DirectoryFilters({
           <span>{t('openNow')}</span>
         </button>
 
-        {/* Quick Filter: Under Rs 500 */}
         <button
           type='button'
           onClick={() => onUnder500Toggle?.(!under500Only)}
@@ -164,7 +161,6 @@ export function DirectoryFilters({
 
         <div className='h-4 w-px bg-border/80 shrink-0 mx-0.5' aria-hidden='true' />
 
-        {/* Cuisines */}
         {allCuisines.map((cuisine) => {
           const isSelected = selectedCuisine?.toLowerCase() === cuisine.toLowerCase();
           return (
