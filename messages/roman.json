@@ -43,7 +43,7 @@
     "ps": "پښتو"
   },
   "directory": {
-    "searchPlaceholder": "Restaurants ya dishes talash karein (maslan Karahi, Pizza)...",
+    "searchPlaceholder": "Search...",
     "allAreas": "All Lower Dir",
     "selectAreaTitle": "Choose Delivery Area",
     "selectAreaDesc": "Select your neighborhood to see spots delivering to you",
@@ -85,8 +85,8 @@
     "scrollDistrictsLeft": "Districts baayein scroll karein",
     "scrollDistrictsRight": "Districts daayein scroll karein",
     "didYouMeanDistrict": "Kya aap ka matlab yeh zila tha:",
-    "searchDistrictPlaceholder": "Zila search karein...",
-    "searchAreaPlaceholder": "Ilaqa search karein...",
+    "searchDistrictPlaceholder": "Search...",
+    "searchAreaPlaceholder": "Search...",
     "selectDistrictPlaceholder": "Zila muntakhib karein...",
     "selectAreaPlaceholder": "Delivery ilaqa muntakhib karein...",
     "confirmSelection": "Delivery Area Confirm Karein"

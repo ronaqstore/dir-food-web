@@ -43,7 +43,7 @@
     "ps": "پښتو"
   },
   "directory": {
-    "searchPlaceholder": "رسټورانټونه یا خواړه وپلټئ (لکه کڑاهي، پیزا)...",
+    "searchPlaceholder": "وپلټئ...",
     "allAreas": "ټول کوز دیر",
     "selectAreaTitle": "د سپارلو سیمه وټاکئ",
     "selectAreaDesc": "خپله سیمه وټاکئ ترڅو تاسو ته رسېدونکي ځایونه وګورئ",
@@ -85,8 +85,8 @@
     "scrollDistrictsLeft": "ولسوالۍ کیڼ لور ته سکرول کړئ",
     "scrollDistrictsRight": "ولسوالۍ ښي لور ته سکرول کړئ",
     "didYouMeanDistrict": "ایا ستاسو مطلب دا ولسوالۍ وه:",
-    "searchDistrictPlaceholder": "ولسوالۍ وپلټئ...",
-    "searchAreaPlaceholder": "سیمه وپلټئ...",
+    "searchDistrictPlaceholder": "وپلټئ...",
+    "searchAreaPlaceholder": "وپلټئ...",
     "selectDistrictPlaceholder": "ولسوالۍ وټاکئ...",
     "selectAreaPlaceholder": "د سپارلو سیمه وټاکئ...",
     "confirmSelection": "سیمه تایید کړئ"

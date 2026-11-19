@@ -43,7 +43,7 @@
     "ps": "پښتو"
   },
   "directory": {
-    "searchPlaceholder": "ریستوراں یا کھانے تلاش کریں (مثلاً کڑاہی، پیزا)...",
+    "searchPlaceholder": "تلاش کریں...",
     "allAreas": "تمام لوئر دیر",
     "selectAreaTitle": "ڈیلیوری علاقہ منتخب کریں",
     "selectAreaDesc": "اپنے علاقے کا انتخاب کریں جہاں کھانا ڈیلیور کروانا ہے",
@@ -85,8 +85,8 @@
     "scrollDistrictsLeft": "اضلاع بائیں سکرول کریں",
     "scrollDistrictsRight": "اضلاع دائیں سکرول کریں",
     "didYouMeanDistrict": "کیا آپ کا مطلب یہ ضلع تھا:",
-    "searchDistrictPlaceholder": "ضلع تلاش کریں...",
-    "searchAreaPlaceholder": "علاقہ تلاش کریں...",
+    "searchDistrictPlaceholder": "تلاش کریں...",
+    "searchAreaPlaceholder": "تلاش کریں...",
     "selectDistrictPlaceholder": "ضلع منتخب کریں...",
     "selectAreaPlaceholder": "ترسیلی علاقہ منتخب کریں...",
     "confirmSelection": "علاقہ تصدیق کریں"

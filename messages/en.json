@@ -43,7 +43,7 @@
     "ps": "پښتو"
   },
   "directory": {
-    "searchPlaceholder": "Search restaurants or dishes (e.g. Karahi, Pizza)...",
+    "searchPlaceholder": "Search...",
     "allAreas": "All Lower Dir",
     "selectAreaTitle": "Choose Delivery Area",
     "selectAreaDesc": "Select your neighborhood to see spots delivering to you",
@@ -85,8 +85,8 @@
     "scrollDistrictsLeft": "Scroll districts left",
     "scrollDistrictsRight": "Scroll districts right",
     "didYouMeanDistrict": "Did you mean district:",
-    "searchDistrictPlaceholder": "Search district...",
-    "searchAreaPlaceholder": "Search area...",
+    "searchDistrictPlaceholder": "Search...",
+    "searchAreaPlaceholder": "Search...",
     "selectDistrictPlaceholder": "Select district...",
     "selectAreaPlaceholder": "Select delivery area...",
     "confirmSelection": "Confirm Delivery Area"
