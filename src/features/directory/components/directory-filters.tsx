@@ -21,10 +21,6 @@ export function DirectoryFilters({
   onSearchChange,
   selectedCuisine,
   onCuisineSelect,
-  openNowOnly,
-  onOpenNowToggle,
-  sortBy = 'default',
-  onSortChange,
   availableCuisines = [],
   masterCuisines = []
 }: DirectoryFiltersProps) {
@@ -42,10 +38,6 @@ export function DirectoryFilters({
     onSearchChange('');
   };
 
-  const handleOpenNowToggle = () => {
-    onOpenNowToggle(!openNowOnly);
-  };
-
   const handleSelectAllCuisines = () => {
     onCuisineSelect(undefined);
   };
@@ -57,65 +49,28 @@ export function DirectoryFilters({
 
   return (
     <div className='space-y-3'>
-      <div className='flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5'>
-        <div className='relative flex-1'>
-          <IconSearch className='absolute inset-s-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground' />
-          <input
-            type='text'
-            value={searchQuery}
-            onChange={(e) => onSearchChange(e.target.value)}
-            placeholder={t('searchPlaceholder')}
-            autoComplete='off'
-            data-lpignore='true'
-            suppressHydrationWarning
-            className='h-11 w-full rounded-xl border border-border bg-card ps-9 pe-8 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all'
-          />
-          {searchQuery && (
-            <button
-              type='button'
-              onClick={handleClearSearch}
-              suppressHydrationWarning
-              className='absolute inset-e-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground p-1 cursor-pointer'
-            >
-              <IconX className='h-3.5 w-3.5' />
-            </button>
-          )}
-        </div>
-
-        <div className='flex items-center gap-2'>
+      <div className='relative w-full'>
+        <IconSearch className='absolute inset-s-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground' />
+        <input
+          type='text'
+          value={searchQuery}
+          onChange={(e) => onSearchChange(e.target.value)}
+          placeholder={t('searchPlaceholder')}
+          autoComplete='off'
+          data-lpignore='true'
+          suppressHydrationWarning
+          className='h-11 w-full rounded-xl border border-border bg-card ps-9 pe-8 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all'
+        />
+        {searchQuery && (
           <button
             type='button'
-            onClick={handleOpenNowToggle}
+            onClick={handleClearSearch}
             suppressHydrationWarning
-            className={`flex h-11 shrink-0 items-center justify-center gap-2 rounded-xl px-4 text-xs font-semibold border transition-all cursor-pointer ${
-              openNowOnly
-                ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
-                : 'border-border bg-card text-muted-foreground hover:text-foreground'
-            }`}
+            className='absolute inset-e-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground p-1 cursor-pointer'
           >
-            <span
-              className={`h-2 w-2 rounded-full ${
-                openNowOnly ? 'bg-emerald-500 animate-pulse' : 'bg-muted-foreground/40'
-              }`}
-            />
-            <span>{t('openNow')}</span>
+            <IconX className='h-3.5 w-3.5' />
           </button>
-
-          {onSortChange && (
-            <select
-              value={sortBy}
-              onChange={(e) => onSortChange(e.target.value)}
-              aria-label={t('sortBy')}
-              suppressHydrationWarning
-              className='h-11 rounded-xl border border-border bg-card px-3 text-xs font-semibold text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all cursor-pointer'
-            >
-              <option value='default'>{t('sortDefault')}</option>
-              <option value='name_asc'>{t('sortNameAsc')}</option>
-              <option value='name_desc'>{t('sortNameDesc')}</option>
-              <option value='min_order_asc'>{t('sortMinOrder')}</option>
-            </select>
-          )}
-        </div>
+        )}
       </div>
 
       <div

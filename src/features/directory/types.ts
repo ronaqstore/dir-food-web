@@ -7,8 +7,8 @@ export interface DirectoryFiltersProps {
   onSearchChange: (query: string) => void;
   selectedCuisine: string | undefined;
   onCuisineSelect: (cuisine: string | undefined) => void;
-  openNowOnly: boolean;
-  onOpenNowToggle: (enabled: boolean) => void;
+  openNowOnly?: boolean;
+  onOpenNowToggle?: (enabled: boolean) => void;
   sortBy?: string;
   onSortChange?: (sort: string) => void;
   availableCuisines?: string[];

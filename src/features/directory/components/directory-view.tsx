@@ -151,10 +151,6 @@ export function DirectoryView({
           onSearchChange={setSearchQuery}
           selectedCuisine={selectedCuisine}
           onCuisineSelect={setSelectedCuisine}
-          openNowOnly={openNowOnly}
-          onOpenNowToggle={setOpenNowOnly}
-          sortBy={sortBy}
-          onSortChange={setSortBy}
           availableCuisines={availableCuisines}
           masterCuisines={masterCuisines}
         />
