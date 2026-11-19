@@ -22,6 +22,8 @@ export function DirectoryView({
   const [searchQuery, setSearchQuery] = React.useState('');
   const [selectedCuisine, setSelectedCuisine] = React.useState<string | undefined>(initialCuisine);
   const [openNowOnly, setOpenNowOnly] = React.useState(false);
+  const [dealsOnly, setDealsOnly] = React.useState(false);
+  const [under500Only, setUnder500Only] = React.useState(false);
   const [sortBy, setSortBy] = React.useState('default');
 
   const [debouncedSearch, setDebouncedSearch] = React.useState('');
@@ -38,6 +40,8 @@ export function DirectoryView({
     selectedCuisine,
     debouncedSearch,
     openNowOnly,
+    dealsOnly,
+    under500Only,
     sortBy,
     initialLimit
   ]);
@@ -49,6 +53,7 @@ export function DirectoryView({
       cuisine: selectedCuisine,
       q: debouncedSearch.trim().length >= 1 ? debouncedSearch.trim() : undefined,
       openNow: openNowOnly ? true : undefined,
+      hasDeals: dealsOnly ? true : undefined,
       sortBy: sortBy !== 'default' ? sortBy : undefined,
       limit: currentLimit
     }),
@@ -58,6 +63,7 @@ export function DirectoryView({
       selectedCuisine,
       debouncedSearch,
       openNowOnly,
+      dealsOnly,
       sortBy,
       currentLimit
     ]
@@ -74,15 +80,24 @@ export function DirectoryView({
   }, [cuisinesData]);
 
   const restaurantList = React.useMemo<PublicRestaurantCard[]>(() => {
-    if (!data) return [];
-    if (Array.isArray(data)) return data as PublicRestaurantCard[];
-    if (Array.isArray((data as { data?: unknown }).data)) {
-      return (data as { data: PublicRestaurantCard[] }).data;
+    let list: PublicRestaurantCard[] = [];
+    if (data) {
+      if (Array.isArray(data)) list = data as PublicRestaurantCard[];
+      else if (Array.isArray((data as { data?: unknown }).data)) {
+        list = (data as { data: PublicRestaurantCard[] }).data;
+      }
     }
-    return [];
-  }, [data]);
+    if (under500Only) {
+      list = list.filter(
+        (r) => r.minOrderAmount === null || r.minOrderAmount <= 50000
+      );
+    }
+    return list;
+  }, [data, under500Only]);
 
-  const totalCount = (data as { meta?: { total?: number } })?.meta?.total ?? restaurantList.length;
+  const totalCount = under500Only
+    ? restaurantList.length
+    : (data as { meta?: { total?: number } })?.meta?.total ?? restaurantList.length;
 
   const availableCuisines = React.useMemo(() => {
     const set = new Set<string>();
@@ -98,6 +113,8 @@ export function DirectoryView({
     setSearchQuery('');
     setSelectedCuisine(undefined);
     setOpenNowOnly(false);
+    setDealsOnly(false);
+    setUnder500Only(false);
     setSortBy('default');
     setCurrentLimit(initialLimit);
   };
@@ -110,6 +127,8 @@ export function DirectoryView({
     searchQuery ||
       selectedCuisine ||
       openNowOnly ||
+      dealsOnly ||
+      under500Only ||
       (sortBy && sortBy !== 'default') ||
       selectedArea
   );
@@ -151,6 +170,13 @@ export function DirectoryView({
           onSearchChange={setSearchQuery}
           selectedCuisine={selectedCuisine}
           onCuisineSelect={setSelectedCuisine}
+          openNowOnly={openNowOnly}
+          onOpenNowToggle={setOpenNowOnly}
+          dealsOnly={dealsOnly}
+          onDealsToggle={setDealsOnly}
+          under500Only={under500Only}
+          onUnder500Toggle={setUnder500Only}
+          onResetAll={handleResetFilters}
           availableCuisines={availableCuisines}
           masterCuisines={masterCuisines}
         />

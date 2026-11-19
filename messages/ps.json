@@ -43,13 +43,15 @@
     "ps": "پښتو"
   },
   "directory": {
-    "searchPlaceholder": "رستورانتونه یا خواړه وپلټئ...",
+    "searchPlaceholder": "رسټورانټونه یا خواړه وپلټئ (لکه کڑاهي، پیزا)...",
     "allAreas": "ټول کوز دیر",
     "selectAreaTitle": "د سپارلو سیمه وټاکئ",
     "selectAreaDesc": "خپله سیمه وټاکئ ترڅو تاسو ته رسېدونکي ځایونه وګورئ",
     "deliveringTo": "د سپارلو سیمه:",
-    "allCuisines": "ټول خواړه",
-    "openNow": "اوس خلاص دی",
+    "allCuisines": "ټول",
+    "openNow": "خلاص دی",
+    "dealsFilter": "ډیلونه",
+    "under500": "تر ۵۰۰ کم",
     "closed": "بند دی",
     "sortBy": "ترتیب",
     "sortDefault": "اصلي",

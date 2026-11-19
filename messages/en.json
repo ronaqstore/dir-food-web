@@ -43,13 +43,15 @@
     "ps": "پښتو"
   },
   "directory": {
-    "searchPlaceholder": "Search...",
+    "searchPlaceholder": "Search restaurants or dishes (e.g. Karahi, Pizza)...",
     "allAreas": "All Lower Dir",
     "selectAreaTitle": "Choose Delivery Area",
     "selectAreaDesc": "Select your neighborhood to see spots delivering to you",
     "deliveringTo": "Delivering to:",
     "allCuisines": "All",
     "openNow": "Open Now",
+    "dealsFilter": "Deals",
+    "under500": "Under Rs 500",
     "closed": "Closed",
     "sortBy": "Sort by",
     "sortDefault": "Default",

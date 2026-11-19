@@ -9,6 +9,11 @@ export interface DirectoryFiltersProps {
   onCuisineSelect: (cuisine: string | undefined) => void;
   openNowOnly?: boolean;
   onOpenNowToggle?: (enabled: boolean) => void;
+  dealsOnly?: boolean;
+  onDealsToggle?: (enabled: boolean) => void;
+  under500Only?: boolean;
+  onUnder500Toggle?: (enabled: boolean) => void;
+  onResetAll?: () => void;
   sortBy?: string;
   onSortChange?: (sort: string) => void;
   availableCuisines?: string[];

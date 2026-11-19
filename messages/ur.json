@@ -43,13 +43,15 @@
     "ps": "پښتو"
   },
   "directory": {
-    "searchPlaceholder": "تلاش کریں...",
+    "searchPlaceholder": "ریستوراں یا کھانے تلاش کریں (مثلاً کڑاہی، پیزا)...",
     "allAreas": "تمام لوئر دیر",
     "selectAreaTitle": "ڈیلیوری علاقہ منتخب کریں",
     "selectAreaDesc": "اپنے علاقے کا انتخاب کریں جہاں کھانا ڈیلیور کروانا ہے",
     "deliveringTo": "ڈیلیوری علاقہ:",
-    "allCuisines": "سب کھانے",
-    "openNow": "ابھی کھلا ہے",
+    "allCuisines": "سب",
+    "openNow": "کھلا ہے",
+    "dealsFilter": "ڈیلز",
+    "under500": "500 روپے سے کم",
     "closed": "بند ہے",
     "sortBy": "ترتیب دیں",
     "sortDefault": "پہلے سے طے شدہ",

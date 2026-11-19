@@ -29,6 +29,7 @@ export interface PublicRestaurantCard {
   isOpenNow: boolean;
   availabilityText: string;
   nextOpenAt: string | null;
+  hasDeals?: boolean;
 }
 
 export interface QueryPublicRestaurantsParams {
@@ -37,6 +38,7 @@ export interface QueryPublicRestaurantsParams {
   cuisine?: string;
   q?: string;
   openNow?: boolean;
+  hasDeals?: boolean;
   sortBy?: string;
   page?: number;
   limit?: number;

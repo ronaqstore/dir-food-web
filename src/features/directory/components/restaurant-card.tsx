@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { formatPkr } from '@/lib/money';
-import { IconBuildingStore, IconClock } from '@/components/icons';
+import { IconBuildingStore, IconClock, IconFlame } from '@/components/icons';
 import type { RestaurantCardProps } from '../types';
 
 export function RestaurantCard({ restaurant }: RestaurantCardProps) {
@@ -48,6 +48,15 @@ export function RestaurantCard({ restaurant }: RestaurantCardProps) {
             {restaurant.isOpenNow ? t('openNow') : t('closed')}
           </span>
         </div>
+
+        {restaurant.hasDeals && (
+          <div className='absolute inset-e-3 top-3'>
+            <span className='inline-flex items-center gap-1 rounded-full bg-rose-600/90 text-white px-2 py-0.5 text-[10px] font-bold backdrop-blur-md shadow-xs'>
+              <IconFlame className='h-3 w-3' />
+              <span>{t('dealsFilter')}</span>
+            </span>
+          </div>
+        )}
       </div>
 
       {}

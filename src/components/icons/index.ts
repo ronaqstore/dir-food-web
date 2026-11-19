@@ -24,5 +24,6 @@ export {
   IconTag,
   IconScale,
   IconSquarePlus,
-  IconUser
+  IconUser,
+  IconFlame
 } from '@tabler/icons-react';

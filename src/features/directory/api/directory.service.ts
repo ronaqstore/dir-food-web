@@ -32,6 +32,7 @@ export const directoryService = {
     if (params.cuisine) searchParams.set('cuisine', params.cuisine);
     if (params.q && params.q.trim().length >= 1) searchParams.set('q', params.q.trim());
     if (params.openNow !== undefined) searchParams.set('openNow', String(params.openNow));
+    if (params.hasDeals !== undefined) searchParams.set('hasDeals', String(params.hasDeals));
     if (params.sortBy) searchParams.set('sortBy', params.sortBy);
     if (params.page) searchParams.set('page', String(params.page));
     if (params.limit) searchParams.set('limit', String(params.limit));
