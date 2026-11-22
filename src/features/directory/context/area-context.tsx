@@ -42,12 +42,30 @@ export function AreaProvider({ children }: ChildrenProps) {
     }
     const storedArea = getStoredArea();
     if (storedArea) {
-      setSelectedAreaState(storedArea);
+      if (!storedCity || !storedArea.cityId || storedArea.cityId === storedCity.id) {
+        setSelectedAreaState(storedArea);
+      } else {
+        try {
+          localStorage.removeItem(STORAGE_KEY_AREA);
+        } catch (error) {
+          const _fallback = error;
+        }
+      }
     }
   }, []);
 
   const setSelectedCity = React.useCallback((city: PublicCity | null) => {
-    setSelectedCityState(city);
+    setSelectedCityState((prevCity) => {
+      if (prevCity?.id !== city?.id) {
+        setSelectedAreaState(null);
+        try {
+          localStorage.removeItem(STORAGE_KEY_AREA);
+        } catch (error) {
+          const _fallback = error;
+        }
+      }
+      return city;
+    });
     try {
       if (city) {
         localStorage.setItem(STORAGE_KEY_CITY, JSON.stringify(city));

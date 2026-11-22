@@ -111,12 +111,16 @@ export function CheckoutView() {
   const isRestaurantOpen = validationData?.restaurant?.isOpenNow ?? true;
   const hasAreaSelected = Boolean(selectedArea?.id);
   const hasLandmark = formData.landmark.trim().length >= 3;
+  const hasValidationProblems = Boolean(
+    validationData?.problems && validationData.problems.length > 0
+  );
 
   const isValidToSubmit =
     hasAreaSelected &&
     hasLandmark &&
     isMinOrderMet &&
     isRestaurantOpen &&
+    !hasValidationProblems &&
     !isValidating &&
     !createIntentMutation.isPending;
 
