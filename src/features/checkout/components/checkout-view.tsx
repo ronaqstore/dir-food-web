@@ -16,6 +16,7 @@ import { CartValidationBanner } from '@/components/cart/cart-validation-banner';
 import { Link } from '@/i18n/navigation';
 import { IconArrowLeft, IconAlertCircle } from '@tabler/icons-react';
 import { isReservedPhoneNumber, isExactPkMobile, formatPkMobile } from '@/lib/phone';
+import { generateUuidV4 } from '@/lib/uuid';
 
 const CUSTOMER_STORAGE_KEY = 'dir_food_customer_info';
 
@@ -151,10 +152,7 @@ export function CheckoutView() {
     }
 
     const payload: CreateOrderIntentPayload = {
-      clientRequestId:
-        typeof crypto !== 'undefined' && crypto.randomUUID
-          ? crypto.randomUUID()
-          : `req-${Date.now()}`,
+      clientRequestId: generateUuidV4(),
       restaurantSlug: restaurant.slug,
       items: items.map((i) => ({
         menuItemId: i.itemId,

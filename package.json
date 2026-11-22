@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start -p 3013",
     "typecheck": "tsc --noEmit",
-    "test": "node --experimental-strip-types --import ./scripts/code/test-loader.mjs --test src/features/restaurant/utils/deal-parser.test.ts src/lib/money/index.test.ts",
+    "test": "node --experimental-strip-types --import ./scripts/code/test-loader.mjs --test src/features/restaurant/utils/deal-parser.test.ts src/lib/money/index.test.ts src/lib/uuid.test.ts",
     "check": "node scripts/run-checks.mjs",
     "knip": "node scripts/run-knip.mjs",
     "check:hydration": "node scripts/code/check-hydration.cjs",

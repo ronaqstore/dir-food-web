@@ -128,7 +128,8 @@ export function CartItemList() {
                   <button
                     type='button'
                     onClick={() => updateQuantity(item.key, item.quantity + 1)}
-                    className='flex size-7 items-center justify-center rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground active:scale-95 transition-all cursor-pointer'
+                    disabled={item.quantity >= 50}
+                    className='flex size-7 items-center justify-center rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground active:scale-95 transition-all cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed disabled:pointer-events-none'
                     aria-label={t('increaseQuantity')}
                   >
                     <IconPlus className='size-3.5' />

@@ -50,6 +50,7 @@ export interface OrderIntentLine {
 
 export interface OrderIntentRestaurant {
   name: string;
+  district?: string | null;
 }
 
 export interface OrderIntentDeliveryDetails {

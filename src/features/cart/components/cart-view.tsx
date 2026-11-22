@@ -28,6 +28,7 @@ export function CartView() {
       items: items.map((i) => ({
         menuItemId: i.itemId,
         variantId: i.variantId || null,
+        addonIds: i.addons && i.addons.length > 0 ? i.addons.map((a) => a.id) : undefined,
         quantity: i.quantity
       })),
       deliveryAreaId: selectedAreaId || null

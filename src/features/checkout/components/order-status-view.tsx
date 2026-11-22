@@ -177,7 +177,9 @@ export function OrderStatusView({ refCode }: OrderStatusViewProps) {
               <IconBuildingStore className='size-4 text-primary shrink-0 mt-0.5' />
               <div>
                 <p className='font-semibold text-foreground'>{order.restaurant.name}</p>
-                <p className='text-muted-foreground'>{t('timergaraLowerDir')}</p>
+                {order.restaurant.district ? (
+                  <p className='text-muted-foreground'>{order.restaurant.district}</p>
+                ) : null}
               </div>
             </div>
 

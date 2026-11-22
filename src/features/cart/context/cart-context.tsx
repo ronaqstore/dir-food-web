@@ -63,13 +63,14 @@ export function CartProvider({ children }: ChildrenProps) {
       const isSameRestaurant = prev.restaurant?.slug === restaurant.slug;
       const currentItems = isSameRestaurant ? [...prev.items] : [];
 
+      const safeQtyToAdd = Math.min(50, Math.max(1, quantity));
       const existingIndex = currentItems.findIndex((i) => i.key === key);
       if (existingIndex > -1) {
         const existing = currentItems[existingIndex];
         if (existing) {
           currentItems[existingIndex] = {
             ...existing,
-            quantity: existing.quantity + quantity
+            quantity: Math.min(50, existing.quantity + safeQtyToAdd)
           };
         }
       } else {
@@ -80,7 +81,7 @@ export function CartProvider({ children }: ChildrenProps) {
           name: item.name,
           variantName: variant?.name,
           unitPrice,
-          quantity,
+          quantity: safeQtyToAdd,
           imageUrl: item.imageUrl,
           addons: sortedAddons.length > 0 ? sortedAddons : undefined
         });
@@ -132,7 +133,8 @@ export function CartProvider({ children }: ChildrenProps) {
       if (quantity <= 0) {
         updatedItems = prev.items.filter((i) => !matchKey(i.key));
       } else {
-        updatedItems = prev.items.map((i) => (matchKey(i.key) ? { ...i, quantity } : i));
+        const cappedQty = Math.min(50, quantity);
+        updatedItems = prev.items.map((i) => (matchKey(i.key) ? { ...i, quantity: cappedQty } : i));
       }
 
       const nextState = {
