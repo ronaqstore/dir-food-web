@@ -57,9 +57,8 @@ export function OrderStatusView({ refCode }: OrderStatusViewProps) {
   };
 
   const handleOpenWhatsApp = () => {
-    if (!order?.whatsappUrl || !order?.reference) return;
+    if (!order?.reference) return;
     recordOpenedMutation.mutate(order.reference);
-    window.open(order.whatsappUrl, '_blank', 'noopener,noreferrer');
   };
 
   if (isLoading) {
@@ -131,14 +130,16 @@ export function OrderStatusView({ refCode }: OrderStatusViewProps) {
           </div>
 
           <div className='pt-2 space-y-2'>
-            <button
-              type='button'
+            <a
+              href={order.whatsappUrl}
               onClick={handleOpenWhatsApp}
-              className='flex w-full items-center justify-center gap-2.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] py-4 px-6 text-base font-bold text-white shadow-lg shadow-emerald-600/20 transition-all'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='flex w-full items-center justify-center gap-2.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] py-4 px-6 text-base font-bold text-white shadow-lg shadow-emerald-600/20 transition-all cursor-pointer'
             >
               <IconBrandWhatsapp className='size-6' />
               <span>{t('openWhatsAppBtn')}</span>
-            </button>
+            </a>
             <p className='text-xs text-muted-foreground'>{t('whatsAppNotice')}</p>
           </div>
         </div>

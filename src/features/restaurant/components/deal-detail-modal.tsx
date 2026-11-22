@@ -233,8 +233,8 @@ export function DealDetailModal({
             </span>
             <button
               type='button'
-              onClick={() => setQuantity((q) => q + 1)}
-              disabled={!item.isAvailable}
+              onClick={() => setQuantity((q) => Math.min(50, q + 1))}
+              disabled={!item.isAvailable || quantity >= 50}
               className='flex size-8 items-center justify-center rounded-xl bg-card text-foreground hover:bg-muted disabled:opacity-40 transition-colors cursor-pointer shadow-2xs'
               aria-label={t('increaseQty')}
             >

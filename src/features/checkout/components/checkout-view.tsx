@@ -75,7 +75,11 @@ export function CheckoutView() {
     };
   }, [restaurantSlug, items, selectedAreaId]);
 
-  const { data: validationData, isLoading: isValidating } = useValidateCart(validationRequest);
+  const {
+    data: validationData,
+    isLoading: isValidating,
+    error: validationError
+  } = useValidateCart(validationRequest);
   const createIntentMutation = useCreateOrderIntent();
 
   const handleFieldChange = (field: keyof CheckoutFormData, value: string) => {
@@ -112,7 +116,8 @@ export function CheckoutView() {
   const hasAreaSelected = Boolean(selectedArea?.id);
   const hasLandmark = formData.landmark.trim().length >= 3;
   const hasValidationProblems = Boolean(
-    validationData?.problems && validationData.problems.length > 0
+    validationError ||
+    (validationData?.problems && validationData.problems.length > 0)
   );
 
   const isValidToSubmit =
@@ -220,7 +225,11 @@ export function CheckoutView() {
           <div className='lg:col-span-7 xl:col-span-8 space-y-4'>
             <CartValidationBanner
               restaurant={validationData?.restaurant}
-              problems={validationData?.problems}
+              problems={
+                validationError
+                  ? [validationError instanceof Error ? validationError.message : t('failedToPlaceOrder')]
+                  : validationData?.problems
+              }
             />
 
             <CartMinOrderAlert

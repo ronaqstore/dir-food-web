@@ -35,7 +35,11 @@ export function CartView() {
     };
   }, [restaurantSlug, items, selectedAreaId]);
 
-  const { data: validationData, isLoading: isValidating } = useValidateCart(validationRequest);
+  const {
+    data: validationData,
+    isLoading: isValidating,
+    error: validationError
+  } = useValidateCart(validationRequest);
 
   if (!restaurant || items.length === 0) {
     return (
@@ -53,10 +57,11 @@ export function CartView() {
       : (restaurant.minOrderAmount ?? null);
 
   const hasCriticalErrors = Boolean(
-    validationData?.problems &&
-    validationData.problems.some(
-      (p) => !p.toLowerCase().includes('minimum order') && !p.toLowerCase().includes('not served')
-    )
+    validationError ||
+    (validationData?.problems &&
+      validationData.problems.some(
+        (p) => !p.toLowerCase().includes('minimum order') && !p.toLowerCase().includes('not served')
+      ))
   );
 
   return (
@@ -74,7 +79,11 @@ export function CartView() {
             <CartAreaCard delivery={validationData?.delivery} />
             <CartValidationBanner
               restaurant={validationData?.restaurant}
-              problems={validationData?.problems}
+              problems={
+                validationError
+                  ? [validationError instanceof Error ? validationError.message : t('restaurantClosedDesc')]
+                  : validationData?.problems
+              }
             />
             <CartMinOrderAlert
               subtotal={subtotal}

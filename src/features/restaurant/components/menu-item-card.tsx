@@ -64,6 +64,7 @@ export function MenuItemCard({
   const handleQuantityStep = (delta: number) => {
     const existing = items.find((i) => i.itemId === item.id);
     if (existing) {
+      if (delta > 0 && existing.quantity >= 50) return;
       updateQuantity(existing.key, existing.quantity + delta);
     } else if (delta > 0) {
       handleSimpleAdd();
@@ -211,7 +212,8 @@ export function MenuItemCard({
                 <button
                   type='button'
                   onClick={() => handleQuantityStep(1)}
-                  className='flex size-7 items-center justify-center rounded-lg bg-primary text-primary-foreground hover:opacity-95 active:scale-95 transition-all cursor-pointer shadow-2xs'
+                  disabled={totalItemQtyInCart >= 50}
+                  className='flex size-7 items-center justify-center rounded-lg bg-primary text-primary-foreground hover:opacity-95 active:scale-95 transition-all cursor-pointer shadow-2xs disabled:opacity-40 disabled:cursor-not-allowed'
                   aria-label={t('increaseQty')}
                 >
                   <IconPlus className='size-3.5' />
