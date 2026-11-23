@@ -75,7 +75,17 @@ export function DeliveryFeesModal({
                   <span className='font-medium text-foreground'>{area.name}</span>
                 </div>
                 <span className='font-bold text-primary'>
-                  {area.deliveryFee !== null ? formatPkr(area.deliveryFee) : t('freeDelivery')}
+                  {area.deliveryFee !== null ? (
+                    area.deliveryFee === 0 ? (
+                      t('freeDelivery')
+                    ) : (
+                      formatPkr(area.deliveryFee)
+                    )
+                  ) : (
+                    <span className='text-xs font-normal text-muted-foreground'>
+                      {t('feeConfirmedViaWhatsApp')}
+                    </span>
+                  )}
                 </span>
               </div>
             ))

@@ -100,6 +100,7 @@
     "deliveryAreasTitle": "Delivery Areas Coverage",
     "noDeliveryAreas": "Delivery fees will be confirmed directly on WhatsApp.",
     "freeDelivery": "Free Delivery",
+    "feeConfirmedViaWhatsApp": "Fee confirmed via WhatsApp",
     "notFound": "Restaurant Not Found",
     "notFoundDesc": "This restaurant is either not available or has been removed.",
     "coverAlt": "cover"
@@ -221,7 +222,7 @@
     "failedToPlaceOrder": "Failed to create order. Please try again.",
     "phoneReserved": "Yeh phone number pehle se istemal mein hai",
     "reservedPhoneError": "Yeh phone number pehle se istemal mein hai",
-    "invalidPhone": "11 digits mobile number darj karein (maslan 03029825213)"
+    "invalidPhone": "11 digits mobile number darj karein (maslan 03001234567)"
   },
   "order": {
     "orderPlacedTitle": "Order Registered!",

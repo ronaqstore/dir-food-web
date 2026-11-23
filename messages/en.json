@@ -100,6 +100,7 @@
     "deliveryAreasTitle": "Delivery Areas Coverage",
     "noDeliveryAreas": "Delivery fees will be confirmed directly on WhatsApp.",
     "freeDelivery": "Free Delivery",
+    "feeConfirmedViaWhatsApp": "Fee confirmed via WhatsApp",
     "notFound": "Restaurant Not Found",
     "notFoundDesc": "This restaurant is either not available or has been removed.",
     "coverAlt": "cover"
@@ -221,7 +222,7 @@
     "failedToPlaceOrder": "Failed to create order. Please try again.",
     "phoneReserved": "This phone number is already in use",
     "reservedPhoneError": "This phone number is reserved or already in use",
-    "invalidPhone": "Must be an 11-digit mobile number (e.g. 03029825213)"
+    "invalidPhone": "Must be an 11-digit mobile number (e.g. 03001234567)"
   },
   "order": {
     "orderPlacedTitle": "Order Registered!",
