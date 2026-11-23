@@ -133,7 +133,8 @@
     "decreaseQty": "Miqdaar kam karein",
     "increaseQty": "Miqdaar barhain",
     "inCart": "cart mein",
-    "inCartSuffix": "cart mein)"
+    "inCartSuffix": "cart mein)",
+    "dealsCount": "{count, plural, =1 {1 Deal} other {# Deals}}"
   },
   "cart": {
     "itemsCount": "{count, plural, =1 {1 item} other {# items}}",

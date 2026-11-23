@@ -133,7 +133,8 @@
     "decreaseQty": "مقدار کم کریں",
     "increaseQty": "مقدار زیادہ کریں",
     "inCart": "ٹوکری میں",
-    "inCartSuffix": "ٹوکری میں)"
+    "inCartSuffix": "ٹوکری میں)",
+    "dealsCount": "{count, plural, =1 {1 ڈیل} other {# ڈیلز}}"
   },
   "cart": {
     "itemsCount": "{count, plural, =1 {1 کھانا} other {# کھانے}}",

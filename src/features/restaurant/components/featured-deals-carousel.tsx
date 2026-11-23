@@ -36,7 +36,7 @@ export function FeaturedDealsCarousel({
               {t('dealsTitle')}
             </h3>
             <span className='rounded-full bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 px-2 py-0.5 text-[10px] font-bold'>
-              {deals.length} {deals.length === 1 ? 'Deal' : 'Deals'}
+              {t('dealsCount', { count: deals.length })}
             </span>
           </div>
           <p className='text-xs text-muted-foreground'>

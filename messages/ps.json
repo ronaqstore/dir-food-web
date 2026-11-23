@@ -133,7 +133,8 @@
     "decreaseQty": "اندازه کمه کړئ",
     "increaseQty": "اندازه زیاته کړئ",
     "inCart": "په ټوکرۍ کې",
-    "inCartSuffix": "په ټوکرۍ کې)"
+    "inCartSuffix": "په ټوکرۍ کې)",
+    "dealsCount": "{count, plural, =1 {1 ډیل} other {# ډیلونه}}"
   },
   "cart": {
     "itemsCount": "{count, plural, =1 {1 توکی} other {# توکي}}",

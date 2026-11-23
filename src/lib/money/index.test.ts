@@ -19,5 +19,6 @@ describe('money helpers', () => {
     assert.equal(formatPkr(50000), 'Rs 500');
     assert.equal(formatPkr(150000), 'Rs 1,500');
     assert.equal(formatPkr(0), 'Rs 0');
+    assert.equal(formatPkr(NaN), 'Rs 0');
   });
 });

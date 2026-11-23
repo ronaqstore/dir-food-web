@@ -133,7 +133,8 @@
     "decreaseQty": "Decrease quantity",
     "increaseQty": "Increase quantity",
     "inCart": "in cart",
-    "inCartSuffix": "in cart)"
+    "inCartSuffix": "in cart)",
+    "dealsCount": "{count, plural, =1 {1 Deal} other {# Deals}}"
   },
   "cart": {
     "itemsCount": "{count, plural, =1 {1 item} other {# items}}",
