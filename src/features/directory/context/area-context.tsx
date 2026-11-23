@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { AppError } from '@/lib/errors';
-import type { ChildrenProps } from '@/types/common';
-import type { PublicArea, PublicCity, AreaContextValue } from '../types';
+import * as React from "react";
+import { AppError } from "@/lib/errors";
+import type { ChildrenProps } from "@/types/common";
+import type { PublicArea, PublicCity, AreaContextValue } from "../types";
 
 const AreaContext = React.createContext<AreaContextValue | null>(null);
 
-const STORAGE_KEY_CITY = 'dir_food_selected_city';
-const STORAGE_KEY_AREA = 'dir_food_selected_area';
+const STORAGE_KEY_CITY = "dir_food_selected_city";
+const STORAGE_KEY_AREA = "dir_food_selected_area";
 
 function getStoredCity(): PublicCity | null {
-  if (typeof window === 'undefined') return null;
+  if (typeof window === "undefined") return null;
   try {
     const stored = localStorage.getItem(STORAGE_KEY_CITY);
     return stored ? (JSON.parse(stored) as PublicCity) : null;
@@ -21,7 +21,7 @@ function getStoredCity(): PublicCity | null {
 }
 
 function getStoredArea(): PublicArea | null {
-  if (typeof window === 'undefined') return null;
+  if (typeof window === "undefined") return null;
   try {
     const stored = localStorage.getItem(STORAGE_KEY_AREA);
     return stored ? (JSON.parse(stored) as PublicArea) : null;
@@ -31,8 +31,10 @@ function getStoredArea(): PublicArea | null {
 }
 
 export function AreaProvider({ children }: ChildrenProps) {
-  const [selectedCity, setSelectedCityState] = React.useState<PublicCity | null>(null);
-  const [selectedArea, setSelectedAreaState] = React.useState<PublicArea | null>(null);
+  const [selectedCity, setSelectedCityState] =
+    React.useState<PublicCity | null>(null);
+  const [selectedArea, setSelectedAreaState] =
+    React.useState<PublicArea | null>(null);
   const [isAreaModalOpen, setIsAreaModalOpen] = React.useState(false);
 
   React.useEffect(() => {
@@ -42,7 +44,11 @@ export function AreaProvider({ children }: ChildrenProps) {
     }
     const storedArea = getStoredArea();
     if (storedArea) {
-      if (!storedCity || !storedArea.cityId || storedArea.cityId === storedCity.id) {
+      if (
+        !storedCity ||
+        !storedArea.cityId ||
+        storedArea.cityId === storedCity.id
+      ) {
         setSelectedAreaState(storedArea);
       } else {
         try {
@@ -52,6 +58,33 @@ export function AreaProvider({ children }: ChildrenProps) {
         }
       }
     }
+
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === STORAGE_KEY_CITY) {
+        if (!e.newValue) {
+          setSelectedCityState(null);
+        } else {
+          try {
+            setSelectedCityState(JSON.parse(e.newValue) as PublicCity);
+          } catch (error) {
+            const _fallback = error;
+          }
+        }
+      } else if (e.key === STORAGE_KEY_AREA) {
+        if (!e.newValue) {
+          setSelectedAreaState(null);
+        } else {
+          try {
+            setSelectedAreaState(JSON.parse(e.newValue) as PublicArea);
+          } catch (error) {
+            const _fallback = error;
+          }
+        }
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
   const setSelectedCity = React.useCallback((city: PublicCity | null) => {
@@ -101,7 +134,7 @@ export function AreaProvider({ children }: ChildrenProps) {
       setSelectedArea,
       isAreaModalOpen,
       openAreaModal,
-      closeAreaModal
+      closeAreaModal,
     }),
     [
       selectedCity,
@@ -110,8 +143,8 @@ export function AreaProvider({ children }: ChildrenProps) {
       setSelectedArea,
       isAreaModalOpen,
       openAreaModal,
-      closeAreaModal
-    ]
+      closeAreaModal,
+    ],
   );
 
   return <AreaContext.Provider value={value}>{children}</AreaContext.Provider>;
@@ -120,7 +153,7 @@ export function AreaProvider({ children }: ChildrenProps) {
 export function useArea(): AreaContextValue {
   const context = React.useContext(AreaContext);
   if (!context) {
-    throw new AppError('useArea must be used within an AreaProvider');
+    throw new AppError("useArea must be used within an AreaProvider");
   }
   return context;
 }

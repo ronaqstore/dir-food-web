@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { AppError } from '@/lib/errors';
-import type { ChildrenProps } from '@/types/common';
+import * as React from "react";
+import { AppError } from "@/lib/errors";
+import type { ChildrenProps } from "@/types/common";
 import type {
   CartItem,
   CartState,
   AddItemPayload,
   CartContextValue,
-  ValidatedPriceSyncLine
-} from '../types';
+  ValidatedPriceSyncLine,
+} from "../types";
 
-const STORAGE_KEY = 'dir_food_cart';
+const STORAGE_KEY = "dir_food_cart";
 
 function getStoredCart(): CartState {
-  if (typeof window === 'undefined') {
+  if (typeof window === "undefined") {
     return { restaurant: null, items: [] };
   }
   try {
@@ -33,14 +33,38 @@ function getStoredCart(): CartState {
 const CartContext = React.createContext<CartContextValue | null>(null);
 
 export function CartProvider({ children }: ChildrenProps) {
-  const [cartState, setCartState] = React.useState<CartState>({ restaurant: null, items: [] });
-  const [pendingConflict, setPendingConflict] = React.useState<AddItemPayload | null>(null);
+  const [cartState, setCartState] = React.useState<CartState>({
+    restaurant: null,
+    items: [],
+  });
+  const [pendingConflict, setPendingConflict] =
+    React.useState<AddItemPayload | null>(null);
 
   React.useEffect(() => {
     const stored = getStoredCart();
     if (stored.restaurant || (stored.items && stored.items.length > 0)) {
       setCartState(stored);
     }
+
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === STORAGE_KEY) {
+        if (!e.newValue) {
+          setCartState({ restaurant: null, items: [] });
+        } else {
+          try {
+            const parsed = JSON.parse(e.newValue) as CartState;
+            if (parsed && Array.isArray(parsed.items)) {
+              setCartState(parsed);
+            }
+          } catch (error) {
+            const _fallback = error;
+          }
+        }
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
   const saveCart = React.useCallback((nextState: CartState) => {
@@ -59,10 +83,16 @@ export function CartProvider({ children }: ChildrenProps) {
   const addItemDirect = React.useCallback((payload: AddItemPayload) => {
     const { restaurant, item, variant, addons = [], quantity = 1 } = payload;
     const sortedAddons = [...addons].sort((a, b) => a.id.localeCompare(b.id));
-    const addonsSuffix = sortedAddons.length > 0 ? `:${sortedAddons.map((a) => a.id).join(',')}` : '';
-    const key = `${item.id}:${variant?.id || 'base'}${addonsSuffix}`;
+    const addonsSuffix =
+      sortedAddons.length > 0
+        ? `:${sortedAddons.map((a) => a.id).join(",")}`
+        : "";
+    const key = `${item.id}:${variant?.id || "base"}${addonsSuffix}`;
     const basePrice = (variant ? variant.price : (item.price ?? 0)) || 0;
-    const addonsTotal = sortedAddons.reduce((sum, a) => sum + (a.price || 0), 0);
+    const addonsTotal = sortedAddons.reduce(
+      (sum, a) => sum + (a.price || 0),
+      0,
+    );
     const unitPrice = Math.max(0, basePrice + addonsTotal);
 
     setCartState((prev) => {
@@ -76,7 +106,7 @@ export function CartProvider({ children }: ChildrenProps) {
         if (existing) {
           currentItems[existingIndex] = {
             ...existing,
-            quantity: Math.min(50, existing.quantity + safeQtyToAdd)
+            quantity: Math.min(50, existing.quantity + safeQtyToAdd),
           };
         }
       } else {
@@ -89,13 +119,13 @@ export function CartProvider({ children }: ChildrenProps) {
           unitPrice,
           quantity: safeQtyToAdd,
           imageUrl: item.imageUrl,
-          addons: sortedAddons.length > 0 ? sortedAddons : undefined
+          addons: sortedAddons.length > 0 ? sortedAddons : undefined,
         });
       }
 
       const nextState = {
         restaurant,
-        items: currentItems
+        items: currentItems,
       };
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(nextState));
@@ -118,7 +148,7 @@ export function CartProvider({ children }: ChildrenProps) {
       }
       addItemDirect(payload);
     },
-    [cartState.restaurant, cartState.items.length, addItemDirect]
+    [cartState.restaurant, cartState.items.length, addItemDirect],
   );
 
   const resolveConflict = React.useCallback(
@@ -128,7 +158,7 @@ export function CartProvider({ children }: ChildrenProps) {
       }
       setPendingConflict(null);
     },
-    [pendingConflict, addItemDirect]
+    [pendingConflict, addItemDirect],
   );
 
   const updateQuantity = React.useCallback((key: string, quantity: number) => {
@@ -140,12 +170,14 @@ export function CartProvider({ children }: ChildrenProps) {
         updatedItems = prev.items.filter((i) => !matchKey(i.key));
       } else {
         const cappedQty = Math.min(50, quantity);
-        updatedItems = prev.items.map((i) => (matchKey(i.key) ? { ...i, quantity: cappedQty } : i));
+        updatedItems = prev.items.map((i) =>
+          matchKey(i.key) ? { ...i, quantity: cappedQty } : i,
+        );
       }
 
       const nextState = {
         restaurant: updatedItems.length === 0 ? null : prev.restaurant,
-        items: updatedItems
+        items: updatedItems,
       };
       try {
         if (nextState.items.length === 0) {
@@ -164,7 +196,7 @@ export function CartProvider({ children }: ChildrenProps) {
     (key: string) => {
       updateQuantity(key, 0);
     },
-    [updateQuantity]
+    [updateQuantity],
   );
 
   const clearCart = React.useCallback(() => {
@@ -176,17 +208,30 @@ export function CartProvider({ children }: ChildrenProps) {
       setCartState((prev) => {
         let changed = false;
         const updated = prev.items.map((cartItem, idx) => {
+          const cartAddonsStr =
+            cartItem.addons
+              ?.map((a) => a.id)
+              .sort()
+              .join(",") || "";
+          const getLineAddonsStr = (l: ValidatedPriceSyncLine) =>
+            l.addons
+              ?.map((a) => a.id)
+              .sort()
+              .join(",") || "";
+
           const directMatch = lines[idx];
           const isDirectMatch =
             directMatch &&
             directMatch.menuItemId === cartItem.itemId &&
-            (directMatch.variantId ?? undefined) === cartItem.variantId;
+            (directMatch.variantId ?? undefined) === cartItem.variantId &&
+            getLineAddonsStr(directMatch) === cartAddonsStr;
           const matching = isDirectMatch
             ? directMatch
             : lines.find(
                 (l) =>
                   l.menuItemId === cartItem.itemId &&
-                  (l.variantId ?? undefined) === cartItem.variantId
+                  (l.variantId ?? undefined) === cartItem.variantId &&
+                  getLineAddonsStr(l) === cartAddonsStr,
               );
           if (matching && matching.unitPrice !== cartItem.unitPrice) {
             changed = true;
@@ -204,26 +249,33 @@ export function CartProvider({ children }: ChildrenProps) {
         return nextState;
       });
     },
-    []
+    [],
   );
 
   const getItemQuantity = React.useCallback(
     (itemId: string, variantId?: string): number => {
       return cartState.items
-        .filter((i) => i.itemId === itemId && (!variantId || i.variantId === variantId))
+        .filter(
+          (i) =>
+            i.itemId === itemId && (!variantId || i.variantId === variantId),
+        )
         .reduce((sum, i) => sum + i.quantity, 0);
     },
-    [cartState.items]
+    [cartState.items],
   );
 
   const itemCount = React.useMemo(
     () => cartState.items.reduce((acc, item) => acc + item.quantity, 0),
-    [cartState.items]
+    [cartState.items],
   );
 
   const subtotal = React.useMemo(
-    () => cartState.items.reduce((acc, item) => acc + item.unitPrice * item.quantity, 0),
-    [cartState.items]
+    () =>
+      cartState.items.reduce(
+        (acc, item) => acc + item.unitPrice * item.quantity,
+        0,
+      ),
+    [cartState.items],
   );
 
   const value = React.useMemo(
@@ -239,7 +291,7 @@ export function CartProvider({ children }: ChildrenProps) {
       getItemQuantity,
       syncValidatedPrices,
       pendingConflict,
-      resolveConflict
+      resolveConflict,
     }),
     [
       cartState.restaurant,
@@ -253,8 +305,8 @@ export function CartProvider({ children }: ChildrenProps) {
       getItemQuantity,
       syncValidatedPrices,
       pendingConflict,
-      resolveConflict
-    ]
+      resolveConflict,
+    ],
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
@@ -263,7 +315,7 @@ export function CartProvider({ children }: ChildrenProps) {
 export function useCart(): CartContextValue {
   const context = React.useContext(CartContext);
   if (!context) {
-    throw new AppError('useCart must be used within a CartProvider');
+    throw new AppError("useCart must be used within a CartProvider");
   }
   return context;
 }

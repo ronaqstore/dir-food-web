@@ -28,11 +28,12 @@ export interface CartState {
   items: CartItem[];
 }
 
-export type DeliveryFeeStatus = 'KNOWN' | 'TO_BE_CONFIRMED';
+export type DeliveryFeeStatus = "KNOWN" | "TO_BE_CONFIRMED";
 
 export interface ValidatedCartLine {
   menuItemId: string;
   variantId: string | null;
+  addons?: Array<{ id: string; name?: string; price?: number | bigint }> | null;
   addonIds?: string[];
   name: string;
   variantName: string | null;
@@ -100,6 +101,7 @@ export interface AddItemPayload {
 export interface ValidatedPriceSyncLine {
   menuItemId: string;
   variantId: string | null;
+  addons?: Array<{ id: string; name?: string; price?: number | bigint }> | null;
   unitPrice: number;
 }
 

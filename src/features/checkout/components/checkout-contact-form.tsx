@@ -1,155 +1,207 @@
-'use client';
+"use client";
 
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 import {
   IconMapPin,
   IconPhone,
   IconUser,
   IconHome,
   IconNotes,
-  IconChevronRight
-} from '@tabler/icons-react';
-import { useArea } from '@/features/directory/context/area-context';
-import { isReservedPhoneNumber, isExactPkMobile, sanitizePkMobileInput } from '@/lib/phone';
-import type { CheckoutContactFormProps } from '@/features/checkout/types';
+  IconChevronRight,
+} from "@tabler/icons-react";
+import { useArea } from "@/features/directory/context/area-context";
+import {
+  isReservedPhoneNumber,
+  isExactPkMobile,
+  sanitizePkMobileInput,
+} from "@/lib/phone";
+import type { CheckoutContactFormProps } from "@/features/checkout/types";
 
-export function CheckoutContactForm({ formData, onChange, disabled }: CheckoutContactFormProps) {
-  const t = useTranslations('checkout');
+export function CheckoutContactForm({
+  formData,
+  onChange,
+  disabled,
+}: CheckoutContactFormProps) {
+  const t = useTranslations("checkout");
   const { selectedArea, openAreaModal } = useArea();
 
   return (
-    <div className='rounded-2xl border border-border bg-card p-5 sm:p-6 shadow-xs space-y-6'>
-      <div className='border-b border-border pb-4'>
-        <h2 className='text-base font-bold text-foreground'>{t('deliveryDetailsTitle')}</h2>
-        <p className='text-xs text-muted-foreground mt-0.5'>{t('deliveryDetailsSubtitle')}</p>
+    <div className="rounded-2xl border border-border bg-card p-5 sm:p-6 shadow-xs space-y-6">
+      <div className="border-b border-border pb-4">
+        <h2 className="text-base font-bold text-foreground">
+          {t("deliveryDetailsTitle")}
+        </h2>
+        <p className="text-xs text-muted-foreground mt-0.5">
+          {t("deliveryDetailsSubtitle")}
+        </p>
       </div>
 
-      <div className='space-y-4'>
+      <div className="space-y-4">
         {}
-        <div className='space-y-1.5'>
-          <label className='block text-xs font-semibold text-foreground'>
-            {t('areaLabel')} <span className='text-destructive'>*</span>
+        <div className="space-y-1.5">
+          <label className="block text-xs font-semibold text-foreground">
+            {t("areaLabel")} <span className="text-destructive">*</span>
           </label>
           <button
-            type='button'
+            type="button"
             onClick={openAreaModal}
             disabled={disabled}
-            className='flex w-full items-center justify-between rounded-xl border border-border bg-background px-3.5 py-2.5 text-start text-sm hover:bg-muted/50 transition-colors'
+            className="flex w-full items-center justify-between rounded-xl border border-border bg-background px-3.5 py-2.5 text-start text-sm hover:bg-muted/50 transition-colors"
           >
-            <div className='flex items-center gap-2.5 min-w-0'>
-              <IconMapPin className='size-4 text-primary shrink-0' />
+            <div className="flex items-center gap-2.5 min-w-0">
+              <IconMapPin className="size-4 text-primary shrink-0" />
               <span
-                className={`truncate font-medium ${selectedArea ? 'text-foreground font-semibold' : 'text-muted-foreground'}`}
+                className={`truncate font-medium ${selectedArea ? "text-foreground font-semibold" : "text-muted-foreground"}`}
               >
-                {selectedArea ? selectedArea.name : t('selectAreaPlaceholder')}
+                {selectedArea ? selectedArea.name : t("selectAreaPlaceholder")}
               </span>
             </div>
-            <div className='flex items-center gap-1 text-xs font-semibold text-primary shrink-0'>
-              <span>{t('changeArea')}</span>
-              <IconChevronRight className='size-3.5 rtl:rotate-180' />
+            <div className="flex items-center gap-1 text-xs font-semibold text-primary shrink-0">
+              <span>{t("changeArea")}</span>
+              <IconChevronRight className="size-3.5 rtl:rotate-180" />
             </div>
           </button>
         </div>
 
         {}
-        <div className='space-y-1.5'>
-          <label htmlFor='landmark' className='block text-xs font-semibold text-foreground'>
-            {t('landmarkLabel')} <span className='text-destructive'>*</span>
+        <div className="space-y-1.5">
+          <label
+            htmlFor="landmark"
+            className="block text-xs font-semibold text-foreground"
+          >
+            {t("landmarkLabel")} <span className="text-destructive">*</span>
           </label>
-          <div className='relative'>
-            <div className='pointer-events-none absolute inset-y-0 inset-s-0 flex items-center ps-3 text-muted-foreground'>
-              <IconHome className='size-4' />
+          <div className="relative">
+            <div className="pointer-events-none absolute inset-y-0 inset-s-0 flex items-center ps-3 text-muted-foreground">
+              <IconHome className="size-4" />
             </div>
             <input
-              id='landmark'
-              type='text'
+              id="landmark"
+              type="text"
               value={formData.landmark}
-              onChange={(e) => onChange('landmark', e.target.value)}
+              onChange={(e) => onChange("landmark", e.target.value)}
               disabled={disabled}
-              placeholder={t('landmarkPlaceholder')}
+              placeholder={t("landmarkPlaceholder")}
               required
               minLength={3}
               maxLength={150}
-              className='block w-full rounded-xl border border-border bg-background py-2.5 pe-3 ps-10 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20 disabled:opacity-60'
+              className={`block w-full rounded-xl border bg-background py-2.5 pe-3 ps-10 text-sm text-foreground placeholder:text-muted-foreground focus:outline-hidden focus:ring-2 disabled:opacity-60 ${
+                formData.landmark.trim().length > 0 &&
+                formData.landmark.trim().length < 3
+                  ? "border-destructive focus:border-destructive focus:ring-destructive/20"
+                  : "border-border focus:border-primary focus:ring-primary/20"
+              }`}
             />
           </div>
-          <p className='text-[11px] text-muted-foreground'>{t('landmarkHint')}</p>
+          {formData.landmark.trim().length > 0 &&
+          formData.landmark.trim().length < 3 ? (
+            <p className="text-xs text-destructive font-medium">
+              {t("landmarkTooShort")}
+            </p>
+          ) : (
+            <p className="text-[11px] text-muted-foreground">
+              {t("landmarkHint")}
+            </p>
+          )}
         </div>
 
-        {}
-        <div className='space-y-1.5'>
-          <label htmlFor='directions' className='block text-xs font-medium text-foreground'>
-            {t('directionsLabel')}
+        <div className="space-y-1.5">
+          <label
+            htmlFor="directions"
+            className="block text-xs font-medium text-foreground"
+          >
+            {t("directionsLabel")}
           </label>
-          <div className='relative'>
-            <div className='pointer-events-none absolute inset-y-0 inset-s-0 flex items-center ps-3 text-muted-foreground'>
-              <IconNotes className='size-4' />
+          <div className="relative">
+            <div className="pointer-events-none absolute inset-y-0 inset-s-0 flex items-center ps-3 text-muted-foreground">
+              <IconNotes className="size-4" />
             </div>
             <input
-              id='directions'
-              type='text'
+              id="directions"
+              type="text"
               value={formData.directions}
-              onChange={(e) => onChange('directions', e.target.value)}
+              onChange={(e) => onChange("directions", e.target.value)}
               disabled={disabled}
-              placeholder={t('directionsPlaceholder')}
+              placeholder={t("directionsPlaceholder")}
               maxLength={300}
-              className='block w-full rounded-xl border border-border bg-background py-2.5 pe-3 ps-10 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20 disabled:opacity-60'
+              className="block w-full rounded-xl border border-border bg-background py-2.5 pe-3 ps-10 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20 disabled:opacity-60"
             />
           </div>
         </div>
 
-        {}
-        <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2'>
-          {}
-          <div className='space-y-1.5'>
-            <label htmlFor='customer-name' className='block text-xs font-medium text-foreground'>
-              {t('nameLabel')}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+          <div className="space-y-1.5">
+            <label
+              htmlFor="customer-name"
+              className="block text-xs font-medium text-foreground"
+            >
+              {t("nameLabel")}
             </label>
-            <div className='relative'>
-              <div className='pointer-events-none absolute inset-y-0 inset-s-0 flex items-center ps-3 text-muted-foreground'>
-                <IconUser className='size-4' />
+            <div className="relative">
+              <div className="pointer-events-none absolute inset-y-0 inset-s-0 flex items-center ps-3 text-muted-foreground">
+                <IconUser className="size-4" />
               </div>
               <input
-                id='customer-name'
-                type='text'
+                id="customer-name"
+                type="text"
                 value={formData.name}
-                onChange={(e) => onChange('name', e.target.value)}
+                onChange={(e) => onChange("name", e.target.value)}
                 disabled={disabled}
-                placeholder={t('namePlaceholder')}
+                placeholder={t("namePlaceholder")}
+                minLength={2}
                 maxLength={60}
-                className='block w-full rounded-xl border border-border bg-background py-2.5 pe-3 ps-10 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20 disabled:opacity-60'
+                className={`block w-full rounded-xl border bg-background py-2.5 pe-3 ps-10 text-sm text-foreground placeholder:text-muted-foreground focus:outline-hidden focus:ring-2 disabled:opacity-60 ${
+                  formData.name.trim().length === 1
+                    ? "border-destructive focus:border-destructive focus:ring-destructive/20"
+                    : "border-border focus:border-primary focus:ring-primary/20"
+                }`}
               />
             </div>
+            {formData.name.trim().length === 1 ? (
+              <p className="text-xs text-destructive font-medium">
+                {t("nameTooShort")}
+              </p>
+            ) : null}
           </div>
 
-          <div className='space-y-1.5'>
-            <label htmlFor='customer-phone' className='block text-xs font-medium text-foreground'>
-              {t('phoneLabel')}
+          <div className="space-y-1.5">
+            <label
+              htmlFor="customer-phone"
+              className="block text-xs font-medium text-foreground"
+            >
+              {t("phoneLabel")}
             </label>
-            <div className='relative'>
-              <div className='pointer-events-none absolute inset-y-0 inset-s-0 flex items-center ps-3 text-muted-foreground'>
-                <IconPhone className='size-4' />
+            <div className="relative">
+              <div className="pointer-events-none absolute inset-y-0 inset-s-0 flex items-center ps-3 text-muted-foreground">
+                <IconPhone className="size-4" />
               </div>
               <input
-                id='customer-phone'
-                type='tel'
+                id="customer-phone"
+                type="tel"
                 value={formData.phone}
-                onChange={(e) => onChange('phone', sanitizePkMobileInput(e.target.value))}
+                onChange={(e) =>
+                  onChange("phone", sanitizePkMobileInput(e.target.value))
+                }
                 maxLength={11}
                 disabled={disabled}
-                placeholder='03001234567'
+                placeholder="03001234567"
                 suppressHydrationWarning
                 className={`block w-full rounded-xl border bg-background py-2.5 pe-3 ps-10 text-sm text-foreground placeholder:text-muted-foreground focus:outline-hidden focus:ring-2 disabled:opacity-60 ${
-                  (formData.phone && !isExactPkMobile(formData.phone)) || isReservedPhoneNumber(formData.phone)
-                    ? 'border-destructive focus:border-destructive focus:ring-destructive/20'
-                    : 'border-border focus:border-primary focus:ring-primary/20'
+                  (formData.phone && !isExactPkMobile(formData.phone)) ||
+                  isReservedPhoneNumber(formData.phone)
+                    ? "border-destructive focus:border-destructive focus:ring-destructive/20"
+                    : "border-border focus:border-primary focus:ring-primary/20"
                 }`}
               />
             </div>
             {formData.phone && !isExactPkMobile(formData.phone) ? (
-              <p className='text-xs text-destructive font-medium'>{t('invalidPhone')}</p>
+              <p className="text-xs text-destructive font-medium">
+                {t("invalidPhone")}
+              </p>
             ) : isReservedPhoneNumber(formData.phone) ? (
-              <p className='text-xs text-destructive font-medium'>{t('phoneReserved')}</p>
+              <p className="text-xs text-destructive font-medium">
+                {t("phoneReserved")}
+              </p>
             ) : null}
           </div>
         </div>

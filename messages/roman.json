@@ -223,7 +223,9 @@
     "failedToPlaceOrder": "Failed to create order. Please try again.",
     "phoneReserved": "Yeh phone number pehle se istemal mein hai",
     "reservedPhoneError": "Yeh phone number pehle se istemal mein hai",
-    "invalidPhone": "11 digits mobile number darj karein (maslan 03001234567)"
+    "invalidPhone": "11 digits mobile number darj karein (maslan 03001234567)",
+    "nameTooShort": "Naam kam az kam 2 characters ka hona chahiye",
+    "landmarkTooShort": "Landmark kam az kam 3 characters ka hona chahiye"
   },
   "order": {
     "orderPlacedTitle": "Order Registered!",

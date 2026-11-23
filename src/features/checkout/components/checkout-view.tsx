@@ -1,27 +1,34 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { useTranslations } from 'next-intl';
-import { useRouter } from '@/i18n/navigation';
-import { useCart } from '@/features/cart/context/cart-context';
-import { useArea } from '@/features/directory/context/area-context';
-import { useValidateCart } from '@/features/cart/api/cart-query';
-import { useCreateOrderIntent } from '@/features/checkout/api/order-intent-query';
-import type { CreateOrderIntentPayload, CheckoutFormData } from '@/features/checkout/types';
-import type { ValidateCartRequest } from '@/features/cart/types';
-import { CheckoutContactForm } from '@/features/checkout/components/checkout-contact-form';
-import { CheckoutOrderSummary } from '@/features/checkout/components/checkout-order-summary';
-import { CartMinOrderAlert } from '@/components/cart/cart-min-order-alert';
-import { CartValidationBanner } from '@/components/cart/cart-validation-banner';
-import { Link } from '@/i18n/navigation';
-import { IconArrowLeft, IconAlertCircle } from '@tabler/icons-react';
-import { isReservedPhoneNumber, isExactPkMobile, formatPkMobile } from '@/lib/phone';
-import { generateUuidV4 } from '@/lib/uuid';
+import * as React from "react";
+import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
+import { useCart } from "@/features/cart/context/cart-context";
+import { useArea } from "@/features/directory/context/area-context";
+import { useValidateCart } from "@/features/cart/api/cart-query";
+import { useCreateOrderIntent } from "@/features/checkout/api/order-intent-query";
+import type {
+  CreateOrderIntentPayload,
+  CheckoutFormData,
+} from "@/features/checkout/types";
+import type { ValidateCartRequest } from "@/features/cart/types";
+import { CheckoutContactForm } from "@/features/checkout/components/checkout-contact-form";
+import { CheckoutOrderSummary } from "@/features/checkout/components/checkout-order-summary";
+import { CartMinOrderAlert } from "@/components/cart/cart-min-order-alert";
+import { CartValidationBanner } from "@/components/cart/cart-validation-banner";
+import { Link } from "@/i18n/navigation";
+import { IconArrowLeft, IconAlertCircle } from "@tabler/icons-react";
+import {
+  isReservedPhoneNumber,
+  isExactPkMobile,
+  formatPkMobile,
+} from "@/lib/phone";
+import { generateUuidV4 } from "@/lib/uuid";
 
-const CUSTOMER_STORAGE_KEY = 'dir_food_customer_info';
+const CUSTOMER_STORAGE_KEY = "dir_food_customer_info";
 
 function getStoredCustomerInfo(): Partial<CheckoutFormData> {
-  if (typeof window === 'undefined') return {};
+  if (typeof window === "undefined") return {};
   try {
     const raw = localStorage.getItem(CUSTOMER_STORAGE_KEY);
     return raw ? (JSON.parse(raw) as Partial<CheckoutFormData>) : {};
@@ -32,26 +39,27 @@ function getStoredCustomerInfo(): Partial<CheckoutFormData> {
 }
 
 export function CheckoutView() {
-  const t = useTranslations('checkout');
+  const t = useTranslations("checkout");
   const router = useRouter();
-  const { restaurant, items, subtotal, clearCart, syncValidatedPrices } = useCart();
+  const { restaurant, items, subtotal, clearCart, syncValidatedPrices } =
+    useCart();
   const { selectedArea } = useArea();
 
   const [formData, setFormData] = React.useState<CheckoutFormData>({
-    name: '',
-    phone: '',
-    landmark: '',
-    directions: ''
+    name: "",
+    phone: "",
+    landmark: "",
+    directions: "",
   });
 
   React.useEffect(() => {
     const saved = getStoredCustomerInfo();
     if (saved.name || saved.phone || saved.landmark || saved.directions) {
       setFormData({
-        name: saved.name || '',
-        phone: formatPkMobile(saved.phone || ''),
-        landmark: saved.landmark || '',
-        directions: saved.directions || ''
+        name: saved.name || "",
+        phone: formatPkMobile(saved.phone || ""),
+        landmark: saved.landmark || "",
+        directions: saved.directions || "",
       });
     }
   }, []);
@@ -69,16 +77,16 @@ export function CheckoutView() {
         menuItemId: i.itemId,
         variantId: i.variantId || null,
         addonIds: i.addons ? i.addons.map((a) => a.id) : undefined,
-        quantity: i.quantity
+        quantity: i.quantity,
       })),
-      deliveryAreaId: selectedAreaId || null
+      deliveryAreaId: selectedAreaId || null,
     };
   }, [restaurantSlug, items, selectedAreaId]);
 
   const {
     data: validationData,
     isLoading: isValidating,
-    error: validationError
+    error: validationError,
   } = useValidateCart(validationRequest);
   const createIntentMutation = useCreateOrderIntent();
 
@@ -95,16 +103,20 @@ export function CheckoutView() {
 
   if (!restaurant || items.length === 0) {
     return (
-      <div className='min-h-[70vh] bg-background py-12'>
-        <div className='mx-auto max-w-lg px-4 text-center'>
-          <h2 className='text-xl font-bold text-foreground'>{t('noItemsTitle')}</h2>
-          <p className='mt-2 text-sm text-muted-foreground'>{t('noItemsDesc')}</p>
-          <div className='mt-6'>
+      <div className="min-h-[70vh] bg-background py-12">
+        <div className="mx-auto max-w-lg px-4 text-center">
+          <h2 className="text-xl font-bold text-foreground">
+            {t("noItemsTitle")}
+          </h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            {t("noItemsDesc")}
+          </p>
+          <div className="mt-6">
             <Link
-              href='/restaurants'
-              className='inline-flex rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground'
+              href="/restaurants"
+              className="inline-flex rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground"
             >
-              {t('backToRestaurants')}
+              {t("backToRestaurants")}
             </Link>
           </div>
         </div>
@@ -121,14 +133,20 @@ export function CheckoutView() {
   const isRestaurantOpen = validationData?.restaurant?.isOpenNow ?? true;
   const hasAreaSelected = Boolean(selectedArea?.id);
   const hasLandmark = formData.landmark.trim().length >= 3;
+  const isNameValid = !formData.name.trim() || formData.name.trim().length >= 2;
+  const isPhoneValid =
+    !formData.phone.trim() ||
+    (isExactPkMobile(formData.phone) && !isReservedPhoneNumber(formData.phone));
   const hasValidationProblems = Boolean(
     validationError ||
-    (validationData?.problems && validationData.problems.length > 0)
+    (validationData?.problems && validationData.problems.length > 0),
   );
 
   const isValidToSubmit =
     hasAreaSelected &&
     hasLandmark &&
+    isNameValid &&
+    isPhoneValid &&
     isMinOrderMet &&
     isRestaurantOpen &&
     !hasValidationProblems &&
@@ -139,13 +157,18 @@ export function CheckoutView() {
     e.preventDefault();
     if (!isValidToSubmit || !selectedArea) return;
 
+    if (formData.name.trim().length === 1) {
+      setSubmitError(t("nameTooShort"));
+      return;
+    }
+
     if (formData.phone.trim()) {
       if (!isExactPkMobile(formData.phone)) {
-        setSubmitError(t('invalidPhone'));
+        setSubmitError(t("invalidPhone"));
         return;
       }
       if (isReservedPhoneNumber(formData.phone)) {
-        setSubmitError(t('reservedPhoneError'));
+        setSubmitError(t("reservedPhoneError"));
         return;
       }
     }
@@ -159,8 +182,8 @@ export function CheckoutView() {
           name: formData.name.trim(),
           phone: formData.phone.trim(),
           landmark: formData.landmark.trim(),
-          directions: formData.directions.trim()
-        })
+          directions: formData.directions.trim(),
+        }),
       );
     } catch (error) {
       const _fallback = error;
@@ -173,19 +196,21 @@ export function CheckoutView() {
         menuItemId: i.itemId,
         variantId: i.variantId || null,
         addonIds: i.addons ? i.addons.map((a) => a.id) : undefined,
-        quantity: i.quantity
+        quantity: i.quantity,
       })),
       customer: {
         name: formData.name.trim() || undefined,
-        phone: formData.phone.trim() || undefined
+        phone: formData.phone.trim() || undefined,
       },
       delivery: {
         areaId: selectedArea.id,
         landmark: formData.landmark.trim(),
-        directions: formData.directions.trim() || undefined
+        directions: formData.directions.trim() || undefined,
       },
       expectedSubtotal:
-        validationData?.subtotal !== undefined ? validationData.subtotal : subtotal
+        validationData?.subtotal !== undefined
+          ? validationData.subtotal
+          : subtotal,
     };
 
     try {
@@ -193,48 +218,55 @@ export function CheckoutView() {
       clearCart();
       router.push(`/order/${response.reference}`);
     } catch (err) {
-      const message = err instanceof Error ? err.message : t('failedToPlaceOrder');
+      const message =
+        err instanceof Error ? err.message : t("failedToPlaceOrder");
       setSubmitError(message);
     }
   };
 
   return (
-    <div className='min-h-[85vh] bg-muted/20 py-6 sm:py-10'>
-      <div className='mx-auto max-w-7xl 2xl:max-w-[1440px] px-4 sm:px-6 lg:px-8'>
-        <div className='mb-6'>
+    <div className="min-h-[85vh] bg-muted/20 py-6 sm:py-10">
+      <div className="mx-auto max-w-7xl 2xl:max-w-[1440px] px-4 sm:px-6 lg:px-8">
+        <div className="mb-6">
           <Link
-            href='/cart'
-            className='inline-flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors'
+            href="/cart"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors"
           >
-            <IconArrowLeft className='size-4 rtl:rotate-180' />
-            <span>{t('backToCart')}</span>
+            <IconArrowLeft className="size-4 rtl:rotate-180" />
+            <span>{t("backToCart")}</span>
           </Link>
-          <h1 className='mt-2 text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl'>
-            {t('checkoutTitle')}
+          <h1 className="mt-2 text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">
+            {t("checkoutTitle")}
           </h1>
-          <p className='mt-1 text-sm text-muted-foreground'>{t('checkoutSubtitle')}</p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {t("checkoutSubtitle")}
+          </p>
         </div>
 
         {submitError ? (
-          <div className='mb-6 flex items-start gap-3 rounded-2xl border border-destructive/30 bg-destructive/10 p-4 text-xs font-semibold text-destructive'>
-            <IconAlertCircle className='size-5 shrink-0 mt-0.5' />
-            <div className='flex-1'>
-              <p className='font-bold text-sm'>{t('orderErrorTitle')}</p>
-              <p className='mt-0.5 opacity-90'>{submitError}</p>
+          <div className="mb-6 flex items-start gap-3 rounded-2xl border border-destructive/30 bg-destructive/10 p-4 text-xs font-semibold text-destructive">
+            <IconAlertCircle className="size-5 shrink-0 mt-0.5" />
+            <div className="flex-1">
+              <p className="font-bold text-sm">{t("orderErrorTitle")}</p>
+              <p className="mt-0.5 opacity-90">{submitError}</p>
             </div>
           </div>
         ) : null}
 
         <form
           onSubmit={handleSubmit}
-          className='grid grid-cols-1 lg:grid-cols-12 gap-6 items-start'
+          className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start"
         >
-          <div className='lg:col-span-7 xl:col-span-8 space-y-4'>
+          <div className="lg:col-span-7 xl:col-span-8 space-y-4">
             <CartValidationBanner
               restaurant={validationData?.restaurant}
               problems={
                 validationError
-                  ? [validationError instanceof Error ? validationError.message : t('failedToPlaceOrder')]
+                  ? [
+                      validationError instanceof Error
+                        ? validationError.message
+                        : t("failedToPlaceOrder"),
+                    ]
                   : validationData?.problems
               }
             />
@@ -252,7 +284,7 @@ export function CheckoutView() {
             />
           </div>
 
-          <div className='lg:col-span-5 xl:col-span-4'>
+          <div className="lg:col-span-5 xl:col-span-4">
             <CheckoutOrderSummary
               restaurant={restaurant}
               items={items}

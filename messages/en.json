@@ -223,7 +223,9 @@
     "failedToPlaceOrder": "Failed to create order. Please try again.",
     "phoneReserved": "This phone number is already in use",
     "reservedPhoneError": "This phone number is reserved or already in use",
-    "invalidPhone": "Must be an 11-digit mobile number (e.g. 03001234567)"
+    "invalidPhone": "Must be an 11-digit mobile number (e.g. 03001234567)",
+    "nameTooShort": "Name must be at least 2 characters",
+    "landmarkTooShort": "Address / landmark must be at least 3 characters"
   },
   "order": {
     "orderPlacedTitle": "Order Registered!",
