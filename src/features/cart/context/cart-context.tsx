@@ -175,10 +175,19 @@ export function CartProvider({ children }: ChildrenProps) {
     (lines: ValidatedPriceSyncLine[]) => {
       setCartState((prev) => {
         let changed = false;
-        const updated = prev.items.map((cartItem) => {
-          const matching = lines.find(
-            (l) => l.menuItemId === cartItem.itemId && (l.variantId ?? undefined) === cartItem.variantId
-          );
+        const updated = prev.items.map((cartItem, idx) => {
+          const directMatch = lines[idx];
+          const isDirectMatch =
+            directMatch &&
+            directMatch.menuItemId === cartItem.itemId &&
+            (directMatch.variantId ?? undefined) === cartItem.variantId;
+          const matching = isDirectMatch
+            ? directMatch
+            : lines.find(
+                (l) =>
+                  l.menuItemId === cartItem.itemId &&
+                  (l.variantId ?? undefined) === cartItem.variantId
+              );
           if (matching && matching.unitPrice !== cartItem.unitPrice) {
             changed = true;
             return { ...cartItem, unitPrice: matching.unitPrice };
