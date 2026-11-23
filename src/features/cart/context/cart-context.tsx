@@ -3,7 +3,13 @@
 import * as React from 'react';
 import { AppError } from '@/lib/errors';
 import type { ChildrenProps } from '@/types/common';
-import type { CartItem, CartState, AddItemPayload, CartContextValue } from '../types';
+import type {
+  CartItem,
+  CartState,
+  AddItemPayload,
+  CartContextValue,
+  ValidatedPriceSyncLine
+} from '../types';
 
 const STORAGE_KEY = 'dir_food_cart';
 
@@ -55,9 +61,9 @@ export function CartProvider({ children }: ChildrenProps) {
     const sortedAddons = [...addons].sort((a, b) => a.id.localeCompare(b.id));
     const addonsSuffix = sortedAddons.length > 0 ? `:${sortedAddons.map((a) => a.id).join(',')}` : '';
     const key = `${item.id}:${variant?.id || 'base'}${addonsSuffix}`;
-    const basePrice = variant ? variant.price : item.price;
-    const addonsTotal = sortedAddons.reduce((sum, a) => sum + a.price, 0);
-    const unitPrice = basePrice + addonsTotal;
+    const basePrice = (variant ? variant.price : (item.price ?? 0)) || 0;
+    const addonsTotal = sortedAddons.reduce((sum, a) => sum + (a.price || 0), 0);
+    const unitPrice = Math.max(0, basePrice + addonsTotal);
 
     setCartState((prev) => {
       const isSameRestaurant = prev.restaurant?.slug === restaurant.slug;
@@ -165,6 +171,33 @@ export function CartProvider({ children }: ChildrenProps) {
     saveCart({ restaurant: null, items: [] });
   }, [saveCart]);
 
+  const syncValidatedPrices = React.useCallback(
+    (lines: ValidatedPriceSyncLine[]) => {
+      setCartState((prev) => {
+        let changed = false;
+        const updated = prev.items.map((cartItem) => {
+          const matching = lines.find(
+            (l) => l.menuItemId === cartItem.itemId && (l.variantId ?? undefined) === cartItem.variantId
+          );
+          if (matching && matching.unitPrice !== cartItem.unitPrice) {
+            changed = true;
+            return { ...cartItem, unitPrice: matching.unitPrice };
+          }
+          return cartItem;
+        });
+        if (!changed) return prev;
+        const nextState = { ...prev, items: updated };
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(nextState));
+        } catch (error) {
+          const _fallback = error;
+        }
+        return nextState;
+      });
+    },
+    []
+  );
+
   const getItemQuantity = React.useCallback(
     (itemId: string, variantId?: string): number => {
       return cartState.items
@@ -195,6 +228,7 @@ export function CartProvider({ children }: ChildrenProps) {
       removeItem,
       clearCart,
       getItemQuantity,
+      syncValidatedPrices,
       pendingConflict,
       resolveConflict
     }),
@@ -208,6 +242,7 @@ export function CartProvider({ children }: ChildrenProps) {
       removeItem,
       clearCart,
       getItemQuantity,
+      syncValidatedPrices,
       pendingConflict,
       resolveConflict
     ]

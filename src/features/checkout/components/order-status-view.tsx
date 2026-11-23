@@ -238,7 +238,14 @@ export function OrderStatusView({ refCode }: OrderStatusViewProps) {
             </div>
             <div className='flex justify-between items-baseline border-t border-border pt-2 text-sm font-bold text-foreground'>
               <span>{t('total')}</span>
-              <span className='text-base font-extrabold text-primary'>{formatPkr(grandTotal)}</span>
+              <div className='text-end'>
+                <span className='text-base font-extrabold text-primary'>{formatPkr(grandTotal)}</span>
+                {order.delivery.fee === null ? (
+                  <p className='text-[11px] font-normal text-muted-foreground'>
+                    (+{t('confirmViaWhatsApp')})
+                  </p>
+                ) : null}
+              </div>
             </div>
           </div>
         </div>

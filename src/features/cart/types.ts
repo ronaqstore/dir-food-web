@@ -97,6 +97,12 @@ export interface AddItemPayload {
   quantity?: number;
 }
 
+export interface ValidatedPriceSyncLine {
+  menuItemId: string;
+  variantId: string | null;
+  unitPrice: number;
+}
+
 export interface CartContextValue {
   restaurant: CartRestaurant | null;
   items: CartItem[];
@@ -107,6 +113,7 @@ export interface CartContextValue {
   removeItem: (key: string) => void;
   clearCart: () => void;
   getItemQuantity: (itemId: string, variantId?: string) => number;
+  syncValidatedPrices?: (lines: ValidatedPriceSyncLine[]) => void;
   pendingConflict: AddItemPayload | null;
   resolveConflict: (acceptNew: boolean) => void;
 }

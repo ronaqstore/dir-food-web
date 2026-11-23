@@ -4,7 +4,7 @@ import * as React from 'react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { formatPkr } from '@/lib/money';
-import { IconCheck, IconMinus, IconPlus, IconX } from '@/components/icons';
+import { IconCheck, IconMinus, IconPlus, IconX, IconSquarePlus } from '@/components/icons';
 import { useCart } from '@/features/cart/context/cart-context';
 import { parseDealDescription } from '../utils/deal-parser';
 
@@ -20,9 +20,11 @@ export function DealDetailModal({
   const { addItem, updateQuantity, getItemQuantity, items } = useCart();
 
   const [quantity, setQuantity] = React.useState(1);
+  const [selectedAddonIds, setSelectedAddonIds] = React.useState<string[]>([]);
 
   React.useEffect(() => {
     setQuantity(1);
+    setSelectedAddonIds([]);
   }, [item]);
 
   React.useEffect(() => {
@@ -34,11 +36,15 @@ export function DealDetailModal({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [item, onClose]);
 
-  if (!item) return null;
+  const hasAddons = Boolean(item && item.addons && item.addons.length > 0);
+  const selectedAddons = React.useMemo(() => {
+    if (!item?.addons) return [];
+    return item.addons.filter((a) => selectedAddonIds.includes(a.id));
+  }, [item, selectedAddonIds]);
 
-  const hasVariants = item.variants && item.variants.length > 0;
-  const effectiveBasePrice = item.price ?? item.basePrice ?? 0;
-  const originalPrice = item.originalPrice ?? null;
+  const hasVariants = Boolean(item && item.variants && item.variants.length > 0);
+  const effectiveBasePrice = item ? (item.price ?? item.basePrice ?? 0) : 0;
+  const originalPrice = item?.originalPrice ?? null;
   const hasDiscount =
     !hasVariants &&
     originalPrice !== null &&
@@ -53,16 +59,25 @@ export function DealDetailModal({
       ? originalPrice - effectiveBasePrice
       : 0;
 
-  const parsedDetails = parseDealDescription(item.description);
+  const parsedDetails = parseDealDescription(item?.description);
+
+  const addonsTotal = selectedAddons.reduce((sum, a) => sum + a.price, 0);
+  const unitPrice = effectiveBasePrice + addonsTotal;
 
   const cartQty = items
-    .filter((i) => i.itemId === item.id)
+    .filter((i) => i.itemId === item?.id)
     .reduce((acc, curr) => acc + curr.quantity, 0);
 
-  const totalPrice = effectiveBasePrice * quantity;
+  const totalPrice = unitPrice * quantity;
+
+  const handleToggleAddon = (addonId: string) => {
+    setSelectedAddonIds((prev) =>
+      prev.includes(addonId) ? prev.filter((id) => id !== addonId) : [...prev, addonId]
+    );
+  };
 
   const handleAddToCart = () => {
-    if (!item.isAvailable) return;
+    if (!item || !item.isAvailable) return;
     addItem({
       restaurant,
       item: {
@@ -71,10 +86,13 @@ export function DealDetailModal({
         imageUrl: item.imageUrl,
         price: effectiveBasePrice
       },
+      addons: selectedAddons.length > 0 ? selectedAddons : undefined,
       quantity
     });
     onClose();
   };
+
+  if (!item) return null;
 
   return (
     <div className='fixed inset-0 z-[70] flex items-end sm:items-center justify-center p-0 sm:p-4 animate-in fade-in duration-150'>
@@ -213,6 +231,52 @@ export function DealDetailModal({
               </p>
             )}
           </div>
+
+          {hasAddons && (
+            <div className='space-y-2 pt-1'>
+              <div className='flex items-center justify-between'>
+                <p className='flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-muted-foreground'>
+                  <IconSquarePlus className='size-3.5 text-primary' />
+                  <span>{t('chooseAddons')}</span>
+                </p>
+                <span className='text-[11px] text-muted-foreground'>{t('optional')}</span>
+              </div>
+              <div className='space-y-2'>
+                {item.addons?.map((addon) => {
+                  const isSelected = selectedAddonIds.includes(addon.id);
+
+                  return (
+                    <button
+                      key={addon.id}
+                      type='button'
+                      onClick={() => handleToggleAddon(addon.id)}
+                      className={`flex w-full cursor-pointer items-center justify-between rounded-xl p-3 text-sm transition-all border text-start ${
+                        isSelected
+                          ? 'border-primary bg-primary/5 text-foreground font-semibold shadow-xs'
+                          : 'border-border/80 bg-card hover:bg-muted/60 text-foreground'
+                      }`}
+                    >
+                      <div className='flex items-center gap-3'>
+                        <div
+                          className={`flex h-5 w-5 items-center justify-center rounded-md border transition-colors ${
+                            isSelected
+                              ? 'border-primary bg-primary text-primary-foreground'
+                              : 'border-muted-foreground/40'
+                          }`}
+                        >
+                          {isSelected && <IconCheck className='h-3 w-3 stroke-[3]' />}
+                        </div>
+                        <span>{addon.name}</span>
+                      </div>
+                      <span className='text-xs font-bold text-foreground'>
+                        +{formatPkr(addon.price)}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
 
         {}

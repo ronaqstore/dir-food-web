@@ -81,7 +81,14 @@ export function CheckoutOrderSummary({
 
         <div className='flex justify-between items-baseline border-t border-border pt-2 text-sm'>
           <span className='font-bold text-foreground'>{t('total')}</span>
-          <span className='text-lg font-extrabold text-primary'>{formatPkr(grandTotal)}</span>
+          <div className='text-end'>
+            <span className='text-lg font-extrabold text-primary'>{formatPkr(grandTotal)}</span>
+            {deliveryFee === null ? (
+              <p className='text-[11px] font-normal text-muted-foreground'>
+                (+{t('confirmViaWhatsApp')})
+              </p>
+            ) : null}
+          </div>
         </div>
       </div>
 

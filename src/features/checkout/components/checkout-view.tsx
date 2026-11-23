@@ -34,7 +34,7 @@ function getStoredCustomerInfo(): Partial<CheckoutFormData> {
 export function CheckoutView() {
   const t = useTranslations('checkout');
   const router = useRouter();
-  const { restaurant, items, subtotal, clearCart } = useCart();
+  const { restaurant, items, subtotal, clearCart, syncValidatedPrices } = useCart();
   const { selectedArea } = useArea();
 
   const [formData, setFormData] = React.useState<CheckoutFormData>({
@@ -81,6 +81,12 @@ export function CheckoutView() {
     error: validationError
   } = useValidateCart(validationRequest);
   const createIntentMutation = useCreateOrderIntent();
+
+  React.useEffect(() => {
+    if (validationData?.lines && syncValidatedPrices) {
+      syncValidatedPrices(validationData.lines);
+    }
+  }, [validationData?.lines, syncValidatedPrices]);
 
   const handleFieldChange = (field: keyof CheckoutFormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -178,7 +184,8 @@ export function CheckoutView() {
         landmark: formData.landmark.trim(),
         directions: formData.directions.trim() || undefined
       },
-      expectedSubtotal: subtotal
+      expectedSubtotal:
+        validationData?.subtotal !== undefined ? validationData.subtotal : subtotal
     };
 
     try {

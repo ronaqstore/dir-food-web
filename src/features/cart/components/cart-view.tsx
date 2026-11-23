@@ -15,7 +15,7 @@ import { CartSummary } from '@/features/cart/components/cart-summary';
 
 export function CartView() {
   const t = useTranslations('cart');
-  const { restaurant, items, subtotal } = useCart();
+  const { restaurant, items, subtotal, syncValidatedPrices } = useCart();
   const { selectedArea } = useArea();
 
   const restaurantSlug = restaurant?.slug;
@@ -40,6 +40,12 @@ export function CartView() {
     isLoading: isValidating,
     error: validationError
   } = useValidateCart(validationRequest);
+
+  React.useEffect(() => {
+    if (validationData?.lines && syncValidatedPrices) {
+      syncValidatedPrices(validationData.lines);
+    }
+  }, [validationData?.lines, syncValidatedPrices]);
 
   if (!restaurant || items.length === 0) {
     return (
