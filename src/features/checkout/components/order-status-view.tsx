@@ -88,7 +88,8 @@ export function OrderStatusView({ refCode }: OrderStatusViewProps) {
     );
   }
 
-  const grandTotal = order.subtotal + (order.delivery.fee ?? 0);
+  const grandTotal =
+    order.delivery.fee !== null ? order.subtotal + order.delivery.fee : null;
 
   return (
     <div className='min-h-[85vh] bg-muted/20 py-8 sm:py-12'>
@@ -239,7 +240,11 @@ export function OrderStatusView({ refCode }: OrderStatusViewProps) {
             <div className='flex justify-between items-baseline border-t border-border pt-2 text-sm font-bold text-foreground'>
               <span>{t('total')}</span>
               <div className='text-end'>
-                <span className='text-base font-extrabold text-primary'>{formatPkr(grandTotal)}</span>
+                <span className='text-base font-extrabold text-primary'>
+                  {grandTotal !== null
+                    ? formatPkr(grandTotal)
+                    : formatPkr(order.subtotal)}
+                </span>
                 {order.delivery.fee === null ? (
                   <p className='text-[11px] font-normal text-muted-foreground'>
                     (+{t('confirmViaWhatsApp')})

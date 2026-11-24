@@ -65,6 +65,7 @@ export function CheckoutView() {
   }, []);
 
   const [submitError, setSubmitError] = React.useState<string | null>(null);
+  const [clientRequestId] = React.useState(() => generateUuidV4());
 
   const restaurantSlug = restaurant?.slug;
   const selectedAreaId = selectedArea?.id;
@@ -190,7 +191,7 @@ export function CheckoutView() {
     }
 
     const payload: CreateOrderIntentPayload = {
-      clientRequestId: generateUuidV4(),
+      clientRequestId,
       restaurantSlug: restaurant.slug,
       items: items.map((i) => ({
         menuItemId: i.itemId,
