@@ -85,6 +85,7 @@ export function CheckoutContactForm({
               required
               minLength={3}
               maxLength={150}
+              suppressHydrationWarning
               className={`block w-full rounded-xl border bg-background py-2.5 pe-3 ps-10 text-sm text-foreground placeholder:text-muted-foreground focus:outline-hidden focus:ring-2 disabled:opacity-60 ${
                 formData.landmark.trim().length > 0 &&
                 formData.landmark.trim().length < 3
@@ -124,6 +125,7 @@ export function CheckoutContactForm({
               disabled={disabled}
               placeholder={t("directionsPlaceholder")}
               maxLength={300}
+              suppressHydrationWarning
               className="block w-full rounded-xl border border-border bg-background py-2.5 pe-3 ps-10 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20 disabled:opacity-60"
             />
           </div>
@@ -150,6 +152,7 @@ export function CheckoutContactForm({
                 placeholder={t("namePlaceholder")}
                 minLength={2}
                 maxLength={60}
+                suppressHydrationWarning
                 className={`block w-full rounded-xl border bg-background py-2.5 pe-3 ps-10 text-sm text-foreground placeholder:text-muted-foreground focus:outline-hidden focus:ring-2 disabled:opacity-60 ${
                   formData.name.trim().length === 1
                     ? "border-destructive focus:border-destructive focus:ring-destructive/20"

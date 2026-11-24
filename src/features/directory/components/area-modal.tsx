@@ -248,6 +248,8 @@ export function AreaModal() {
                       value={districtSearch}
                       onChange={handleDistrictSearchChange}
                       placeholder={t('directory.searchDistrictPlaceholder')}
+                      autoComplete='off'
+                      suppressHydrationWarning
                       className='w-full rounded-lg bg-muted/50 ps-8 pe-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground outline-none border border-border/60 focus:border-primary'
                     />
                   </div>
@@ -341,6 +343,8 @@ export function AreaModal() {
                       value={areaSearch}
                       onChange={handleAreaSearchChange}
                       placeholder={t('directory.searchAreaPlaceholder')}
+                      autoComplete='off'
+                      suppressHydrationWarning
                       className='w-full rounded-lg bg-muted/50 ps-8 pe-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground outline-none border border-border/60 focus:border-primary'
                     />
                   </div>
