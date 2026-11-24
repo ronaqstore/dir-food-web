@@ -118,6 +118,7 @@ export function OrderStatusView({ refCode }: OrderStatusViewProps) {
             <button
               type='button'
               onClick={handleCopyRef}
+              suppressHydrationWarning
               className='flex size-9 items-center justify-center rounded-xl border border-border bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors'
               title={t('copyRef')}
               aria-label={t('copyRef')}
@@ -136,6 +137,7 @@ export function OrderStatusView({ refCode }: OrderStatusViewProps) {
               onClick={handleOpenWhatsApp}
               target='_blank'
               rel='noopener noreferrer'
+              suppressHydrationWarning
               className='flex w-full items-center justify-center gap-2.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] py-4 px-6 text-base font-bold text-white shadow-lg shadow-emerald-600/20 transition-all cursor-pointer'
             >
               <IconBrandWhatsapp className='size-6' />
@@ -151,6 +153,7 @@ export function OrderStatusView({ refCode }: OrderStatusViewProps) {
             <button
               type='button'
               onClick={handleCopyMessage}
+              suppressHydrationWarning
               className='inline-flex items-center gap-1.5 rounded-lg border border-border bg-background px-3 py-1 font-semibold text-foreground hover:bg-muted transition-colors'
             >
               {copiedMessage ? (
