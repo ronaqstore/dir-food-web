@@ -36,8 +36,8 @@ export const restaurantsQueryOptions = (params: QueryPublicRestaurantsParams = {
   queryOptions({
     queryKey: directoryKeys.restaurants(params),
     queryFn: () => directoryService.getRestaurants(params),
-    staleTime: 30 * 1000,
-    refetchOnWindowFocus: true
+    staleTime: 60 * 1000,
+    refetchOnWindowFocus: false
   });
 
 export function usePublicCuisinesQuery() {

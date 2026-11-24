@@ -12,30 +12,28 @@ export const restaurantProfileQueryOptions = (slug: string) =>
   queryOptions({
     queryKey: restaurantKeys.profile(slug),
     queryFn: () => restaurantService.getProfile(slug),
-    staleTime: 15 * 1000,
-    refetchOnWindowFocus: 'always'
+    staleTime: 60 * 1000,
+    refetchOnWindowFocus: false
   });
 
 export const restaurantMenuQueryOptions = (slug: string) =>
   queryOptions({
     queryKey: restaurantKeys.menu(slug),
     queryFn: () => restaurantService.getMenu(slug),
-    staleTime: 10 * 1000,
-    refetchOnWindowFocus: 'always'
+    staleTime: 60 * 1000,
+    refetchOnWindowFocus: false
   });
 
 export function useRestaurantProfileQuery(slug: string, initialData?: PublicRestaurantProfile) {
   return useQuery({
     ...restaurantProfileQueryOptions(slug),
-    initialData,
-    initialDataUpdatedAt: 0
+    initialData
   });
 }
 
 export function useRestaurantMenuQuery(slug: string, initialData?: RestaurantMenuResponse) {
   return useQuery({
     ...restaurantMenuQueryOptions(slug),
-    initialData,
-    initialDataUpdatedAt: 0
+    initialData
   });
 }

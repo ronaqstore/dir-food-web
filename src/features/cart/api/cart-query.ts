@@ -16,8 +16,8 @@ export function useValidateCart(request: ValidateCartRequest | null, enabled = t
       });
     },
     enabled: Boolean(enabled && request && request.restaurantSlug && request.items.length > 0),
-    staleTime: 10_000,
-    refetchOnWindowFocus: 'always',
+    staleTime: 15_000,
+    refetchOnWindowFocus: false,
     retry: 1
   });
 }

@@ -41,7 +41,6 @@ export function DirectoryView({
     debouncedSearch,
     openNowOnly,
     dealsOnly,
-    under500Only,
     sortBy,
     initialLimit
   ]);

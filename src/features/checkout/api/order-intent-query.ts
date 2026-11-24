@@ -24,11 +24,11 @@ export function useOrderIntent(reference: string | null) {
       );
     },
     enabled: Boolean(reference),
-    staleTime: 5_000,
-    refetchOnWindowFocus: 'always',
+    staleTime: 10_000,
+    refetchOnWindowFocus: false,
     refetchInterval: (query) => {
       const status = query.state.data?.status;
-      if (status === 'COMPLETED' || status === 'CANCELLED') {
+      if (status === 'WHATSAPP_OPENED' || status === 'COMPLETED' || status === 'CANCELLED') {
         return false;
       }
       return 15_000;
